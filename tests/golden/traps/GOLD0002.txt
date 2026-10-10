@@ -1,0 +1,50 @@
+AMTF-TRAPS
+seed GOLD0002
+level 1
+count 2
+trap 43 6 spring_trap
+trap 58 32 stun_charge
+====================
+AMTF-TRAPS
+seed GOLD0002
+level 2
+count 5
+trap 12 13 tripwire_charge
+trap 33 32 spring_trap
+trap 70 32 spring_trap
+trap 5 35 spring_trap
+trap 19 35 stun_charge
+====================
+AMTF-TRAPS
+seed GOLD0002
+level 3
+count 6
+trap 23 16 tripwire_charge
+trap 27 19 stun_charge
+trap 64 21 stun_charge
+trap 10 31 tripwire_charge
+trap 63 33 spring_trap
+trap 57 34 spring_trap
+====================
+AMTF-TRAPS
+seed GOLD0002
+level 4
+count 5
+trap 67 7 spring_trap
+trap 21 9 tripwire_charge
+trap 65 32 stun_charge
+trap 41 33 stun_charge
+trap 50 33 stun_charge
+====================
+AMTF-TRAPS
+seed GOLD0002
+level 5
+count 8
+trap 12 6 stun_charge
+trap 20 6 stun_charge
+trap 63 7 spring_trap
+trap 9 13 tripwire_charge
+trap 28 13 spring_trap
+trap 9 17 tripwire_charge
+trap 42 30 spring_trap
+trap 53 30 spring_trap

@@ -1,0 +1,64 @@
+# Equipment (GDD 8.1). `defense` is the DEF bonus; repair_rate is quarter-gold per missing point.
+
+[weapon.company_pickaxe]
+name = "Company Pickaxe"
+dice_n = 1
+dice_sides = 8
+stat = "str"
+atk = 0
+dmg = 0
+cost = 100
+two_handed = 0
+
+[weapon.box_cutter]
+name = "Box Cutter"
+dice_n = 1
+dice_sides = 6
+stat = "finesse"
+atk = 0
+dmg = 0
+cost = 100
+two_handed = 0
+
+[weapon.hatchet]
+name = "Hatchet"
+dice_n = 1
+dice_sides = 6
+stat = "str"
+atk = 0
+dmg = 0
+cost = 100
+two_handed = 0
+
+[armor.hi_vis_vest]
+name = "Hi-Vis Vest"
+weight = "light"
+dr = 0
+defense = 2
+dur = 10
+repair_rate = 1
+
+[armor.padded_coveralls]
+name = "Padded Coveralls"
+weight = "medium"
+dr = 1
+defense = 1
+dur = 14
+repair_rate = 2
+
+[armor.boiler_suit]
+name = "Boiler Suit"
+weight = "heavy"
+dr = 2
+defense = 0
+dur = 18
+repair_rate = 3
+
+[shield.sheet_metal_shield]
+name = "Sheet-Metal Shield"
+defense = 1
+
+[hat.hard_hat]
+name = "Hard Hat"
+defense = 0
+trap_reduction = 2

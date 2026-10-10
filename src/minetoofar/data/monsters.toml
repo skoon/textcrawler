@@ -1,0 +1,156 @@
+# Base monster stats at Level 1 (GDD 7.6); level scaling is applied in code. `weight` and
+# `grave_weight` are the spawn weights on a normal and a graveyard floor (GDD 9.4); `min_level` is
+# level gating (Skeletons from 2, Wraiths from 3). Weight 0 means the spawner never draws it: the
+# Rogue Humans are placed by their own stage. `behavior` picks the brain in sim/behaviors.py.
+
+[shambling_miner]
+name = "Shambling Miner"
+faction = "undead"
+hp = 12
+atk = 2
+defense = 0
+dice_n = 1
+dice_sides = 6
+dmg = 1
+dr = 0
+move_cost = 150
+attack_cost = 100
+sight = 5
+threat = 3
+behavior = "hunter"
+min_level = 1
+weight = 15
+grave_weight = 30
+
+[gravedigger_skeleton]
+name = "Gravedigger Skeleton"
+faction = "undead"
+hp = 20
+atk = 3
+defense = 2
+dice_n = 1
+dice_sides = 8
+dmg = 0
+dr = 1
+move_cost = 100
+attack_cost = 100
+sight = 7
+threat = 5
+behavior = "skeleton"
+min_level = 2
+weight = 8
+grave_weight = 20
+
+[timecard_wraith]
+name = "Timecard Wraith"
+faction = "undead"
+hp = 14
+atk = 4
+defense = 4
+dice_n = 1
+dice_sides = 4
+dmg = 0
+dr = 0
+move_cost = 100
+attack_cost = 100
+sight = 6
+threat = 6
+behavior = "phaser"
+min_level = 3
+weight = 5
+grave_weight = 14
+
+[cave_vermin]
+name = "Cave Vermin"
+faction = "beast"
+hp = 6
+atk = 1
+defense = 2
+dice_n = 1
+dice_sides = 3
+dmg = 0
+dr = 0
+move_cost = 50
+attack_cost = 100
+sight = 6
+threat = 3
+behavior = "swarm"
+min_level = 1
+weight = 25
+grave_weight = 10
+
+[blind_ore_eel]
+name = "Blind Ore-Eel"
+faction = "beast"
+hp = 18
+atk = 4
+defense = 1
+dice_n = 1
+dice_sides = 6
+dmg = 2
+dr = 0
+move_cost = 100
+attack_cost = 100
+sight = 2
+threat = 4
+behavior = "eel"
+min_level = 1
+weight = 20
+grave_weight = 8
+
+[gem_badger]
+name = "Gem Badger"
+faction = "beast"
+hp = 16
+atk = 3
+defense = 2
+dice_n = 1
+dice_sides = 6
+dmg = 1
+dr = 0
+move_cost = 80
+attack_cost = 100
+sight = 6
+threat = 3
+behavior = "badger"
+min_level = 1
+weight = 20
+grave_weight = 8
+
+[foreman_grimsby]
+name = "Foreman Grimsby"
+faction = "human"
+hp = 40
+atk = 4
+defense = 2
+dice_n = 1
+dice_sides = 8
+dmg = 2
+dr = 1
+move_cost = 100
+attack_cost = 100
+sight = 9
+threat = 0
+behavior = "overseer"
+min_level = 1
+weight = 0
+grave_weight = 0
+
+[prospector_vane]
+name = "Prospector Vane"
+faction = "human"
+hp = 32
+atk = 4
+defense = 4
+dice_n = 1
+dice_sides = 6
+dmg = 1
+dr = 0
+move_cost = 100
+attack_cost = 100
+sight = 9
+threat = 0
+behavior = "trapper"
+min_level = 1
+weight = 0
+grave_weight = 0

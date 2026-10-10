@@ -1,0 +1,4 @@
+- gen_version 1: M1 initial goldens: BSP layout stage
+- gen_version 1: add spawns stage v0 (Shambling Miners); layout hashes unchanged
+- gen_version 1: spawns stage: each monster rolls a facing on its own stream; layout and positions unchanged
+- gen_version 1: M5: theme, features, humans, traps stages added; spawns now the full roster with packs, Eels, buried Miners; layout retries when no room can be a Flooded Gallery (changes GOLD0092 level 5)

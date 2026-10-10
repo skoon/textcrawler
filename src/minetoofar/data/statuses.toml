@@ -1,0 +1,59 @@
+# Status effects (GDD 7.5). Ticks: 100 = one turn. cost_pct scales the afflicted actor's action costs.
+
+[stunned]
+name = "Stunned"
+duration_ticks = 100
+delay_ticks = 100
+immune_ticks = 300
+cost_pct = 100
+defense = 0
+tick_ticks = 0
+
+[overtime]
+name = "Overtime"
+duration_ticks = 300
+delay_ticks = 0
+immune_ticks = 0
+cost_pct = 60
+defense = 0
+tick_ticks = 0
+
+# Poison ignores DR; the damage per tick is set when it is applied (Poison Blades: 2, or 3 at Rank 5).
+[poisoned]
+name = "Poisoned"
+duration_ticks = 500
+delay_ticks = 0
+immune_ticks = 0
+cost_pct = 100
+defense = 0
+tick_ticks = 100
+
+# Coated blades: the next N weapon hits apply Poisoned. duration_ticks 0 means no time limit.
+[coated]
+name = "Coated"
+duration_ticks = 0
+delay_ticks = 0
+immune_ticks = 0
+cost_pct = 100
+defense = 0
+tick_ticks = 0
+
+# Standing in Brine, and for two turns after (GDD 7.5).
+[soaked]
+name = "Soaked"
+duration_ticks = 200
+delay_ticks = 0
+immune_ticks = 0
+cost_pct = 100
+defense = -1
+tick_ticks = 0
+
+# A Wraith's touch: lose the next action, then five turns of immunity (billed on the pay slip).
+[clocked_in]
+name = "Clocked In"
+duration_ticks = 100
+delay_ticks = 100
+immune_ticks = 500
+cost_pct = 100
+defense = 0
+tick_ticks = 0

@@ -1,0 +1,24 @@
+# Traps (GDD 9.7). `effect` is what happens to whoever steps on one: "damage" rolls the dice (less the
+# Hard Hat's trap reduction, never below 1), "stun" stuns for a turn and does no damage. The order of
+# this file is the order the dice pick in. Surcharges arrive with the pay slip (milestone 6).
+
+[spring_trap]
+name = "Spring Trap"
+dice_n = 1
+dice_sides = 6
+dmg = 2
+effect = "damage"
+
+[tripwire_charge]
+name = "Tripwire Charge"
+dice_n = 2
+dice_sides = 4
+dmg = 0
+effect = "damage"
+
+[stun_charge]
+name = "Stun Charge"
+dice_n = 0
+dice_sides = 0
+dmg = 0
+effect = "stun"

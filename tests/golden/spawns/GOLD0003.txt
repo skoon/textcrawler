@@ -1,0 +1,70 @@
+AMTF-SPAWNS
+seed GOLD0003
+level 1
+count 11
+spawn 0 cave_vermin 13 15 idle 1 1 1
+spawn 1 cave_vermin 12 15 idle 0 -1 1
+spawn 2 cave_vermin 13 16 idle 1 1 1
+spawn 3 cave_vermin 12 16 idle 0 1 1
+spawn 4 cave_vermin 11 15 idle 1 1 1
+spawn 5 blind_ore_eel 38 33 submerged 0 -1 0
+spawn 6 cave_vermin 29 9 asleep -1 -1 2
+spawn 7 cave_vermin 28 9 asleep 0 -1 2
+spawn 8 cave_vermin 30 9 asleep -1 -1 2
+spawn 9 cave_vermin 29 10 asleep 1 1 2
+spawn 10 gem_badger 11 21 idle -1 1 0
+====================
+AMTF-SPAWNS
+seed GOLD0003
+level 2
+count 10
+spawn 0 cave_vermin 59 30 idle 1 1 1
+spawn 1 cave_vermin 58 30 idle 0 1 1
+spawn 2 cave_vermin 60 30 idle -1 0 1
+spawn 3 cave_vermin 59 31 idle 1 0 1
+spawn 4 cave_vermin 58 31 idle 1 0 1
+spawn 5 gravedigger_skeleton 46 15 idle -1 0 0
+spawn 6 shambling_miner 40 7 buried 0 1 0
+spawn 7 gem_badger 28 33 idle -1 0 0
+spawn 8 gem_badger 29 33 idle 1 -1 0
+spawn 9 gravedigger_skeleton 46 25 idle -1 0 0
+====================
+AMTF-SPAWNS
+seed GOLD0003
+level 3
+count 7
+spawn 0 gem_badger 22 8 asleep 0 -1 0
+spawn 1 cave_vermin 7 18 asleep -1 -1 1
+spawn 2 cave_vermin 7 19 asleep 0 1 1
+spawn 3 cave_vermin 7 20 asleep -1 0 1
+spawn 4 timecard_wraith 49 31 asleep -1 0 0
+spawn 5 gem_badger 71 36 asleep 0 -1 0
+spawn 6 gravedigger_skeleton 25 33 asleep 1 1 0
+====================
+AMTF-SPAWNS
+seed GOLD0003
+level 4
+count 7
+spawn 0 gem_badger 19 7 idle 1 1 0
+spawn 1 blind_ore_eel 56 31 submerged 1 0 0
+spawn 2 blind_ore_eel 56 35 submerged 1 1 0
+spawn 3 shambling_miner 37 6 idle 1 0 0
+spawn 4 gravedigger_skeleton 45 34 idle 0 -1 0
+spawn 5 gem_badger 39 6 asleep 0 -1 0
+spawn 6 blind_ore_eel 57 33 submerged -1 0 0
+====================
+AMTF-SPAWNS
+seed GOLD0003
+level 5
+count 11
+spawn 0 gem_badger 73 8 idle 1 0 0
+spawn 1 timecard_wraith 56 14 idle 0 1 0
+spawn 2 gem_badger 73 6 asleep 1 1 0
+spawn 3 timecard_wraith 72 31 idle 1 0 0
+spawn 4 shambling_miner 30 7 asleep 1 -1 0
+spawn 5 shambling_miner 31 8 asleep 1 1 0
+spawn 6 cave_vermin 69 13 idle 1 1 1
+spawn 7 cave_vermin 69 12 idle -1 -1 1
+spawn 8 cave_vermin 69 14 idle 0 1 1
+spawn 9 cave_vermin 70 14 idle -1 1 1
+spawn 10 gem_badger 58 14 idle -1 -1 0

@@ -1,0 +1,72 @@
+AMTF-HUMANS
+seed GOLD0003
+level 1
+human foreman_grimsby
+room 0 foreman_office
+pos 9 6
+facing -1 0
+mood cheerful
+tic Synergy!
+line on_sight Clock in, contractor! Nobody told me the shift ended. Get back to work!
+line on_hit Consider that a nudge. Keep up the effort!
+line on_hurt That stung, in a good way! Boys? A little help?
+line on_death Tell the board... I was flexible.
+====================
+AMTF-HUMANS
+seed GOLD0003
+level 2
+human foreman_grimsby
+room 2 foreman_office
+pos 28 32
+facing -1 0
+mood cheerful
+tic -- and that's on the clock.
+line on_sight Clock in, fresh hands! Nobody told me the shift ended. Boys, put in some overtime! -- and that's on the clock.
+line on_hit Feedback received! Keep up the effort!
+line on_hurt That stung, in a good way! Let's talk this through. -- and that's on the clock.
+line on_death Clocking out. Finally.
+====================
+AMTF-HUMANS
+seed GOLD0003
+level 3
+human prospector_vane
+room 9 prospector_camp
+pos 56 34
+facing 1 1
+mood petty
+tic Read the sign.
+line on_sight Oh, it's you. I staked this drift before there was a drift. Don't touch anything.
+line on_hit Told you. Pay up. Read the sign.
+line on_hurt You'll hear from my lawyer. I'll sign it over. Maybe.
+line on_flee Don't move. Please.
+line on_death The paperwork... will outlive you.
+====================
+AMTF-HUMANS
+seed GOLD0003
+level 4
+human prospector_vane
+room 5 prospector_camp
+pos 41 19
+facing 1 1
+mood grandiose
+tic Not a step further.
+line on_sight Hear me, interloper! These galleries are my birthright. The ground itself obeys me.
+line on_hit Feel the weight of title! My claim is absolute!
+line on_hurt Wounded, but never wrong! I yield nothing!
+line on_flee A strategic retreat!
+line on_death I die as I lived: filing. Not a step further.
+====================
+AMTF-HUMANS
+seed GOLD0003
+level 5
+human prospector_vane
+room 1 prospector_camp
+pos 26 8
+facing -1 -1
+mood cheerful
+tic Claim's claim.
+line on_sight Evening, trespasser. This vein's mine. Watch your step. (No, really.) Claim's claim.
+line on_hit Right on the claim line! No hard feelings. Claim's claim.
+line on_hurt Whoa, easy! I can be reasonable. Claim's claim.
+line on_flee Brb! Little errand!
+line on_death Well... it was a nice claim.

@@ -1,0 +1,37 @@
+# Active abilities (GDD 6.6). Cooldowns are in ticks. `_up` values replace the base values at Rank 5.
+# kind "cleave": value = ATK penalty on each attack.
+# kind "coat": value = Poisoned damage per tick, charges = weapon hits that apply it.
+# kind "dual_strike": value = bonus damage on each hatchet.
+
+[cleave]
+name = "Cleave"
+kind = "cleave"
+unlock_rank = 3
+cooldown_ticks = 400
+cooldown_ticks_up = 300
+value = 2
+value_up = 0
+charges = 0
+charges_up = 0
+
+[poison_blades]
+name = "Poison Blades"
+kind = "coat"
+unlock_rank = 3
+cooldown_ticks = 3000
+cooldown_ticks_up = 3000
+value = 2
+value_up = 3
+charges = 5
+charges_up = 6
+
+[dual_strike]
+name = "Dual Strike"
+kind = "dual_strike"
+unlock_rank = 3
+cooldown_ticks = 500
+cooldown_ticks_up = 300
+value = 1
+value_up = 2
+charges = 0
+charges_up = 0

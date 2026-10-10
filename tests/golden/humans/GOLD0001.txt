@@ -1,0 +1,71 @@
+AMTF-HUMANS
+seed GOLD0001
+level 1
+human foreman_grimsby
+room 2 foreman_office
+pos 34 5
+facing 0 -1
+mood petty
+tic Let's circle back.
+line on_sight Late again, temp! That's coming out of your break. Initial here.
+line on_hit That's a write-up. Don't make me do paperwork.
+line on_hurt I'm writing this down. HR will hear of this. Let's circle back.
+line on_death This will affect your reference.
+====================
+AMTF-HUMANS
+seed GOLD0001
+level 2
+human foreman_grimsby
+room 1 foreman_office
+pos 7 18
+facing -1 0
+mood cheerful
+tic Synergy!
+line on_sight Clock in, contractor! Nobody told me the shift ended. Boys, put in some overtime!
+line on_hit Feedback received! We're all learning here.
+line on_hurt That stung, in a good way! Let's talk this through. Synergy!
+line on_death Tell the board... I was flexible. Synergy!
+====================
+AMTF-HUMANS
+seed GOLD0001
+level 3
+human prospector_vane
+room 0 prospector_camp
+pos 8 8
+facing 0 -1
+mood grandiose
+tic Claim's claim.
+line on_sight Hear me, interloper! This vein is my destiny. The ground itself obeys me. Claim's claim.
+line on_hit Thus ends your survey! Kneel before the deed!
+line on_hurt Wounded, but never wrong! I yield nothing! Claim's claim.
+line on_flee A strategic retreat!
+line on_death I die as I lived: filing.
+====================
+AMTF-HUMANS
+seed GOLD0001
+level 4
+human foreman_grimsby
+room 1 foreman_office
+pos 32 6
+facing -1 1
+mood petty
+tic Let's circle back.
+line on_sight Look alive, temp! That's coming out of your break. Initial here.
+line on_hit That's a write-up. Sign for it.
+line on_hurt That's workplace violence. Boys, back me up.
+line on_death This will affect your reference.
+====================
+AMTF-HUMANS
+seed GOLD0001
+level 5
+human prospector_vane
+room 10 prospector_camp
+pos 71 5
+facing -1 0
+mood petty
+tic Claim's claim.
+line on_sight You again? Go dig your own. Mind the wire. Claim's claim.
+line on_hit Trespass fee. Write your complaint.
+line on_hurt That's assault on a claim holder. I'll sign it over. Maybe.
+line on_flee Don't move. Please.
+line on_death The paperwork... will outlive you. Claim's claim.

@@ -1,0 +1,72 @@
+AMTF-HUMANS
+seed GOLD0002
+level 1
+human foreman_grimsby
+room 10 foreman_office
+pos 67 6
+facing -1 1
+mood petty
+tic Let's circle back.
+line on_sight Look alive, temp! That's coming out of your break. Sign the sheet or sign the wall. Let's circle back.
+line on_hit Noted. In ink. Don't make me do paperwork. Let's circle back.
+line on_hurt I'm writing this down. HR will hear of this.
+line on_death This will affect your reference.
+====================
+AMTF-HUMANS
+seed GOLD0002
+level 2
+human prospector_vane
+room 2 prospector_camp
+pos 12 33
+facing 1 -1
+mood grandiose
+tic Read the sign.
+line on_sight Tremble, claim-jumper! This vein is my destiny. The ground itself obeys me. Read the sign.
+line on_hit Feel the weight of title! Kneel before the deed!
+line on_hurt Blood on the deed! I yield nothing! Read the sign.
+line on_flee I yield the ground, not the claim! Read the sign.
+line on_death I die as I lived: filing.
+====================
+AMTF-HUMANS
+seed GOLD0002
+level 3
+human prospector_vane
+room 12 prospector_camp
+pos 60 34
+facing 1 -1
+mood cheerful
+tic Read the sign.
+line on_sight Fresh claim-jumper! Lovely drift, isn't it? Mine. Mind the wire. Read the sign.
+line on_hit Gotcha! No hard feelings.
+line on_hurt Whoa, easy! Let's split the vein? Read the sign.
+line on_flee Brb! Little errand!
+line on_death Well... it was a nice claim.
+====================
+AMTF-HUMANS
+seed GOLD0002
+level 4
+human foreman_grimsby
+room 6 foreman_office
+pos 28 34
+facing 0 -1
+mood cheerful
+tic Per my last memo.
+line on_sight Right on time (you're not), contractor! Shift's not over. Get back to work!
+line on_hit Consider that a nudge. Keep up the effort! Per my last memo.
+line on_hurt That stung, in a good way! Boys? A little help?
+line on_death Clocking out. Finally. Per my last memo.
+====================
+AMTF-HUMANS
+seed GOLD0002
+level 5
+human prospector_vane
+room 1 prospector_camp
+pos 7 15
+facing 1 1
+mood grandiose
+tic Not a step further.
+line on_sight Tremble, claim-jumper! These galleries are my birthright. The ground itself obeys me.
+line on_hit Feel the weight of title! Kneel before the deed!
+line on_hurt Wounded, but never wrong! A tactical repositioning!
+line on_flee I yield the ground, not the claim!
+line on_death The deed... passes... on... Not a step further.

@@ -1,0 +1,138 @@
+# What the Rogue Humans say (GDD 9.6). Each line is a template whose {slots} are filled once, at
+# level generation, from the options for the human's mood; the tic is appended to about one line
+# in three. Voice: cheerful, corporate, and entirely unbothered by the circumstances.
+#
+# [<human>.<event>] has `template`; [<human>.<event>.<slot>] has a list of options per mood.
+
+[foreman_grimsby]
+tics = [
+    "-- and that's on the clock.",
+    "Per my last memo.",
+    "Let's circle back.",
+    "Synergy!",
+]
+
+[foreman_grimsby.on_sight]
+template = "{greet}, {epithet}! {shift_line} {order}"
+
+[foreman_grimsby.on_sight.greet]
+cheerful = ["Clock in", "Morning", "Right on time (you're not)"]
+petty = ["Look alive", "Finally", "Late again"]
+grandiose = ["Behold", "Attention, all personnel", "Rise and be supervised"]
+
+[foreman_grimsby.on_sight.epithet]
+cheerful = ["contractor", "fresh hands"]
+petty = ["temp", "new hire"]
+grandiose = ["valued associate", "future headcount"]
+
+[foreman_grimsby.on_sight.shift_line]
+cheerful = ["Shift's not over.", "Nobody told me the shift ended."]
+petty = ["Quota's not met.", "That's coming out of your break."]
+grandiose = ["The shift is eternal.", "Quota is a state of mind."]
+
+[foreman_grimsby.on_sight.order]
+cheerful = ["Get back to work!", "Boys, put in some overtime!"]
+petty = ["Sign the sheet or sign the wall.", "Initial here."]
+grandiose = ["Boys, put in some overtime!", "Productivity awaits!"]
+
+[foreman_grimsby.on_hit]
+template = "{hit} {follow}"
+
+[foreman_grimsby.on_hit.hit]
+cheerful = ["Feedback received!", "Consider that a nudge."]
+petty = ["That's a write-up.", "Noted. In ink."]
+grandiose = ["Witness my authority!", "Performance review!"]
+
+[foreman_grimsby.on_hit.follow]
+cheerful = ["Keep up the effort!", "We're all learning here."]
+petty = ["Don't make me do paperwork.", "Sign for it."]
+grandiose = ["Kneel to the schedule!", "The org chart is law!"]
+
+[foreman_grimsby.on_hurt]
+template = "{wince} {plea}"
+
+[foreman_grimsby.on_hurt.wince]
+cheerful = ["Ow! Constructive!", "That stung, in a good way!"]
+petty = ["That's workplace violence.", "I'm writing this down."]
+grandiose = ["Impossible!", "A foreman does not bleed!"]
+
+[foreman_grimsby.on_hurt.plea]
+cheerful = ["Let's talk this through.", "Boys? A little help?"]
+petty = ["Boys, back me up.", "HR will hear of this."]
+grandiose = ["Undead! To me!", "Reinforcements, at once!"]
+
+[foreman_grimsby.on_death]
+template = "{last}"
+
+[foreman_grimsby.on_death.last]
+cheerful = ["Tell the board... I was flexible.", "Clocking out. Finally."]
+petty = ["This will affect your reference.", "I'm still owed vacation."]
+grandiose = ["The shift... never... ends...", "Promote... my successor..."]
+
+[prospector_vane]
+tics = [
+    "Mind the wire.",
+    "Claim's claim.",
+    "Not a step further.",
+    "Read the sign.",
+]
+
+[prospector_vane.on_sight]
+template = "{greet} {claim} {warn}"
+
+[prospector_vane.on_sight.greet]
+cheerful = ["Evening, trespasser.", "Fresh claim-jumper!"]
+petty = ["You again?", "Oh, it's you."]
+grandiose = ["Hear me, interloper!", "Tremble, claim-jumper!"]
+
+[prospector_vane.on_sight.claim]
+cheerful = ["This vein's mine.", "Lovely drift, isn't it? Mine."]
+petty = ["I staked this drift before there was a drift.", "Go dig your own."]
+grandiose = ["This vein is my destiny.", "These galleries are my birthright."]
+
+[prospector_vane.on_sight.warn]
+cheerful = ["Mind the wire.", "Watch your step. (No, really.)"]
+petty = ["Don't touch anything.", "Mind the wire."]
+grandiose = ["Every step is a toll.", "The ground itself obeys me."]
+
+[prospector_vane.on_hit]
+template = "{hit} {follow}"
+
+[prospector_vane.on_hit.hit]
+cheerful = ["Right on the claim line!", "Gotcha!"]
+petty = ["Trespass fee.", "Told you."]
+grandiose = ["Thus ends your survey!", "Feel the weight of title!"]
+
+[prospector_vane.on_hit.follow]
+cheerful = ["Tell your boss.", "No hard feelings."]
+petty = ["Pay up.", "Write your complaint."]
+grandiose = ["Kneel before the deed!", "My claim is absolute!"]
+
+[prospector_vane.on_hurt]
+template = "{wince} {plea}"
+
+[prospector_vane.on_hurt.wince]
+cheerful = ["Ow! Fair play!", "Whoa, easy!"]
+petty = ["That's assault on a claim holder.", "You'll hear from my lawyer."]
+grandiose = ["Blood on the deed!", "Wounded, but never wrong!"]
+
+[prospector_vane.on_hurt.plea]
+cheerful = ["Let's split the vein?", "I can be reasonable."]
+petty = ["Take the north gallery! Just stop.", "I'll sign it over. Maybe."]
+grandiose = ["I yield nothing!", "A tactical repositioning!"]
+
+[prospector_vane.on_flee]
+template = "{line}"
+
+[prospector_vane.on_flee.line]
+cheerful = ["Back in a bit! Don't touch the wire!", "Brb! Little errand!"]
+petty = ["Stay right there.", "Don't move. Please."]
+grandiose = ["A strategic retreat!", "I yield the ground, not the claim!"]
+
+[prospector_vane.on_death]
+template = "{last}"
+
+[prospector_vane.on_death.last]
+cheerful = ["Well... it was a nice claim.", "Take the vein. It's yours."]
+petty = ["Satisfied?", "The paperwork... will outlive you."]
+grandiose = ["The deed... passes... on...", "I die as I lived: filing."]

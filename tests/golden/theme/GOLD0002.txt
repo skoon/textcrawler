@@ -1,0 +1,39 @@
+AMTF-THEME
+seed GOLD0002
+level 1
+graveyard 1
+human foreman_grimsby
+mood petty
+tic_roll 134
+====================
+AMTF-THEME
+seed GOLD0002
+level 2
+graveyard 0
+human prospector_vane
+mood grandiose
+tic_roll 655
+====================
+AMTF-THEME
+seed GOLD0002
+level 3
+graveyard 0
+human prospector_vane
+mood cheerful
+tic_roll 223
+====================
+AMTF-THEME
+seed GOLD0002
+level 4
+graveyard 0
+human foreman_grimsby
+mood cheerful
+tic_roll 317
+====================
+AMTF-THEME
+seed GOLD0002
+level 5
+graveyard 0
+human prospector_vane
+mood grandiose
+tic_roll 370

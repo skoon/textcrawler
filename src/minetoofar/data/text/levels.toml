@@ -1,0 +1,21 @@
+# Names from GDD 9.1, in level order.
+
+[[level]]
+name = "Upper Galleries"
+work_order = "Light Housekeeping"
+
+[[level]]
+name = "Stamp Mill and Assay Floor"
+work_order = "Deep Clean: Processing"
+
+[[level]]
+name = "Flooded Drifts"
+work_order = "Moisture Remediation"
+
+[[level]]
+name = "Old Timbers"
+work_order = "Structural Tidy"
+
+[[level]]
+name = "The Extra Level"
+work_order = "Final Walkthrough"

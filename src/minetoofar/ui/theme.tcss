@@ -1,0 +1,111 @@
+Screen {
+    layout: vertical;
+    background: #101010;
+}
+
+#header, #footer {
+    height: 1;
+    background: #302418;
+    color: #e8d8b8;
+    padding: 0 1;
+}
+
+#footer {
+    color: #a89878;
+}
+
+MapView {
+    height: 1fr;
+    width: 1fr;
+}
+
+#game {
+    height: 1fr;
+    width: 1fr;
+}
+
+#top {
+    height: 1fr;
+}
+
+#map, #status, #log {
+    border: solid #6b5a3c;
+    border-title-color: #e8d8b8;
+    border-subtitle-color: #ffd34a;
+}
+
+#map {
+    width: 1fr;
+    height: 1fr;
+}
+
+#status {
+    width: 28;
+    height: 1fr;
+    padding: 0 1;
+    color: #e8d8b8;
+}
+
+#log {
+    height: 6;
+    padding: 0 1;
+    color: #d8c8a8;
+}
+
+#too-small {
+    display: none;
+    width: 1fr;
+    height: 1fr;
+    content-align: center middle;
+    text-align: center;
+    color: #ffd34a;
+}
+
+Screen.too-small #game {
+    display: none;
+}
+
+Screen.too-small #too-small {
+    display: block;
+}
+
+DeathScreen {
+    align: center middle;
+}
+
+#death {
+    width: 54;
+    height: auto;
+    padding: 1 2;
+    border: double #d05050;
+    border-title-color: #ffd34a;
+    background: #181010;
+    color: #e8d8b8;
+}
+
+SheetScreen {
+    align: center middle;
+}
+
+#sheet {
+    width: 54;
+    height: auto;
+    padding: 1 2;
+    border: double #6fa8d0;
+    border-title-color: #ffd34a;
+    background: #101820;
+    color: #e8d8b8;
+}
+
+#select {
+    width: 78;
+    height: auto;
+    padding: 1 2;
+    border: double #b8935a;
+    border-title-color: #ffd34a;
+    color: #e8d8b8;
+}
+
+ClassSelectApp {
+    align: center middle;
+}

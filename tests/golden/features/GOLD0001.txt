@@ -1,0 +1,456 @@
+AMTF-FEATURES
+seed GOLD0001
+level 1
+rooms 14
+room 0 exit
+room 1 gallery
+room 2 gallery
+room 3 gallery
+room 4 flooded
+room 5 gallery
+room 6 gallery
+room 7 gallery
+room 8 gallery
+room 9 entry
+room 10 gallery
+room 11 gallery
+room 12 gallery
+room 13 gallery
+tiles 18
+tile 4 14 ~
+tile 5 14 ~
+tile 6 14 ~
+tile 7 14 ~
+tile 8 14 ~
+tile 9 14 ~
+tile 4 15 ~
+tile 5 15 ~
+tile 6 15 ~
+tile 7 15 ~
+tile 8 15 ~
+tile 9 15 ~
+tile 4 16 ~
+tile 5 16 ~
+tile 6 16 ~
+tile 7 16 ~
+tile 8 16 ~
+tile 9 16 ~
+====================
+AMTF-FEATURES
+seed GOLD0001
+level 2
+rooms 14
+room 0 mausoleum
+room 1 cemetery
+room 2 gallery
+room 3 collapse
+room 4 cemetery
+room 5 cemetery
+room 6 cemetery
+room 7 cemetery
+room 8 entry
+room 9 gallery
+room 10 cemetery
+room 11 flooded
+room 12 exit
+room 13 cemetery
+tiles 102
+tile 9 4 H
+tile 69 4 :
+tile 67 5 :
+tile 69 5 :
+tile 70 5 :
+tile 7 6 H
+tile 68 7 :
+tile 69 7 :
+tile 4 13 u
+tile 7 13 T
+tile 10 13 u
+tile 18 13 u
+tile 23 13 T
+tile 33 13 u
+tile 35 13 T
+tile 42 13 T
+tile 51 13 T
+tile 65 13 T
+tile 4 15 T
+tile 10 15 T
+tile 18 15 T
+tile 42 15 T
+tile 51 15 u
+tile 67 15 u
+tile 4 17 T
+tile 10 17 T
+tile 4 20 T
+tile 10 20 T
+tile 4 22 u
+tile 7 22 T
+tile 10 22 u
+tile 38 22 u
+tile 40 22 T
+tile 42 22 T
+tile 46 22 T
+tile 49 22 T
+tile 54 22 u
+tile 38 25 u
+tile 43 25 T
+tile 46 25 T
+tile 50 25 T
+tile 52 25 T
+tile 54 25 u
+tile 70 31 T
+tile 74 31 u
+tile 42 32 ~
+tile 43 32 ~
+tile 44 32 ~
+tile 45 32 ~
+tile 46 32 ~
+tile 47 32 ~
+tile 48 32 ~
+tile 49 32 ~
+tile 50 32 ~
+tile 51 32 ~
+tile 52 32 ~
+tile 53 32 ~
+tile 54 32 ~
+tile 55 32 ~
+tile 42 33 ~
+tile 43 33 ~
+tile 44 33 ~
+tile 45 33 ~
+tile 46 33 ~
+tile 47 33 ~
+tile 48 33 ~
+tile 49 33 ~
+tile 50 33 ~
+tile 51 33 ~
+tile 52 33 ~
+tile 53 33 ~
+tile 54 33 ~
+tile 55 33 ~
+tile 42 34 ~
+tile 43 34 ~
+tile 44 34 ~
+tile 45 34 ~
+tile 46 34 ~
+tile 47 34 ~
+tile 48 34 ~
+tile 49 34 ~
+tile 50 34 ~
+tile 51 34 ~
+tile 52 34 ~
+tile 53 34 ~
+tile 54 34 ~
+tile 55 34 ~
+tile 70 34 T
+tile 42 35 ~
+tile 43 35 ~
+tile 44 35 ~
+tile 45 35 ~
+tile 46 35 ~
+tile 47 35 ~
+tile 48 35 ~
+tile 49 35 ~
+tile 50 35 ~
+tile 51 35 ~
+tile 52 35 ~
+tile 53 35 ~
+tile 54 35 ~
+tile 55 35 ~
+====================
+AMTF-FEATURES
+seed GOLD0001
+level 3
+rooms 11
+room 0 bunk
+room 1 bunk
+room 2 flooded
+room 3 flooded
+room 4 entry
+room 5 collapse
+room 6 gallery
+room 7 gallery
+room 8 exit
+room 9 gallery
+room 10 gallery
+tiles 103
+tile 44 7 ~
+tile 45 7 ~
+tile 46 7 ~
+tile 47 7 ~
+tile 48 7 ~
+tile 49 7 ~
+tile 50 7 ~
+tile 44 8 ~
+tile 45 8 ~
+tile 46 8 ~
+tile 47 8 ~
+tile 48 8 ~
+tile 49 8 ~
+tile 50 8 ~
+tile 51 8 ~
+tile 44 9 ~
+tile 45 9 ~
+tile 46 9 ~
+tile 47 9 ~
+tile 48 9 ~
+tile 49 9 ~
+tile 50 9 ~
+tile 51 9 ~
+tile 45 10 ~
+tile 46 10 ~
+tile 47 10 ~
+tile 48 10 ~
+tile 49 10 ~
+tile 50 10 ~
+tile 51 10 ~
+tile 52 10 ~
+tile 48 11 ~
+tile 49 11 ~
+tile 50 11 ~
+tile 51 11 ~
+tile 52 11 ~
+tile 24 20 ~
+tile 25 20 ~
+tile 26 20 ~
+tile 27 20 ~
+tile 28 20 ~
+tile 29 20 ~
+tile 30 20 ~
+tile 31 20 ~
+tile 32 20 ~
+tile 33 20 ~
+tile 34 20 ~
+tile 35 20 ~
+tile 36 20 ~
+tile 37 20 ~
+tile 38 20 ~
+tile 39 20 ~
+tile 40 20 ~
+tile 41 20 ~
+tile 42 20 ~
+tile 43 20 ~
+tile 44 20 ~
+tile 25 21 ~
+tile 26 21 ~
+tile 27 21 ~
+tile 28 21 ~
+tile 29 21 ~
+tile 30 21 ~
+tile 31 21 ~
+tile 32 21 ~
+tile 33 21 ~
+tile 34 21 ~
+tile 35 21 ~
+tile 36 21 ~
+tile 37 21 ~
+tile 38 21 ~
+tile 39 21 ~
+tile 40 21 ~
+tile 41 21 ~
+tile 42 21 ~
+tile 43 21 ~
+tile 44 21 ~
+tile 25 22 ~
+tile 26 22 ~
+tile 27 22 ~
+tile 28 22 ~
+tile 29 22 ~
+tile 30 22 ~
+tile 31 22 ~
+tile 32 22 ~
+tile 33 22 ~
+tile 34 22 ~
+tile 35 22 ~
+tile 36 22 ~
+tile 37 22 ~
+tile 38 22 ~
+tile 39 22 ~
+tile 40 22 ~
+tile 41 22 ~
+tile 42 22 ~
+tile 43 22 ~
+tile 44 22 ~
+tile 25 30 :
+tile 23 31 :
+tile 25 31 :
+tile 26 31 :
+tile 25 33 :
+tile 25 34 :
+====================
+AMTF-FEATURES
+seed GOLD0001
+level 4
+rooms 14
+room 0 cemetery
+room 1 cemetery
+room 2 cemetery
+room 3 cemetery
+room 4 cemetery
+room 5 exit
+room 6 mausoleum
+room 7 flooded
+room 8 cemetery
+room 9 cemetery
+room 10 gallery
+room 11 entry
+room 12 cemetery
+room 13 bunk
+tiles 63
+tile 24 4 u
+tile 27 4 T
+tile 30 4 T
+tile 33 4 T
+tile 37 4 T
+tile 39 4 u
+tile 4 5 T
+tile 4 7 u
+tile 49 7 u
+tile 53 7 T
+tile 24 8 u
+tile 28 8 T
+tile 30 8 T
+tile 32 8 T
+tile 35 8 T
+tile 37 8 T
+tile 39 8 u
+tile 47 14 u
+tile 50 14 T
+tile 52 14 T
+tile 54 14 u
+tile 47 17 T
+tile 54 17 T
+tile 20 19 u
+tile 6 20 T
+tile 47 20 T
+tile 54 20 T
+tile 36 22 u
+tile 47 22 u
+tile 49 22 T
+tile 52 22 T
+tile 54 22 u
+tile 7 24 T
+tile 9 24 u
+tile 36 24 T
+tile 56 31 u
+tile 31 32 ~
+tile 32 32 ~
+tile 33 32 ~
+tile 34 32 ~
+tile 35 32 ~
+tile 36 32 ~
+tile 37 32 ~
+tile 38 32 ~
+tile 18 33 H
+tile 21 33 H
+tile 31 33 ~
+tile 32 33 ~
+tile 33 33 ~
+tile 34 33 ~
+tile 35 33 ~
+tile 36 33 ~
+tile 37 33 ~
+tile 38 33 ~
+tile 31 34 ~
+tile 32 34 ~
+tile 33 34 ~
+tile 34 34 ~
+tile 35 34 ~
+tile 36 34 ~
+tile 37 34 ~
+tile 38 34 ~
+tile 56 34 T
+====================
+AMTF-FEATURES
+seed GOLD0001
+level 5
+rooms 14
+room 0 flooded
+room 1 cemetery
+room 2 cemetery
+room 3 gallery
+room 4 entry
+room 5 collapse
+room 6 cemetery
+room 7 gallery
+room 8 cemetery
+room 9 cemetery
+room 10 gallery
+room 11 gallery
+room 12 exit
+room 13 mausoleum
+tiles 74
+tile 46 5 u
+tile 8 7 ~
+tile 9 7 ~
+tile 10 7 ~
+tile 6 8 ~
+tile 7 8 ~
+tile 8 8 ~
+tile 9 8 ~
+tile 10 8 ~
+tile 11 8 ~
+tile 12 8 ~
+tile 13 8 ~
+tile 14 8 ~
+tile 5 9 ~
+tile 6 9 ~
+tile 7 9 ~
+tile 8 9 ~
+tile 9 9 ~
+tile 10 9 ~
+tile 11 9 ~
+tile 12 9 ~
+tile 13 9 ~
+tile 14 9 ~
+tile 5 10 ~
+tile 6 10 ~
+tile 7 10 ~
+tile 8 10 ~
+tile 9 10 ~
+tile 10 10 ~
+tile 11 10 ~
+tile 12 10 ~
+tile 13 10 ~
+tile 14 10 ~
+tile 5 11 ~
+tile 6 11 ~
+tile 7 11 ~
+tile 8 11 ~
+tile 9 11 ~
+tile 10 11 ~
+tile 11 11 ~
+tile 12 11 ~
+tile 13 11 ~
+tile 58 11 T
+tile 4 12 ~
+tile 5 12 ~
+tile 6 12 ~
+tile 7 12 ~
+tile 8 12 ~
+tile 9 12 ~
+tile 10 12 ~
+tile 11 12 ~
+tile 12 12 ~
+tile 29 12 u
+tile 5 13 ~
+tile 6 13 ~
+tile 7 13 ~
+tile 8 13 ~
+tile 9 13 ~
+tile 10 13 ~
+tile 11 13 ~
+tile 57 13 u
+tile 44 22 :
+tile 45 22 :
+tile 45 23 :
+tile 45 24 :
+tile 43 25 :
+tile 45 25 :
+tile 47 25 :
+tile 44 26 :
+tile 71 30 H
+tile 74 30 H
+tile 5 34 u
+tile 43 34 u
+tile 45 34 T

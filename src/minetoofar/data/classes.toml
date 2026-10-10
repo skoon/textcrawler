@@ -1,0 +1,51 @@
+# Class definitions (GDD 6). Rank tables are indexed by Rank 1..5; attributes give the modifiers
+# through (score - 10) // 2. An empty offhand means nothing in the Off Hand. Cumulative bonuses:
+# rank_atk and rank_dmg already include every earlier Rank's bonus.
+
+[fighter]
+name = "Fighter"
+default_name = "Hale"
+signature = "stubborn"
+ability = "cleave"
+blurb = "Heavy armor and a shield. Refuses to fall down, once per level."
+strength = 16
+dexterity = 10
+weapon = "company_pickaxe"
+offhand = "sheet_metal_shield"
+head = "hard_hat"
+body = "boiler_suit"
+rank_hp = [30, 35, 35, 40, 45]
+rank_atk = [0, 1, 1, 1, 1]
+rank_dmg = [0, 0, 0, 1, 1]
+
+[rogue]
+name = "Rogue"
+default_name = "Rook"
+signature = "backstab"
+ability = "poison_blades"
+blurb = "Hits the unaware hard. Spots and disarms traps."
+strength = 10
+dexterity = 16
+weapon = "box_cutter"
+offhand = ""
+head = "hard_hat"
+body = "hi_vis_vest"
+rank_hp = [22, 26, 26, 30, 34]
+rank_atk = [0, 1, 1, 1, 1]
+rank_dmg = [0, 0, 0, 1, 1]
+
+[ranger]
+name = "Ranger"
+default_name = "Wren"
+signature = "tracker"
+ability = "dual_strike"
+blurb = "Two hatchets. Senses enemies through walls; hits beasts harder."
+strength = 13
+dexterity = 13
+weapon = "hatchet"
+offhand = "hatchet"
+head = "hard_hat"
+body = "padded_coveralls"
+rank_hp = [26, 30, 30, 34, 38]
+rank_atk = [0, 1, 1, 1, 1]
+rank_dmg = [0, 0, 0, 1, 1]
