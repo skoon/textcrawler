@@ -359,6 +359,15 @@ Each milestone ends when its **done criterion** is demonstrably true. I stop at 
 4. Cold start is under 3 seconds on your machine (target; if missed, the one-folder zip is the recommended download and the result is documented).
 5. The EXE writes only inside its own `MineTooFarData\` folder; nothing appears in `%APPDATA%` or the registry.
 
+**As built (M10).**
+- **Spec:** `minetoofar.spec` reads the version from `src/minetoofar/__init__.py` and writes the EXE's file properties (name, description, company, product and file version); collects every `textual` and `rich` submodule (Rich loads its Unicode width tables at run time) and all data files; leaves `tkinter` out.
+- **Build:** `tools/build_exe.ps1` builds one file, one folder (`-OneFolder`), or `-Release`: both, `minetoofar-folder.zip` (made with .NET and counted against the folder, because `Compress-Archive` failed quietly on a file Defender had open) and `SHA256SUMS.txt`.
+- **Self-checks the EXE can run without a terminal:** `--autoplay` (the bot plays a whole run and prints how it went) and `--save-selftest write|read` (`release_check.py`), so a build is proved the same game by printing the same lines as the source. They are for the smoke test; the README does not list them as play options.
+- **Smoke test:** `tools/smoke_exe.ps1` works on either build (see README); it writes only inside a fresh folder in `%TEMP%`, which it removes at the end, and never touches your own `MineTooFarData`.
+- **Double-click:** after a failure in a console window the process owns alone, the EXE waits for Enter, so the message can be read (`__main__.hold_window`). Run from a shell it exits at once.
+- **Release record:** `docs/RELEASE.md` has the hash, size, start time, scan result and what was not tested.
+- **Not done:** a VirusTotal upload (publishes the file; asked first), code signing, a check on a machine without Python, and by-hand runs in the standalone console and from Explorer.
+
 ---
 
 ## 4. Dependencies between systems

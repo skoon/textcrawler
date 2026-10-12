@@ -1,7 +1,7 @@
 # A Mine Too Far
 
 A terminal dungeon crawler. Design: [docs/GDD.md](docs/GDD.md). Plan: [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
-Status: milestone 9 (the whole five-level run: three classes, the check-in, one save slot, the employment history, a help screen, and a tuned economy). The portable EXE release is milestone 10.
+Status: milestone 10 (the whole game, a tuned economy, and a portable Windows EXE in two forms: see "Running the portable EXE").
 
 ## Run (PowerShell on Windows, or WSL)
 
@@ -54,9 +54,28 @@ uv run python tools/balance_sim.py --seeds 40 --classes fighter
 
 The simulator plays whole runs with a scripted bot (`sim/bot.py`, `sim/autoplay.py`) on seeds `SIM0001` upward, all cores at once, and checks the GDD 8.6 targets: median net pay per cleared level 4 to 10g, fewer than 15% of winning runs ending in debt, a median full-run score of 60 to 110. The bot is a stand-in for a competent player, not a measure of how hard the game is for a person; see GDD assumption A85 for what it does and where it is weak. Exit status is 1 when a target is missed.
 
-## Portable EXE (Windows only, build in PowerShell)
+## Running the portable EXE (Windows)
+
+Two builds, same game. Pick one:
+
+- `minetoofar.exe`, a single file (about 14 MB). It unpacks itself into `%TEMP%` for each launch and cleans up on exit, and starts in about a second.
+- `minetoofar-folder.zip`: unzip it anywhere and run `minetoofar.exe` inside. It starts in under half a second.
+
+No Python is needed. Double-click it, or run it from PowerShell or Windows Terminal; the window must be at least 80x24. If the box-drawing characters look wrong in an old console, run `minetoofar.exe --glyphs ascii` (or press `F2` in play). `--glyph-test` shows every symbol in both sets.
+
+**Where your saves go.** In a `MineTooFarData\` folder next to the EXE: `run.json` (the saved run) and `records.json` (the employment history). To move a game, move the EXE and that folder together. `minetoofar.exe --where` prints the folder, and `--save-dir PATH` uses another. Nothing is written to `%APPDATA%` or the registry, and a folder it cannot write to stops the game with a message instead of picking another place.
+
+**Windows may warn you.** The EXE is not code-signed, so SmartScreen can show "Windows protected your PC" the first time: choose "More info", then "Run anyway". If the window closes on a failure when you double-click, it now waits for Enter so you can read why.
+
+**Checking a download.** `SHA256SUMS.txt` lists the hash of each file; compare with `Get-FileHash minetoofar.exe`. The hashes of each release are recorded in [docs/RELEASE.md](docs/RELEASE.md).
+
+**Building it yourself** (PowerShell, on Windows; PyInstaller cannot cross-compile):
 
 ```powershell
-tools\build_exe.ps1            # dist\minetoofar.exe (one file); add -OneFolder for a folder build
-tools\smoke_exe.ps1            # checks the EXE with Python removed from PATH
+tools\build_exe.ps1               # dist\minetoofar.exe
+tools\build_exe.ps1 -OneFolder    # dist\minetoofar-folder\
+tools\build_exe.ps1 -Release      # both, minetoofar-folder.zip, and SHA256SUMS.txt
+tools\smoke_exe.ps1               # also: -Exe dist\minetoofar-folder\minetoofar.exe
 ```
+
+`smoke_exe.ps1` runs the EXE with Python taken off `PATH` and checks that it prints exactly what the source prints: the generator hashes against the golden manifest, a whole five-level run for each class (`--autoplay`), and a save written by one build and read by the other (`--save-selftest write|read`). It also times the start, checks the file properties, and confirms nothing was written outside `MineTooFarData` and no registry key or temp leftover appeared.

@@ -1,5 +1,31 @@
 # task.md
 
+## M10: Portable EXE release
+
+- [x] A. Spec: file properties from `__version__`, every `rich` and `textual` submodule, all data; `tools/build_exe.ps1 -Release` (one file, one folder, `minetoofar-folder.zip` checked against the folder, `SHA256SUMS.txt`)
+- [x] B. `release_check.py` and the `--autoplay` / `--save-selftest write|read` flags; unit tests
+- [x] C. `hold_window`: a failure in a window the EXE owns alone waits for Enter; unit tests, and checked live by starting both builds in their own console window
+- [x] D. `tools/smoke_exe.ps1`: hashes vs the manifest, a five-level run per class and a save each way compared with the source, file properties, start time, nothing written outside `MineTooFarData`, no registry key, no temp leftovers; passes on both builds
+- [x] E. README "Running the portable EXE", `docs/RELEASE.md` (hashes, sizes, start time, scan), GDD A88, plan "As built (M10)"
+- [x] ruff, mypy (WSL and Windows) clean; pytest WSL (1,741 pass) and native Windows (1,740 pass, one POSIX-permission test skipped); generator untouched, so no fuzz or golden change; Windows Defender scan of both files: no threats
+
+### Release 0.1.0 (see docs/RELEASE.md)
+
+| | One file | Folder zip |
+|---|---|---|
+| Size | 14.6 MB | 14.5 MB (29 MB unzipped) |
+| Game start | about 1.1 s | about 0.4 s |
+| SHA-256 | `c791e221...e0377a` | `cdefafe4...b783ce` |
+
+### Needs your eyes (M10)
+- [ ] Double-click `dist\minetoofar.exe` in Explorer, play a level, quit. Then try `dist\minetoofar-folder\minetoofar.exe`. Check the window size, the glyphs, and that a `MineTooFarData` folder appears beside the EXE.
+- [ ] Run it in PowerShell, in Windows Terminal, and in the old standalone console window (`conhost`). Anything misdrawn? (`--glyphs ascii` is the fallback.)
+- [ ] Copy `dist\minetoofar.exe` to a machine that has never had Python, or one with a fresh Windows account, and run a level there.
+- [ ] SmartScreen: does it warn? Is "More info, Run anyway" acceptable for how you plan to share it, or do you want it signed?
+- [ ] VirusTotal: say "scan it" and I will upload `minetoofar.exe` (that publishes the file), or look up the hash yourself at virustotal.com.
+
+---
+
 ## M9: The full 5-level run
 
 - [x] A. Bot policies (`RECKLESS` unchanged, `CAREFUL` new) with a per-level `Memory`; `sim/autoplay.py` plays whole runs; tests in `tests/scenario/test_bot_policies.py` and `test_autoplay.py`
