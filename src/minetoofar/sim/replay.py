@@ -10,12 +10,17 @@ from minetoofar.core.seed import Seed
 from minetoofar.sim.events import (
     Command,
     Disarm,
+    DropItem,
+    Equip,
     Event,
     Move,
+    Pickup,
     Run,
     SetRank,
+    TakeSupply,
     ToggleTorch,
     UseAbility,
+    UseItem,
     Wait,
 )
 from minetoofar.sim.game import Game
@@ -57,6 +62,16 @@ def encode_command(command: Command) -> str:
             return "a"
         case Disarm(dx, dy):
             return f"d {dx} {dy}"
+        case Pickup():
+            return "g"
+        case Equip(index, off_hand):
+            return f"e {index} {int(off_hand)}"
+        case UseItem(index):
+            return f"q {index}"
+        case DropItem(index):
+            return f"o {index}"
+        case TakeSupply(lines):
+            return "s " + " ".join(str(i) for i in lines)
 
 
 def decode_command(text: str) -> Command:
@@ -77,6 +92,16 @@ def decode_command(text: str) -> Command:
                 return UseAbility()
             case ["d", dx, dy]:
                 return Disarm(int(dx), int(dy))
+            case ["g"]:
+                return Pickup()
+            case ["e", index, off_hand] if off_hand in ("0", "1"):
+                return Equip(int(index), off_hand == "1")
+            case ["q", index]:
+                return UseItem(int(index))
+            case ["o", index]:
+                return DropItem(int(index))
+            case ["s", *lines] if lines:
+                return TakeSupply(tuple(int(i) for i in lines))
     except ValueError:
         pass
     raise ReplayError(f"bad command {text!r}")

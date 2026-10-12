@@ -42,12 +42,14 @@ class LayoutParams:
 
 @dataclass(frozen=True)
 class PlayParams:
-    hard_hat_radius: int
     torch_radius: int
     move_cost: int
     door_cost: int
     wait_cost: int
     use_cost: int
+    pickup_cost: int  # also dropping an item
+    issue_kits: int  # Standard Issue tops the pack up to this many Patch-Up Kits ...
+    issue_torches: int  # ... and this many Torches
     grave_fall_sides: int  # falling into an open grave hurts for 1 die of this many sides
     grave_climb_ticks: int  # ... and costs this long to climb out
     torch_brine_one_in: int  # a lit torch is lost 1 time in this many on entering Brine
@@ -63,6 +65,7 @@ class CombatParams:
     tracker_radius_sq: int  # sensing radius, squared (an integer circle)
     spot_radius_sq: int  # Rogue trap spotting, squared
     passive_spot_one_in: int  # others spot an adjacent trap 1 time in this many, per turn
+    detergent_bonus: int  # Detergent Coat: damage against the undead
 
 
 @dataclass(frozen=True)
@@ -137,6 +140,54 @@ class SpawnParams:
 
 
 @dataclass(frozen=True)
+class EconomyParams:
+    base_fee: int
+    hazard_premium: int  # graveyard floors only
+    bounty: int  # the level's Rogue Human was defeated
+    hazard_surcharge: int  # per trap triggered
+    shoring_damage: int  # per Tripwire Charge, on top of the surcharge
+    dropped_torch: int  # a lit Torch lost to Brine or a critical hit
+    timecard_fee: int  # per Wraith Clock-In ...
+    timecard_cap: int  # ... at most this much a level
+    hazard_pay: int  # Stubborn invoked
+    uniform_fee: int  # the Posthumous Pay Slip's Uniform Recovery Fee
+    late_fee_pct: int  # of the balance carried forward, rounded up
+    damage_waiver_cap: int  # Property Damage Waiver: incidentals up to this much
+    lanyard_max: int  # Laminated Lanyard: the first incident line this size or less
+    coupon_value: int
+    level_score: int  # score per level cleared
+    bounty_score: int  # ... and per bounty collected
+    title_probationary: int  # the lowest score for each final title (GDD 8.8)
+    title_valued: int
+    title_senior: int
+    title_employee: int
+
+
+@dataclass(frozen=True)
+class SupplyParams:
+    none_weight: int  # a level rolls 0, 1 or 2 supply drops, at these weights
+    one_weight: int
+    two_weight: int
+    trigger_min: int  # a drop lands on a turn in [trigger_min, trigger_max] ...
+    trigger_max: int
+    second_gap: int  # ... and the second at least this many turns after the first
+    lines: int  # consumable lines in a crate
+    qty_max: int  # each line is 1..qty_max of the item
+    equipment_pct: int  # chance a crate also holds one piece of equipment
+    handling_pct: int  # Expedited Handling on the taken lines, rounded up
+    delivery_fee: int  # if anything is taken
+    landing_radius: int  # a crate lands within this many tiles of the player
+    price_t1: int  # equipment prices by tier
+    price_t2: int
+    price_t3: int
+
+
+@dataclass(frozen=True)
+class CheckinParams:
+    desk_slots: int  # the Requisitions Desk offers this many items
+
+
+@dataclass(frozen=True)
 class Balance:
     layout: LayoutParams
     play: PlayParams
@@ -147,6 +198,9 @@ class Balance:
     features: FeatureParams
     humans: HumanParams
     spawns: SpawnParams
+    economy: EconomyParams
+    supply: SupplyParams
+    checkin: CheckinParams
     cavern_pct: tuple[int, ...]
     trap_counts: tuple[int, ...]  # hidden traps placed on each level
 
@@ -180,6 +234,9 @@ def parse_balance(text: str) -> Balance:
         "features",
         "humans",
         "spawns",
+        "economy",
+        "supply",
+        "checkin",
         "levels",
     }
     if unknown:
@@ -201,6 +258,9 @@ def parse_balance(text: str) -> Balance:
         _section(raw, "features", FeatureParams),
         _section(raw, "humans", HumanParams),
         _section(raw, "spawns", SpawnParams),
+        _section(raw, "economy", EconomyParams),
+        _section(raw, "supply", SupplyParams),
+        _section(raw, "checkin", CheckinParams),
         per_level["cavern_pct"],
         per_level["trap_counts"],
     )

@@ -21,8 +21,10 @@ class GlyphSet:
     hp_full: str
     hp_empty: str
     monsters: Mapping[str, str]  # monster kind -> glyph
+    items: Mapping[str, str]  # weapon armor trinket consumable silver gem document
     trap: str
     trap_off: str  # a disarmed trap
+    crate: str  # a supply crate
     sensed: str | None  # glyph for every sensed enemy; None keeps each monster's own glyph
 
 
@@ -42,8 +44,13 @@ UNICODE = GlyphSet(
         "cave_vermin": "ν", "blind_ore_eel": "ε", "gem_badger": "β",
         "foreman_grimsby": "Γ", "prospector_vane": "Π",
     },
+    items={
+        "weapon": "↑", "armor": "[", "trinket": "°", "consumable": "¡", "silver": "¤",
+        "gem": "◊", "document": "≡",
+    },
     trap="Δ",
     trap_off="×",
+    crate="■",
     sensed=None,
 )  # fmt: skip
 ASCII = GlyphSet(
@@ -62,8 +69,13 @@ ASCII = GlyphSet(
         "cave_vermin": "v", "blind_ore_eel": "e", "gem_badger": "b",
         "foreman_grimsby": "G", "prospector_vane": "V",
     },
+    items={
+        "weapon": ")", "armor": "[", "trinket": '"', "consumable": "!", "silver": "$",
+        "gem": "*", "document": "?",
+    },
     trap="^",
     trap_off="x",
+    crate="=",
     sensed="?",
 )  # fmt: skip
 _SETS = {"unicode": UNICODE, "ascii": ASCII}

@@ -109,3 +109,117 @@ SheetScreen {
 ClassSelectApp {
     align: center middle;
 }
+
+DocumentScreen, PackScreen, SlipScreen, HelpScreen {
+    align: center middle;
+}
+
+#document {
+    width: 56;
+    height: auto;
+    padding: 1 2;
+    border: double #e0d060;
+    border-title-color: #ffd34a;
+    background: #181810;
+    color: #e8d8b8;
+}
+
+#help {
+    width: 68;
+    height: auto;
+    padding: 1 2;
+    border: double #6fa8d0;
+    border-title-color: #ffd34a;
+    background: #101820;
+    color: #e8d8b8;
+}
+
+#pack {
+    width: 50;
+    height: auto;
+    padding: 1 2;
+    border: double #5fd35f;
+    border-title-color: #ffd34a;
+    background: #101810;
+    color: #e8d8b8;
+}
+
+#packkeys, #slipkeys {
+    width: 50;
+    height: auto;
+    padding: 0 2;
+    background: #101810;
+    color: #ffd34a;
+}
+
+#slipbox {
+    width: 68;
+    height: auto;
+    max-height: 85vh;
+    padding: 1 2;
+    border: double #b8935a;
+    border-title-color: #ffd34a;
+    background: #181408;
+    color: #e8d8b8;
+}
+
+#slipkeys {
+    width: 68;
+    background: #181408;
+}
+
+ReportScreen, MemoScreen, DeskScreen, InvoiceScreen {
+    align: center middle;
+}
+
+#report, #memo, #desk, #invoice {
+    width: 70;
+    height: auto;
+    max-height: 100%;
+    padding: 1 2;
+    border: double #b8935a;
+    border-title-color: #ffd34a;
+    background: #181408;
+    color: #e8d8b8;
+}
+
+#memo {
+    border: double #6fa8d0;
+    background: #101820;
+}
+
+#desk {
+    border: double #5fd35f;
+    background: #101810;
+}
+
+#invoice {
+    border: double #d09040;
+    background: #181008;
+}
+
+TitleApp {
+    align: center middle;
+}
+
+#title {
+    width: 78;
+    height: auto;
+    padding: 1 2;
+    border: double #b8935a;
+    color: #e8d8b8;
+}
+
+MenuScreen {
+    align: center middle;
+}
+
+#menu {
+    width: 40;
+    height: auto;
+    padding: 1 2;
+    border: double #b8935a;
+    border-title-color: #ffd34a;
+    background: #181408;
+    color: #e8d8b8;
+}

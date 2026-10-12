@@ -170,9 +170,9 @@ def test_f2_swaps_glyph_sets() -> None:
 
 def test_torch_key_lights_wider_and_updates_the_panel() -> None:
     async def body(app: GameApp, pilot: Pilot[None]) -> None:
-        assert "Hard Hat" in text(app, "#status") and "4" in text(app, "#status")
+        assert "Light: Lamp (4)" in text(app, "#status")
         await pilot.press("t")
-        assert "Torch" in text(app, "#status")
+        assert "Light: Torch 400t (8)" in text(app, "#status")
         assert rows(app)[1][1 + 8] == "·"  # lit out to radius 8
         assert app.messages[-1] == app.text.line("torch_lit", radius=8)
 

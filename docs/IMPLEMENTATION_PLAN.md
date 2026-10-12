@@ -219,7 +219,7 @@ Each milestone ends when its **done criterion** is demonstrably true. I stop at 
 3. Resizing the terminal never crashes; below 80×24 shows the "enlarge your terminal" screen.
 4. Walking the whole level, per-turn compute stays well under a frame (soft target < 5 ms for FOV on 80×40).
 
-**As built (M2).** `Close door` is deferred (nothing closes doors yet; it arrives with monsters). Opening a door by bumping costs 100 ticks. `t` toggles the Torch light as a stand-in for the item (milestone 6). The M1 viewer stays available as `--view`. Quit is `Q` with a y/N prompt (GDD 4.1). Player-facing strings live in `src/minetoofar/data/text/`. The sim hands the UI an immutable `GameView` snapshot each turn.
+**As built (M2).** `Close door` is deferred (nothing closes doors yet; it arrives with monsters). Opening a door by bumping costs 100 ticks. `t` toggles the Torch light (it became the real Torch item in milestone 6). The M1 viewer stays available as `--view`. Quit is `Q` with a y/N prompt (GDD 4.1). Player-facing strings live in `src/minetoofar/data/text/`. The sim hands the UI an immutable `GameView` snapshot each turn.
 
 ### M3 — Combat for one class: Fighter (L)
 
@@ -284,6 +284,16 @@ Each milestone ends when its **done criterion** is demonstrably true. I stop at 
 3. `economy.py` has 100% branch coverage.
 4. Finishing a level shows a pay slip whose lines match what actually happened (verified by a scripted playthrough test).
 
+**As built (M6).**
+- **Economy:** `sim/economy.py` is pure (`compute_slip`, `Account`, `Choices`, `score`, `title_key`) with 100% branch coverage (`uv run pytest tests/unit/test_economy.py --cov=minetoofar.sim.economy --cov-branch --cov-fail-under=100`; `pytest-cov` is a dev dependency now). The GDD 8.6 numbers live in `balance.toml [economy]`; slip labels are in `economy.py`.
+- **Ledger:** `sim/ledger.py` folds events (`ValuableCollected`, `ItemUsed`, `TrapTriggered`, `TorchDropped`, `StubbornInvoked`, Clock-Ins, `HumanDefeated`) into a per-level record; `Game._bill()` adds the worn armor and the trinket.
+- **Items:** the catalog is `items.toml` (weapons T1-T3, armor, shields, hats, trinkets, consumables, valuables); `loot.toml` holds the §8.4 tables and monster drops; `text/docs.toml` the document words. The pack is `list[Item]` (`Item.charge` is the use charge). `Game` gained `Pickup`, `Equip`, `UseItem`, `DropItem`, `slip()`, `check_out()`, `carry_over()`; `Game.new(..., carry=)` brings the Associate down a level.
+- **Generation:** a seventh stage, `loot` (`level/N/loot`, documents on `level/N/docs`), with its own golden hash; the other six hashes did not change. `check_world` checks the loot in the fuzz.
+- **UI:** pack/gold/debt/light in the panel, item glyphs, the pack screen (`i`), item menus (`e` `q` `d`), documents, the pay slip screen (R toggles repair, digits spend coupons), the posthumous slip, the performance review. The slip scrolls at 24 rows; lines do not animate (polish for M9).
+- **Traps never gate the level (A68):** found on GOLD0012, where both Level 1 traps sat on the only corridors to the Down Shaft. `Grid.count_reachable` is the test; `gen/traps.scatter_safely` applies it to static traps and `Game.can_lay_trap` to Vane's. The `traps` and `loot` goldens changed; the other five stages did not.
+- **Not built yet:** Storeroom and Crossroads rooms (A60), supply drops and the desk (M7), the check-in report, memo and promotion (M7).
+- **Replay logs re-recorded** (the state hash now covers the pack, floor, purse and ledger).
+
 ### M7 — Check-ins and supply drops (M)
 
 **Scope:** field report, memo templates (including contradictions), Requisitions Desk with seeded stock, bundles and services, waivers and coupons in the fixed order, Standard Issue top-up, Wellness Break, promotion at check-in, supply drop scheduling, landing, invoice UI, and billing on taken lines.
@@ -293,6 +303,14 @@ Each milestone ends when its **done criterion** is demonstrably true. I stop at 
 2. Golden stages `drops` and `desk` are committed.
 3. Invoice math and waiver-order tests pass.
 4. A Textual Pilot test walks the entire check-in flow.
+
+**As built (M7).**
+- **Stages:** two more, `drops` (`level/N/drops`) and `desk` (`store/N`: the stock and the memo); `desk` after Level 5 is empty. The other seven goldens did not move. `check_world` checks both in the fuzz.
+- **Data:** `[supply]` and `[checkin]` in `balance.toml`, the catalog in `desk.toml`, the memo templates in `text/memos.toml`.
+- **Sim:** `sim/supply.py` (crates and the pure invoice math), `Game` lands crates and takes `TakeSupply` orders, `sim/checkin.py` (`field_report`, `Checkin`: promotion, Wellness Break, desk purchases, `finish()` returns the `Carry`). Desk upgrades live on the Associate (`weapon_mods`, `plated`, `hp_bonus`) and travel in the `Carry`.
+- **UI:** crate glyph, invoice screen, field report, memo and desk screens, wired into the descent: report, slip, memo, desk, next level. A Pilot test walks the whole flow (`tests/ui/test_checkin_ui.py`).
+- **Bot:** collects crates. A seventh replay log (`fighter-GOLD0016-L1-rank5-supply.json`) covers a crate being taken.
+- **Not built yet:** saving (M8), the `S` key on the desk, and animated slip lines (M9).
 
 ### M8 — Save/load (M)
 
@@ -304,6 +322,13 @@ Each milestone ends when its **done criterion** is demonstrably true. I stop at 
 3. An interrupted write (only the `.tmp` file exists) leaves the previous save loadable.
 4. Works with Windows paths (`%APPDATA%`) and with the portable layout (`MineTooFarData\` next to the EXE, `--save-dir` override); a read-only folder fails with a clear message.
 
+**As built (M8).**
+- **State as data:** `sim/snapshot.py` (`game_to_dict`, `game_from_dict`, carry equivalents) saves only what changes during play; the level itself is regenerated from the seed. There are no `Game.to_dict` methods because the module that reads `Game` internals sits beside it, and `Game` stays free of persistence.
+- **Files:** `persist/paths.py` (portable folder, per-OS folders, `--save-dir`, writability), `persist/save.py` (format, versioning and migration scaffold, atomic write, the checks), `persist/records.py`.
+- **UI:** `ui/title.py` is the title menu; the game gets an Esc menu, `S` on the desk, the autosave when leaving the desk, and the record-and-delete at death and victory. A plain launch shows the title; naming a run on the command line skips it (A78).
+- **Also:** the run's total turns now travel in the carry-over (for the records); the replay logs were re-recorded because the state hash covers them.
+- **Not built yet:** (these two arrived in M9; see below).
+
 ### M9 — The full 5-level run (L)
 
 **Scope:** Level 1-5 data and scaling, final slip and review screen, titles and records, help screen, `balance_sim.py` bot and tuning pass, `gen_version` freeze at 1, golden manifest locked, README and run instructions (`uv run`). The portable EXE release is M10.
@@ -313,6 +338,15 @@ Each milestone ends when its **done criterion** is demonstrably true. I stop at 
 2. The balance simulator over 200 seeds per class meets GDD §8.6 targets, or the data is retuned until it does.
 3. All tests are green on native Windows and WSL.
 4. A manual QA checklist (death, victory, debt, graveyard floors, resize, ASCII mode, save/load mid-fight) is passed.
+
+**As built (M9).**
+- **Balance simulator:** `tools/balance_sim.py` runs `sim/autoplay.py` (`play_run`: five levels, the slip signed as it stands, the desk shopped from a priority list with a gold reserve) on seeds `SIM0001` up, one process per core, and judges GDD 8.6. `sim/bot.py` grew a `Policy`: `RECKLESS` is the M3 bot unchanged (the replay logs still pass) and doubles as the sloppy player; `CAREFUL` is the competent stand-in, with a per-level `Memory` (route cache, grave cache, finds given up, the find it is walking to, turns spent waiting). See GDD A85 for what it does and where it is weak. 200 seeds per class takes about two minutes on 16 cores.
+- **Tuning:** Base Job Fee 15 to 10 and the Boiler Suit's repair rate 3 to 2 (A83, A84). Tests that check the GDD's worked examples pin the fee at 15g; tests that read the shipped economy use `BALANCE.economy.base_fee`.
+- **Bot bugs the simulator found:** it stepped onto known traps, walked into a Rogue Human's sight for loot, waited forever for a hunter stuck behind a fleeing Badger, dithered between two equally near finds, retried a pick-up the game refuses when a full torch stack sits on top of a document, and filled its pack with spare armor. The last four came from stalled runs; there are none now.
+- **Screens:** `ui/personnel.py` (the employment history, `R` on the title menu), `HelpScreen` (`?`), both with their words in `log.toml`.
+- **Freeze:** `tools/regen_golden.py` refuses to change a hash already in the manifest at the same `GEN_VERSION` (A86); the manifest, the 4,500 golden hashes and the cross-platform diff are unchanged by M9.
+- **Tests:** full five-level runs for all three classes on one seed and by share code (`tests/scenario/test_full_run.py`), a whole run through the screens to the review and the record (`tests/ui/test_full_run_ui.py`), a save in the middle of a fight, the careful policy's behaviours, the simulator's verdicts, and the freeze.
+- **Not built:** the first draft's `m` message log, `M` level overview, `C` close door and `keys.toml` rebinding (A87). They were never in a milestone's scope.
 
 ### M10 — Portable EXE release (M)
 

@@ -106,7 +106,7 @@ def test_a_critical_hit_may_knock_a_lit_torch_loose() -> None:
     # Miner crit (natural 20): d6 doubled, then the one-in-four torch roll
     rng = ScriptedRng([face(20), face(1), face(1), 0])
     g = make_game(["#####", "#<..#", "#####"], [(MINER, (2, 1), "hunting")], rng)
-    g.torch_lit = True
+    g.torch_lit, g.player.torch_left = True, 40000
     events = g.submit(Wait())
     assert TorchDropped() in events and not g.torch_lit
     assert rng.queue == []
@@ -115,7 +115,7 @@ def test_a_critical_hit_may_knock_a_lit_torch_loose() -> None:
 def test_an_ordinary_hit_never_costs_the_torch() -> None:
     rng = ScriptedRng([face(15), face(1)])
     g = make_game(["#####", "#<..#", "#####"], [(MINER, (2, 1), "hunting")], rng)
-    g.torch_lit = True
+    g.torch_lit, g.player.torch_left = True, 40000
     assert TorchDropped() not in g.submit(Wait()) and g.torch_lit
 
 

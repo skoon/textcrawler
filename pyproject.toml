@@ -19,7 +19,12 @@ path = "src/minetoofar/__init__.py"
 packages = ["src/minetoofar"]
 
 [dependency-groups]
-dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "pytest-cov>=7.1.0",
+]
 build = ["pyinstaller>=6.16,<7"]
 
 [tool.pytest.ini_options]

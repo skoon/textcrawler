@@ -50,7 +50,52 @@ class Disarm:
     dy: int
 
 
-Command = Move | Run | Wait | ToggleTorch | SetRank | UseAbility | Disarm
+@dataclass(frozen=True, slots=True)
+class Pickup:
+    """Pick up the first thing on the floor under you (valuables jump into your pack unasked)."""
+
+
+@dataclass(frozen=True, slots=True)
+class Equip:
+    """Wear or wield the pack item in slot `index`; a light weapon may go to the off hand."""
+
+    index: int
+    off_hand: bool = False
+
+
+@dataclass(frozen=True, slots=True)
+class UseItem:
+    index: int
+
+
+@dataclass(frozen=True, slots=True)
+class DropItem:
+    """Put one unit of the pack item in slot `index` on the floor."""
+
+    index: int
+
+
+@dataclass(frozen=True, slots=True)
+class TakeSupply:
+    """Take these lines (by index) from the crate underfoot; they go on the next pay slip."""
+
+    lines: tuple[int, ...]
+
+
+Command = (
+    Move
+    | Run
+    | Wait
+    | ToggleTorch
+    | SetRank
+    | UseAbility
+    | Disarm
+    | Pickup
+    | Equip
+    | UseItem
+    | DropItem
+    | TakeSupply
+)
 
 
 class BlockReason(StrEnum):
@@ -246,9 +291,95 @@ class TrapDisarmed:
     name: str
 
 
+@dataclass(frozen=True, slots=True)
+class ItemPicked:
+    id: str
+    name: str
+    qty: int
+
+
+@dataclass(frozen=True, slots=True)
+class ValuableCollected:
+    kind: str
+    name: str
+    credit: int
+
+
+@dataclass(frozen=True, slots=True)
+class ItemUsed:
+    """A consumable was used; `charge` is the gold the pay slip will bill for it."""
+
+    id: str
+    name: str
+    charge: int
+
+
+@dataclass(frozen=True, slots=True)
+class ItemDropped:
+    name: str
+
+
+@dataclass(frozen=True, slots=True)
+class Equipped:
+    name: str
+
+
+@dataclass(frozen=True, slots=True)
+class Healed:
+    amount: int
+
+
+@dataclass(frozen=True, slots=True)
+class TorchBurnedOut:
+    pass
+
+
+@dataclass(frozen=True, slots=True)
+class DocumentRead:
+    kind: str  # memo | coupon | map
+    text: str
+
+
+@dataclass(frozen=True, slots=True)
+class SeeHere:
+    """The player stepped onto something that is not a valuable."""
+
+    names: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class HumanDefeated:
+    name: str
+
+
+@dataclass(frozen=True, slots=True)
+class SupplyDropped:
+    """A supply crate lands."""
+
+    pos: Pos
+    number: int
+
+
+@dataclass(frozen=True, slots=True)
+class AtCrate:
+    """The player is at a crate: time to show the invoice."""
+
+    number: int
+
+
+@dataclass(frozen=True, slots=True)
+class SupplyTaken:
+    number: int
+    subtotal: int
+    handling: int
+    delivery: int
+
+
 Event = (
     Moved | DoorOpened | Blocked | Waited | TorchChanged | RankSet | Attacked | Killed
     | PlayerDied | StubbornInvoked | ArmorDamaged | Noticed | Spotted | Refused | AbilityUsed
     | StatusApplied | PoisonTick | TrapSpotted | TrapTriggered | TrapDisarmed | TorchDropped
-    | GraveFall | Spoke | Rose | Surfaced | Fled | Burrowed
+    | GraveFall | Spoke | Rose | Surfaced | Fled | Burrowed | ItemPicked | ValuableCollected
+    | ItemUsed | ItemDropped | Equipped | Healed | TorchBurnedOut | DocumentRead | HumanDefeated
+    | SeeHere | SupplyDropped | AtCrate | SupplyTaken
 )  # fmt: skip

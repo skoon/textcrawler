@@ -20,6 +20,25 @@ class StatusState:
     next_tick: int = 0  # tick statuses: when the next tick lands
 
 
+@dataclass
+class Item:
+    """One stack in the pack, or one thing on the floor. Equipment has qty 1 and, for armor, a
+    condition (`dur`); consumables carry the gold billed per use (`charge`: issued, found, or
+    prepaid). A document is `memo`, `coupon`, or `map` and `text` picks its words."""
+
+    id: str
+    qty: int = 1
+    charge: int = 0
+    dur: int = 0
+    text: int = 0
+
+
+@dataclass
+class FloorItem:
+    pos: Pos
+    item: Item
+
+
 @dataclass(kw_only=True)
 class Actor:
     id: int
@@ -43,6 +62,12 @@ class Player(Actor):
     body: str
     body_dur: int
     stubborn_used: bool = False
+    trinket: str = ""
+    pack: list[Item] = field(default_factory=list)
+    torch_left: int = 0  # ticks of burn time in the torch in hand; 0 when there is none
+    hp_bonus: int = 0  # Wellness Seminars: max HP for good
+    weapon_mods: dict[str, tuple[int, int]] = field(default_factory=dict)  # weapon -> (dmg, atk)
+    plated: set[str] = field(default_factory=set)  # armor that has had its Armor Plating
 
 
 @dataclass(kw_only=True)
@@ -78,8 +103,19 @@ def _rank_index(rank: int) -> int:
     return rank - 1
 
 
-def max_hp(data: GameData, class_id: str, rank: int) -> int:
-    return data.classes[class_id].rank_hp[_rank_index(rank)]
+PLATING_DUR = 4  # Armor Plating (GDD 8.5): +4 max Dur and +1 DR, once per armor
+PLATING_DR = 1
+
+
+def max_hp(data: GameData, class_id: str, rank: int, trinket: str = "", bonus: int = 0) -> int:
+    """Hit points at a Rank, plus what the trinket worn adds (a Thermos: +3) and any bought."""
+    extra = data.items.trinkets[trinket].hp if trinket else 0
+    return data.classes[class_id].rank_hp[_rank_index(rank)] + extra + bonus
+
+
+def armor_max(data: GameData, player: Player, armor_id: str) -> int:
+    """The most Dur this armor has, counting its plating."""
+    return data.items.armor[armor_id].dur + (PLATING_DUR if armor_id in player.plated else 0)
 
 
 def new_player(data: GameData, class_id: str, rank: int, pos: Pos) -> Player:
@@ -107,17 +143,20 @@ def player_stats(player: Player, data: GameData) -> Stats:
     stat_mod = _weapon_stat_mod(data, player.class_id, player.weapon)
     broken = player.body_dur <= 0
     shield = data.items.shields.get(player.offhand)
+    charm = data.items.trinkets[player.trinket] if player.trinket else None
+    edge_dmg, edge_atk = player.weapon_mods.get(player.weapon, (0, 0))
     return Stats(
-        atk=2 + c.rank_atk[i] + stat_mod + weapon.atk,
+        atk=2 + c.rank_atk[i] + stat_mod + weapon.atk + edge_atk + (charm.atk if charm else 0),
         defense=modifier(c.dexterity)
         + (0 if broken else armor.defense)
         + (shield.defense if shield else 0)
         + data.items.hats[player.head].defense,
-        dr=0 if broken else armor.dr,
+        dr=0 if broken else armor.dr + (PLATING_DR if player.body in player.plated else 0),
         dice_n=weapon.dice_n,
         dice_sides=weapon.dice_sides,
-        dmg_flat=stat_mod + weapon.dmg + c.rank_dmg[i],
+        dmg_flat=stat_mod + weapon.dmg + edge_dmg + c.rank_dmg[i],
         attack_cost=weapon.cost,
+        stuns=bool(weapon.stuns),
     )
 
 
@@ -137,13 +176,16 @@ def offhand_stats(player: Player, data: GameData, penalty: int = OFFHAND_PENALTY
         + c.rank_atk[i]
         + _weapon_stat_mod(data, player.class_id, player.offhand)
         + off.atk
+        + player.weapon_mods.get(player.offhand, (0, 0))[1]
+        + (data.items.trinkets[player.trinket].atk if player.trinket else 0)
         - penalty,
         defense=base.defense,
         dr=base.dr,
         dice_n=off.dice_n,
         dice_sides=off.dice_sides,
-        dmg_flat=off.dmg + c.rank_dmg[i],
+        dmg_flat=off.dmg + player.weapon_mods.get(player.offhand, (0, 0))[0] + c.rank_dmg[i],
         attack_cost=off.cost,
+        stuns=bool(off.stuns),
     )
 
 

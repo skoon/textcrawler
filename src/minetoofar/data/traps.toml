@@ -8,6 +8,7 @@ dice_n = 1
 dice_sides = 6
 dmg = 2
 effect = "damage"
+cave_in = 0
 
 [tripwire_charge]
 name = "Tripwire Charge"
@@ -15,6 +16,7 @@ dice_n = 2
 dice_sides = 4
 dmg = 0
 effect = "damage"
+cave_in = 1
 
 [stun_charge]
 name = "Stun Charge"
@@ -22,3 +24,4 @@ dice_n = 0
 dice_sides = 0
 dmg = 0
 effect = "stun"
+cave_in = 0

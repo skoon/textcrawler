@@ -7,6 +7,7 @@ from minetoofar.sim.events import (
     Blocked,
     BlockReason,
     DoorOpened,
+    ItemUsed,
     Move,
     Moved,
     Run,
@@ -94,7 +95,7 @@ def test_tiles_leaving_view_are_remembered_not_forgotten() -> None:
 
 def test_torch_widens_the_light_and_costs_a_turn() -> None:
     g = game(["#############", "#<..........#", "#############"])
-    assert g.submit(ToggleTorch()) == [TorchChanged(True)]
+    assert g.submit(ToggleTorch()) == [ItemUsed("torch", "Torch", 2), TorchChanged(True)]
     view = g.view()
     assert view.torch_lit and view.light_radius == 8 and view.ticks == 100
     assert vis(g, 9, 1) == VISIBLE and vis(g, 10, 1) == UNSEEN
@@ -168,3 +169,78 @@ def test_new_game_carries_worn_armor_in_and_rejects_impossible_values() -> None:
     for bad in (-1, full + 1):
         with pytest.raises(ValueError, match="armor_dur"):
             Game.new(seed, 2, armor_dur=bad)
+
+
+# -- what the view shows of the pack, the floor, and the purse ------------------------------------
+
+
+def test_the_view_lists_the_pack_with_names_counts_and_charges() -> None:
+    from minetoofar.sim.actors import Item
+    from tests.helpers import make_game
+
+    g = make_game(
+        ["#####", "#<..#", "#####"], pack=[Item("patch_up_kit", 2, 5), Item("boiler_suit", 1, 0, 9)]
+    )
+    pack = g.view().pack
+    assert [(p.index, p.name, p.qty, p.charge, p.category) for p in pack] == [
+        (0, "Patch-Up Kit", 2, 5, "consumable"),
+        (1, "Boiler Suit", 1, 0, "armor"),
+    ]
+    assert (pack[1].dur, pack[1].dur_max) == (9, 18)
+
+
+def test_the_view_shows_floor_items_only_on_tiles_that_have_been_seen() -> None:
+    from minetoofar.core.geometry import Pos
+    from minetoofar.sim.actors import FloorItem, Item
+    from tests.helpers import make_game
+
+    rows = ["#" * 20, "#<" + "." * 17 + "#", "#" * 20]
+    g = make_game(
+        rows, floor=[FloorItem(Pos(3, 1), Item("prybar")), FloorItem(Pos(15, 1), Item("rough_gem"))]
+    )
+    assert [(f.pos, f.name, f.glyph) for f in g.view().floor] == [(Pos(3, 1), "Prybar", "weapon")]
+
+
+def test_floor_glyph_names_cover_every_kind_of_find() -> None:
+    from minetoofar.core.geometry import Pos
+    from minetoofar.sim.actors import FloorItem, Item
+    from tests.helpers import make_game
+
+    ids = [
+        "prybar", "boiler_suit", "riot_shield", "hard_hat", "thermos", "torch", "silver_nugget",
+        "rough_gem", "memo", "coupon", "map",
+    ]  # fmt: skip
+    rows = ["#" * 8, "#<" + "." * 5 + "#", *["#" + "." * 6 + "#"] * 3, "#" * 8]
+    spots = [Pos(2 + i % 4, 1 + i // 4) for i in range(len(ids))]
+    g = make_game(rows, floor=[FloorItem(p, Item(x)) for p, x in zip(spots, ids, strict=True)])
+    g.torch_lit, g.player.torch_left = True, 40000  # light the whole room
+    g._look()
+    assert [f.glyph for f in g.view().floor] == [
+        "weapon", "armor", "armor", "armor", "trinket", "consumable", "silver", "gem",
+        "document", "document", "document",
+    ]  # fmt: skip
+
+
+def test_the_view_carries_the_purse_and_the_torch() -> None:
+    from minetoofar.sim.economy import Account
+    from tests.helpers import make_game
+
+    g = make_game(["#####", "#<..#", "#####"], account=Account(wallet=14, debt=3, coupons=2))
+    v = g.view()
+    assert (v.gold, v.debt, v.coupons, v.torch_turns) == (14, 3, 2, 0)
+    g.player.torch_left = 21250
+    assert g.view().torch_turns == 213  # whole turns, rounded up
+
+
+def test_stepping_onto_a_find_says_what_is_there() -> None:
+    from minetoofar.core.geometry import Pos
+    from minetoofar.sim.actors import FloorItem, Item
+    from minetoofar.sim.events import SeeHere
+    from tests.helpers import make_game
+
+    g = make_game(
+        ["#####", "#<..#", "#####"],
+        floor=[FloorItem(Pos(2, 1), Item("prybar")), FloorItem(Pos(2, 1), Item("memo"))],
+    )
+    events = g.submit(Move(1, 0))
+    assert SeeHere(("Prybar", "Memo")) in events

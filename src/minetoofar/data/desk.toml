@@ -1,0 +1,123 @@
+# The Requisitions Desk catalog (GDD 8.5). `price` is paid from the wallet on the spot. Slot 1 of
+# every desk is drawn from the bundles (by weight); the other slots from everything else. The
+# weights are mine; the GDD gives none.
+#
+# effect: bundle        `qty` prepaid `item`s go in the pack (refused if they will not all fit)
+#         weapon_dmg    +`value` damage on the main-hand weapon, at most `cap` in all
+#         weapon_atk    +`value` ATK on the main-hand weapon, at most `cap` in all
+#         plating       the body armor gets +`value` max Dur and +1 DR (once per armor)
+#         item          `item` goes in the pack
+#         max_hp        +`value` max HP, for good
+#         repair_plan   the next armor repair line is halved
+#         damage_waiver the next level's incidentals are waived, up to 6g
+#         hazard_waiver the next level's Hazard Surcharge and Shoring Damage are waived
+
+[torch_bundle]
+name = "Torch Bundle"
+blurb = "3 prepaid torches"
+price = 5
+weight = 50
+effect = "bundle"
+item = "torch"
+qty = 3
+value = 0
+cap = 0
+
+[kit_bundle]
+name = "Kit Bundle"
+blurb = "2 prepaid Patch-Up Kits"
+price = 8
+weight = 50
+effect = "bundle"
+item = "patch_up_kit"
+qty = 2
+value = 0
+cap = 0
+
+[sharpening_service]
+name = "Sharpening Service"
+blurb = "+1 weapon damage"
+price = 12
+weight = 10
+effect = "weapon_dmg"
+item = ""
+qty = 0
+value = 1
+cap = 3
+
+[hone_and_balance]
+name = "Hone & Balance"
+blurb = "+1 weapon ATK"
+price = 12
+weight = 8
+effect = "weapon_atk"
+item = ""
+qty = 0
+value = 1
+cap = 2
+
+[armor_plating]
+name = "Armor Plating"
+blurb = "+4 armor Dur, +1 DR"
+price = 18
+weight = 6
+effect = "plating"
+item = ""
+qty = 0
+value = 4
+cap = 0
+
+[reinforced_hard_hat]
+name = "Reinforced Hard Hat"
+blurb = "a hat with DEF +1"
+price = 10
+weight = 8
+effect = "item"
+item = "reinforced_hard_hat"
+qty = 1
+value = 0
+cap = 0
+
+[wellness_seminar]
+name = "Wellness Seminar"
+blurb = "+3 max HP"
+price = 10
+weight = 8
+effect = "max_hp"
+item = ""
+qty = 0
+value = 3
+cap = 0
+
+[repair_plan]
+name = "Repair Plan"
+blurb = "next armor repair halved"
+price = 6
+weight = 10
+effect = "repair_plan"
+item = ""
+qty = 0
+value = 0
+cap = 0
+
+[property_damage_waiver]
+name = "Property Damage Waiver"
+blurb = "next level, up to 6g"
+price = 5
+weight = 10
+effect = "damage_waiver"
+item = ""
+qty = 0
+value = 0
+cap = 0
+
+[hazard_waiver]
+name = "Hazard Waiver"
+blurb = "next level's traps"
+price = 6
+weight = 8
+effect = "hazard_waiver"
+item = ""
+qty = 0
+value = 0
+cap = 0

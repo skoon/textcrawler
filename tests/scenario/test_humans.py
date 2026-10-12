@@ -9,6 +9,12 @@ from tests.helpers import MINER, ScriptedRng, make_game
 
 GRIMSBY, VANE, VERMIN = "foreman_grimsby", "prospector_vane", "cave_vermin"
 LONG = ["#" * 20, "#<" + "." * 17 + "#", "#" * 20]
+WIDE = [
+    "#" * 20,
+    "#<" + "." * 17 + "#",
+    "#" + "." * 18 + "#",
+    "#" * 20,
+]  # room to walk round a trap
 SPEECH = {
     "on_sight": "SIGHT",
     "on_hit": "HIT",
@@ -150,7 +156,7 @@ def test_monsters_without_speech_stay_silent() -> None:
 
 
 def vane(rng: ScriptedRng, pos: tuple[int, int] = (6, 1), rows: list[str] | None = None):  # type: ignore[no-untyped-def]
-    g = make_game(rows or LONG, [(VANE, pos, "hunting")], rng)
+    g = make_game(rows or WIDE, [(VANE, pos, "hunting")], rng)
     g.monsters[0].speech = dict(SPEECH)
     return g
 
@@ -163,7 +169,30 @@ def test_vane_lays_a_hidden_trap_where_he_stands_then_runs() -> None:
     assert v.traps_left == 3 and v.state == "fleeing" and said(events) == ["FLEE"]
     assert v.pos == Pos(6, 1)  # laying it took his turn
     g.submit(Wait())
-    assert v.pos == Pos(7, 1)  # now he runs
+    assert v.pos.x == 7  # now he runs, further from us
+
+
+def test_vane_will_not_lay_a_trap_that_would_be_the_only_way_on() -> None:
+    g = vane(ScriptedRng([face(1)] * 6), rows=LONG)  # a one-tile corridor: every tile is the way on
+    events = g.submit(Wait())
+    assert g.traps == [] and g.monsters[0].traps_left == 4
+    assert any(isinstance(e, Attacked) for e in events) or g.monsters[0].state == "hunting"
+
+
+def test_vane_will_not_shut_the_last_way_round_either() -> None:
+    g = vane(ScriptedRng([0]))
+    g.traps.append(Trap(Pos(6, 2), "spring_trap"))  # the lower lane is already trapped
+    g.submit(Wait())
+    assert len(g.traps) == 1  # laying one on the upper lane would shut the hall
+
+
+def test_a_disarmed_trap_no_longer_counts_as_a_wall() -> None:
+    g = vane(ScriptedRng([0]))
+    trap = Trap(Pos(6, 2), "spring_trap")
+    trap.disarmed = True
+    g.traps.append(trap)
+    g.submit(Wait())
+    assert len(g.traps) == 2
 
 
 def test_vane_picks_the_trap_kind_with_the_dice() -> None:

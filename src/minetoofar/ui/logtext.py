@@ -2,6 +2,7 @@
 
 from textwrap import wrap
 
+from minetoofar.content.docs import NAMES as DOCUMENT_NAMES
 from minetoofar.content.text import Text
 from minetoofar.core.grid import Tile
 from minetoofar.sim.actors import PLAYER_ID
@@ -12,10 +13,17 @@ from minetoofar.sim.events import (
     Attacked,
     Blocked,
     Burrowed,
+    DocumentRead,
     DoorOpened,
+    Equipped,
     Event,
     Fled,
     GraveFall,
+    Healed,
+    HumanDefeated,
+    ItemDropped,
+    ItemPicked,
+    ItemUsed,
     Killed,
     Moved,
     Noticed,
@@ -24,16 +32,21 @@ from minetoofar.sim.events import (
     RankSet,
     Refused,
     Rose,
+    SeeHere,
     Spoke,
     Spotted,
     StatusApplied,
     StubbornInvoked,
+    SupplyDropped,
+    SupplyTaken,
     Surfaced,
+    TorchBurnedOut,
     TorchChanged,
     TorchDropped,
     TrapDisarmed,
     TrapSpotted,
     TrapTriggered,
+    ValuableCollected,
 )
 
 _KIND = {Outcome.HIT: "hit", Outcome.CRIT: "crit", Outcome.MISS: "miss"}
@@ -117,5 +130,31 @@ def describe(event: Event, text: Text, light_radius: int) -> str | None:
             return text.line("grave_fall", damage=damage)
         case TrapDisarmed(name=name):
             return text.line("trap_disarmed", name=name)
+        case ItemPicked(name=name):
+            return text.line("item_picked", name=name)
+        case ValuableCollected(name=name, credit=credit):
+            return text.line("valuable", name=name, credit=credit)
+        case ItemUsed(name=name, charge=0):
+            return text.line("item_used_prepaid", name=name)
+        case ItemUsed(name=name, charge=charge):
+            return text.line("item_used", name=name, charge=charge)
+        case Healed(amount=amount):
+            return text.line("healed", amount=amount)
+        case ItemDropped(name=name):
+            return text.line("item_dropped", name=name)
+        case Equipped(name=name):
+            return text.line("equipped", name=name)
+        case SeeHere(names=names):
+            return text.line("see_here", names=", ".join(names))
+        case TorchBurnedOut():
+            return text.line("torch_burned_out")
+        case DocumentRead(kind=kind):
+            return text.line("document_read", name=DOCUMENT_NAMES[kind])
+        case SupplyDropped():
+            return text.line("supply_inbound")
+        case SupplyTaken(number=number, subtotal=sub, handling=fee, delivery=delivery):
+            return text.line("supply_taken", number=number, total=sub + fee + delivery)
+        case HumanDefeated(name=name):
+            return text.line("human_defeated", name=name)
         case _:
             return None

@@ -223,3 +223,60 @@ def test_wrap_log_breaks_a_word_longer_than_the_panel() -> None:
     from minetoofar.ui.logtext import wrap_log
 
     assert wrap_log(["x" * 25], 10, 4) == ["x" * 10, "  " + "x" * 8, "  " + "x" * 7]
+
+
+def test_item_events_have_log_lines() -> None:
+    from minetoofar.sim.events import (
+        DocumentRead,
+        Equipped,
+        Healed,
+        HumanDefeated,
+        ItemDropped,
+        ItemPicked,
+        ItemUsed,
+        SeeHere,
+        TorchBurnedOut,
+        ValuableCollected,
+    )
+
+    def d(event: object) -> str | None:
+        return describe(event, TEXT, 4)  # type: ignore[arg-type]
+
+    assert d(ItemPicked("prybar", "Prybar", 1)) == TEXT.line("item_picked", name="Prybar")
+    assert d(ValuableCollected("rough_gem", "Rough Gem", 4)) == TEXT.line(
+        "valuable", name="Rough Gem", credit=4
+    )
+    assert d(ItemUsed("patch_up_kit", "Patch-Up Kit", 5)) == TEXT.line(
+        "item_used", name="Patch-Up Kit", charge=5
+    )
+    assert d(ItemUsed("patch_up_kit", "Patch-Up Kit", 0)) == TEXT.line(
+        "item_used_prepaid", name="Patch-Up Kit"
+    )
+    assert d(Healed(10)) == TEXT.line("healed", amount=10)
+    assert d(ItemDropped("Torch")) == TEXT.line("item_dropped", name="Torch")
+    assert d(Equipped("Prybar")) == TEXT.line("equipped", name="Prybar")
+    assert d(SeeHere(("Prybar", "Memo"))) == TEXT.line("see_here", names="Prybar, Memo")
+    assert d(TorchBurnedOut()) == TEXT.line("torch_burned_out")
+    assert d(DocumentRead("coupon", "words")) == TEXT.line("document_read", name="Coupon")
+    assert d(HumanDefeated("Foreman Grimsby")) == TEXT.line(
+        "human_defeated", name="Foreman Grimsby"
+    )
+
+
+def test_every_item_refusal_has_a_line() -> None:
+    for reason in (
+        "nothing_here", "pack_full", "no_item", "not_usable", "full_hp", "not_equipment",
+        "not_light", "two_handed", "no_torch", "already_lit",
+    ):  # fmt: skip
+        assert describe(Refused(reason), TEXT, 4) == TEXT.line(f"refused_{reason}")
+
+
+def test_supply_events_have_log_lines() -> None:
+    from minetoofar.sim.events import SupplyDropped, SupplyTaken
+
+    assert describe(SupplyDropped(Pos(1, 1), 1), TEXT, 4) == TEXT.line("supply_inbound")
+    assert describe(SupplyTaken(2, 32, 7, 2), TEXT, 4) == TEXT.line(
+        "supply_taken", number=2, total=41
+    )
+    for reason in ("no_crate", "nothing_taken"):
+        assert describe(Refused(reason), TEXT, 4) == TEXT.line(f"refused_{reason}")

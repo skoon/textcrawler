@@ -1,5 +1,6 @@
 """Tile grid and the movement rule shared by generation, FOV-adjacent code, and AI."""
 
+from collections.abc import Collection
 from enum import IntEnum
 
 from minetoofar.core.geometry import Pos
@@ -73,6 +74,32 @@ class Grid:
 
     def to_bytes(self) -> bytes:
         return bytes(self._tiles)
+
+    def count_reachable(self, start: Pos, blocked: Collection[Pos] = ()) -> int:
+        """How many walkable tiles can be walked to from `start` with `blocked` walled off.
+
+        A four-way flood on the raw bytes: with no corner cutting that reaches what the movement
+        rule reaches, bar the odd tile only a diagonal squeeze joins, and it is fast enough to ask
+        once per candidate trap.
+        """
+        w, tiles = self.width, self._tiles
+        seen = bytearray(len(tiles))
+        for b in blocked:
+            seen[b.y * w + b.x] = 1
+        first = start.y * w + start.x
+        if seen[first] or not _WALK_BYTE[tiles[first]]:
+            return 0
+        seen[first] = 1
+        stack, count = [first], 0
+        while stack:
+            i = stack.pop()
+            count += 1
+            x = i % w
+            for j in (i - w, i + w, i - 1 if x else -1, i + 1 if x < w - 1 else -1):
+                if 0 <= j < len(tiles) and not seen[j] and _WALK_BYTE[tiles[j]]:
+                    seen[j] = 1
+                    stack.append(j)
+        return count
 
     def step_mult(self, x: int, y: int) -> int:
         """How many times the usual price a step onto (x, y) costs: Rubble doubles it."""

@@ -6,13 +6,16 @@ from minetoofar.content.balance import LEVELS, load_balance
 from minetoofar.content.gamedata import load_gamedata
 from minetoofar.core.geometry import DIRS8, Pos
 from minetoofar.core.grid import Grid, Tile
+from minetoofar.core.pathing import distance_map
+from minetoofar.core.rng import Rng
 from minetoofar.core.seed import Seed
 from minetoofar.gen.features import apply_features, generate_features
 from minetoofar.gen.humans import generate_humans
 from minetoofar.gen.layout import generate_level
 from minetoofar.gen.rooms import room_containing
 from minetoofar.gen.theme import generate_theme
-from minetoofar.gen.traps import Traps, generate_traps
+from minetoofar.gen.traps import Traps, generate_traps, scatter_safely
+from tests.helpers import grid_from_rows
 
 B = load_balance()
 KINDS = list(load_gamedata().traps)
@@ -48,7 +51,7 @@ def test_each_level_has_its_gdd_count_plus_the_camps_pre_laid_traps(seed: str) -
         for human in ("foreman_grimsby", "prospector_vane"):
             world, _, humans, traps = build(seed, level, human)
             extra = B.humans.camp_traps if human == "prospector_vane" else 0
-            assert len(traps.traps) == B.trap_counts[level - 1] + extra
+            assert len(traps.traps) <= B.trap_counts[level - 1] + extra  # fewer if none is safe
 
 
 @pytest.mark.parametrize("seed", SEEDS)
@@ -93,6 +96,56 @@ def test_the_prospectors_camp_comes_with_two_traps_inside_it(seed: str) -> None:
             grid.get(p.x, p.y) in (Tile.FLOOR, Tile.CAVE_FLOOR) and p != humans.pos
             for p, _ in inside
         )
+
+
+def test_the_rule_costs_at_most_about_a_quarter_of_the_traps() -> None:
+    wanted = got = 0
+    for seed in SEEDS:
+        for level in range(1, LEVELS + 1):
+            wanted += B.trap_counts[level - 1]
+            got += len(build(seed, level, "foreman_grimsby")[3].traps)
+    assert got * 100 >= wanted * 70, (got, wanted)  # a loop only has room for one trapped way
+
+
+@pytest.mark.parametrize("seed", [*SEEDS, "GOLD0012", "GOLD0003", "GOLD0005"])
+def test_no_trap_can_wall_off_part_of_the_level(seed: str) -> None:
+    """A trap you cannot disarm must never be the only way on (a Rogue can disarm, no one else)."""
+    for level in range(1, LEVELS + 1):
+        for human in ("foreman_grimsby", "prospector_vane"):
+            world, _, _, traps = build(seed, level, human)
+            grid = Grid(world.width, world.height, world.tiles)
+            everything = grid.count_reachable(world.entry)
+            blocked = [p for p, _ in traps.traps]
+            assert grid.count_reachable(world.entry, blocked) == everything - len(blocked), (
+                seed, level, human,
+            )  # fmt: skip
+
+
+def test_gold0012_level_one_can_be_walked_to_the_shaft_without_touching_a_trap() -> None:
+    world, _, _, traps = build("GOLD0012", 1)
+    grid = Grid(world.width, world.height, world.tiles)
+    for p, _ in traps.traps:
+        grid.set(p.x, p.y, Tile.WALL)  # impassable
+    assert world.exit in distance_map(grid, world.entry)
+
+
+def test_a_single_corridor_has_no_safe_spot_and_a_loop_has_one_trapped_way() -> None:
+    corridor = grid_from_rows(["#########", "#<.....>#", "#########"])
+    spots = [Pos(x, 1) for x in range(2, 7)]
+    assert scatter_safely(Rng(1), corridor, Pos(1, 1), spots, 3, set()) == []
+    ring = grid_from_rows(["#######", "#<....#", "#.###.#", "#.....#", "#######"])
+    ring_spots = [Pos(x, 1) for x in range(2, 6)] + [Pos(x, 3) for x in range(2, 6)]
+    placed = scatter_safely(Rng(1), ring, Pos(1, 1), ring_spots, 3, set())
+    assert len(placed) == 1  # one way round must stay open, so only one of the two can be trapped
+    assert ring.count_reachable(Pos(1, 1), set(placed)) == ring.count_reachable(Pos(1, 1)) - 1
+
+
+def test_traps_already_down_count_when_judging_the_next() -> None:
+    ring = grid_from_rows(["#######", "#<....#", "#.###.#", "#.....#", "#######"])
+    top = Pos(3, 1)
+    bottom = Pos(3, 3)
+    taken = {top}
+    assert scatter_safely(Rng(1), ring, Pos(1, 1), [bottom], 1, taken) == []  # both ways shut
 
 
 def test_all_three_kinds_turn_up_and_none_dominates() -> None:

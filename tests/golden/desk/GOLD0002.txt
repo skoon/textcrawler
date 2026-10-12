@@ -1,0 +1,52 @@
+AMTF-DESK
+seed GOLD0002
+level 1
+stock torch_bundle hazard_waiver wellness_seminar hone_and_balance
+from Office of Continuous Improvement
+re RE: Reminder: Reminders
+Good news, everyone (to the extent permitted):
+Hard Hats are mandatory at all times.
+Reminder: smiling is not required, but it is noted when absent.
+Level 2 remains a standard environment. No Hazard Premium applies, and none is anticipated.
+Thank you for your continued depth.
+====================
+AMTF-DESK
+seed GOLD0002
+level 2
+stock torch_bundle property_damage_waiver hazard_waiver wellness_seminar
+from Corporate Wellness and Retention
+re RE: Your Valued Feedback
+Associates,
+Gems are company property.
+Reminder: if you see something, bill someone.
+Level 3 remains a standard environment. No Hazard Premium applies, and none is anticipated.
+Stay flexible!
+====================
+AMTF-DESK
+seed GOLD0002
+level 3
+stock torch_bundle hazard_waiver reinforced_hard_hat hone_and_balance
+from Department of Synergistic Outcomes
+re RE: Operational Excellence Update
+Good news, everyone (to the extent permitted):
+Overtime is strictly forbidden.
+Reminder: the company is not liable for falling rock, rising water, or rising tensions.
+Level 4 remains a standard environment. No Hazard Premium applies, and none is anticipated.
+Onward and downward!
+====================
+AMTF-DESK
+seed GOLD0002
+level 4
+stock torch_bundle wellness_seminar hone_and_balance property_damage_waiver
+from Department of Synergistic Outcomes
+re RE: Moving Forward, Together
+In the spirit of transparency,
+Fatalities must be reported within the hour.
+Reminder: smiling is not required, but it is noted when absent.
+Level 5 remains a standard environment. No Hazard Premium applies, and none is anticipated.
+Thank you for your continued depth.
+====================
+AMTF-DESK
+seed GOLD0002
+level 5
+stock 

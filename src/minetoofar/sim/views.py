@@ -41,6 +41,7 @@ class HeroView:
     ability: AbilityView
     dead: bool
     cause: str
+    trinket: str = ""  # "" when none is worn
 
 
 @dataclass(frozen=True)
@@ -61,6 +62,32 @@ class TrapView:
 
 
 @dataclass(frozen=True)
+class PackLine:
+    index: int  # the slot, for Equip / UseItem / DropItem
+    id: str
+    name: str
+    qty: int
+    charge: int  # gold billed per use (consumables)
+    category: str  # weapon | armor | shield | hat | trinket | consumable
+    dur: int  # condition (armor), else 0
+    dur_max: int
+
+
+@dataclass(frozen=True)
+class FloorView:
+    pos: Pos
+    id: str
+    name: str
+    glyph: str  # weapon | armor | trinket | consumable | silver | gem | document
+
+
+@dataclass(frozen=True)
+class CrateView:
+    pos: Pos
+    number: int
+
+
+@dataclass(frozen=True)
 class GameView:
     width: int
     height: int
@@ -77,6 +104,13 @@ class GameView:
     sensed: tuple[MonsterView, ...]  # the Ranger's Tracker: out of view, through walls
     traps: tuple[TrapView, ...]  # only the revealed ones
     graveyard: bool = False  # a graveyard floor gets its own palette
+    pack: tuple[PackLine, ...] = ()
+    floor: tuple[FloorView, ...] = ()  # finds on tiles that have been seen
+    gold: int = 0
+    debt: int = 0
+    coupons: int = 0
+    torch_turns: int = 0  # burn time left in the torch in hand, in whole turns
+    crates: tuple[CrateView, ...] = ()  # landed supply crates on tiles that have been seen
 
     @property
     def turn(self) -> int:

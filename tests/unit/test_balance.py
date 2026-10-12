@@ -29,12 +29,14 @@ extra_links_base = 1
 extra_links_level_div = 2
 
 [play]
-hard_hat_radius = 4
 torch_radius = 8
 move_cost = 100
 door_cost = 100
 wait_cost = 100
 use_cost = 100
+pickup_cost = 50
+issue_kits = 2
+issue_torches = 1
 grave_fall_sides = 4
 grave_climb_ticks = 200
 torch_brine_one_in = 2
@@ -48,6 +50,7 @@ backstab_sides = 4
 tracker_radius_sq = 25
 spot_radius_sq = 9
 passive_spot_one_in = 3
+detergent_bonus = 2
 
 [ai]
 wake_noise_one_in = 2
@@ -108,6 +111,48 @@ grave_buried_pct = 50
 pack_min = 3
 pack_max = 5
 
+[economy]
+base_fee = 15
+hazard_premium = 5
+bounty = 6
+hazard_surcharge = 3
+shoring_damage = 4
+dropped_torch = 2
+timecard_fee = 1
+timecard_cap = 5
+hazard_pay = 5
+uniform_fee = 5
+late_fee_pct = 10
+damage_waiver_cap = 6
+lanyard_max = 3
+coupon_value = 3
+level_score = 10
+bounty_score = 5
+title_probationary = 1
+title_valued = 30
+title_senior = 60
+title_employee = 100
+
+[supply]
+none_weight = 25
+one_weight = 55
+two_weight = 20
+trigger_min = 120
+trigger_max = 700
+second_gap = 250
+lines = 3
+qty_max = 2
+equipment_pct = 25
+handling_pct = 20
+delivery_fee = 2
+landing_radius = 3
+price_t1 = 12
+price_t2 = 22
+price_t3 = 34
+
+[checkin]
+desk_slots = 4
+
 [levels]
 cavern_pct = [0, 20, 40, 60, 90]
 trap_counts = [2, 3, 4, 5, 6]
@@ -124,7 +169,8 @@ def test_shipped_balance_matches_gdd_numbers() -> None:
 
 def test_shipped_play_numbers_match_gdd() -> None:
     play = load_balance().play
-    assert (play.hard_hat_radius, play.torch_radius) == (4, 8)
+    assert play.torch_radius == 8  # the Hard Hat's lamp (4) is item data
+    assert play.pickup_cost == 50 and (play.issue_kits, play.issue_torches) == (2, 1)  # 7.1, 8.2
     assert (play.move_cost, play.door_cost, play.wait_cost, play.use_cost) == (100, 100, 100, 100)
 
 
@@ -142,6 +188,7 @@ def test_shipped_combat_numbers_match_the_gdd() -> None:
     assert (c.backstab_dice, c.backstab_sides) == (2, 4)  # 6.5: +2d4
     assert c.beast_bonus == 2 and c.tracker_radius_sq == 25  # 6.5: radius 5
     assert c.spot_radius_sq == 9 and c.passive_spot_one_in == 3  # 6.5 and 9.7
+    assert c.detergent_bonus == 2  # 7.5
 
 
 def test_shipped_ai_numbers_match_gdd_7_6_and_7_7() -> None:
@@ -178,6 +225,23 @@ def test_shipped_generation_numbers_match_the_gdd() -> None:
     assert (b.humans.distance_pct, b.humans.last_level_distance_pct) == (50, 75)
     assert (b.features.flood_min_pct, b.features.level3_flooded_max) == (30, 3)
     assert b.trap_counts == (2, 3, 4, 5, 6)  # 9.1
+
+
+def test_shipped_economy_numbers_match_gdd_8_6_and_8_8() -> None:
+    e = load_balance().economy
+    assert (e.base_fee, e.hazard_premium, e.bounty) == (10, 5, 6)  # base fee retuned in M9 (A83)
+    assert (e.hazard_surcharge, e.shoring_damage, e.dropped_torch) == (3, 4, 2)
+    assert (e.timecard_fee, e.timecard_cap, e.hazard_pay, e.uniform_fee) == (1, 5, 5, 5)
+    assert (e.late_fee_pct, e.damage_waiver_cap, e.lanyard_max, e.coupon_value) == (10, 6, 3, 3)
+    assert (e.level_score, e.bounty_score) == (10, 5)
+    assert (e.title_probationary, e.title_valued, e.title_senior, e.title_employee) == (
+        1, 30, 60, 100,
+    )  # fmt: skip
+
+
+def test_economy_section_is_required() -> None:
+    with pytest.raises(BalanceError, match="economy"):
+        parse_balance(GOOD.replace("late_fee_pct = 10\n", ""))
 
 
 def test_trap_counts_cover_five_levels() -> None:

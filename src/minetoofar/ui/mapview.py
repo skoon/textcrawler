@@ -42,7 +42,7 @@ Overlay = tuple[str, Style]
 DIM_PERCENT = 45  # remembered tiles keep their hue at this fraction of the brightness
 
 
-def _dim(style: Style) -> Style:
+def dim(style: Style) -> Style:
     """A darker copy for remembered tiles; real colors, not the terminal's dim attribute."""
     if style.color is None:
         return style
@@ -51,8 +51,18 @@ def _dim(style: Style) -> Style:
     return Style(color=Color.from_rgb(r, g, b))
 
 
-DIM_STYLES: dict[Tile, Style] = {tile: _dim(style) for tile, style in STYLES.items()}
-GRAVEYARD_DIM_STYLES: dict[Tile, Style] = {t: _dim(s) for t, s in GRAVEYARD_STYLES.items()}
+DIM_STYLES: dict[Tile, Style] = {tile: dim(style) for tile, style in STYLES.items()}
+GRAVEYARD_DIM_STYLES: dict[Tile, Style] = {t: dim(s) for t, s in GRAVEYARD_STYLES.items()}
+
+ITEM_STYLES: dict[str, Style] = {
+    "weapon": Style(color="#9fb4c9"),
+    "armor": Style(color="#9fb4c9"),
+    "trinket": Style(color="#5fd7d7"),
+    "consumable": Style(color="#5fd35f"),
+    "silver": Style(color="#e0e0e0", bold=True),
+    "gem": Style(color="#e060e0", bold=True),
+    "document": Style(color="#e0d060"),
+}
 CURSOR = Style(reverse=True)
 
 

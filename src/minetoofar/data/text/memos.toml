@@ -1,0 +1,57 @@
+# Company memos (GDD 5.3). A memo is a sender, a subject, an opener, a policy, a reminder, a
+# notice about the next level, and a sign-off. The policies come in contradicting pairs: a later
+# memo may reverse an earlier one, as the company does.
+
+senders = [
+  "Regional Facilities Optimization",
+  "Office of Continuous Improvement",
+  "Department of Synergistic Outcomes",
+  "Corporate Wellness and Retention",
+  "The Committee on Committees",
+]
+
+subjects = [
+  "Your Valued Feedback",
+  "Moving Forward, Together",
+  "A Note on Expectations",
+  "Operational Excellence Update",
+  "Reminder: Reminders",
+]
+
+openers = [
+  "Team!",
+  "Associates,",
+  "Good news, everyone (to the extent permitted):",
+  "Per my last memo,",
+  "In the spirit of transparency,",
+]
+
+# Each pair says the opposite thing twice; a memo picks one side.
+policies = [
+  ["Hard Hats are mandatory at all times.", "Hard Hats are now optional, and also mandatory."],
+  ["Breaks are a right of every Associate.", "Breaks have been reclassified as a privilege."],
+  ["Fatalities must be reported within the hour.", "Fatalities are no longer to be reported; they are to be 'noted'."],
+  ["Overtime is strictly forbidden.", "Overtime is strictly expected."],
+  ["The Down Shaft is for authorized descents only.", "The Down Shaft is open to all, subject to authorization."],
+  ["Gems are company property.", "Gems are the property of whoever is holding them, until they are not."],
+]
+
+reminders = [
+  "Reminder: undead are not employees. Employees are undead only on Fridays.",
+  "Reminder: the company is not liable for falling rock, rising water, or rising tensions.",
+  "Reminder: if you see something, bill someone.",
+  "Reminder: walls are load-bearing. So, increasingly, are you.",
+  "Reminder: smiling is not required, but it is noted when absent.",
+]
+
+signoffs = [
+  "Enjoy!",
+  "Stay flexible!",
+  "Onward and downward!",
+  "Thank you for your continued depth.",
+  "This memo will self-destruct, eventually.",
+]
+
+# Always announces what the next level is (GDD 5.3).
+graveyard_notice = "Per Section 9.4, Level {level} has been reclassified as a Memorial Environment. Please treat all gravestones with the care you would give any billable surface. A Hazard Premium of {premium}g applies."
+plain_notice = "Level {level} remains a standard environment. No Hazard Premium applies, and none is anticipated."

@@ -27,12 +27,14 @@ extra_links_level_div = 2
 
 # Light radii are in tiles; costs are in ticks (100 ticks = 1 turn, GDD 7.1).
 [play]
-hard_hat_radius = 4
 torch_radius = 8
 move_cost = 100
 door_cost = 100
 wait_cost = 100
 use_cost = 100
+pickup_cost = 50
+issue_kits = 2
+issue_torches = 1
 grave_fall_sides = 4
 grave_climb_ticks = 200
 torch_brine_one_in = 2
@@ -47,6 +49,7 @@ backstab_sides = 4
 tracker_radius_sq = 25
 spot_radius_sq = 9
 passive_spot_one_in = 3
+detergent_bonus = 2
 
 # How the monsters behave (GDD 7.6, 7.7). Ticks: 100 = one turn.
 [ai]
@@ -113,6 +116,50 @@ bunk_asleep_pct = 80
 grave_buried_pct = 50
 pack_min = 3
 pack_max = 5
+
+# Pay slip numbers (GDD 8.6, 8.8). Whole gold only.
+[economy]
+base_fee = 10
+hazard_premium = 5
+bounty = 6
+hazard_surcharge = 3
+shoring_damage = 4
+dropped_torch = 2
+timecard_fee = 1
+timecard_cap = 5
+hazard_pay = 5
+uniform_fee = 5
+late_fee_pct = 10
+damage_waiver_cap = 6
+lanyard_max = 3
+coupon_value = 3
+level_score = 10
+bounty_score = 5
+title_probationary = 1
+title_valued = 30
+title_senior = 60
+title_employee = 100
+
+# Supply drops and the Requisitions Desk (GDD 8.5). Trigger turns are player turns on the level.
+[supply]
+none_weight = 25
+one_weight = 55
+two_weight = 20
+trigger_min = 120
+trigger_max = 700
+second_gap = 250
+lines = 3
+qty_max = 2
+equipment_pct = 25
+handling_pct = 20
+delivery_fee = 2
+landing_radius = 3
+price_t1 = 12
+price_t2 = 22
+price_t3 = 34
+
+[checkin]
+desk_slots = 4
 
 [levels]
 cavern_pct = [0, 20, 40, 60, 90]

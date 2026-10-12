@@ -1,16 +1,20 @@
 """Hidden static traps (GDD 9.7, 10.4 step 8): in corridors and doorways, plus the pre-laid pair
 in Prospector Vane's camp. Vane lays more at runtime; that is the game's business, not this
-stage's."""
+stage's.
+
+Only a Rogue can disarm a trap, so a trap may never be the only way on: every walkable tile that
+is not itself a trap must stay reachable from the entry with all the traps counted as walls."""
 
 import hashlib
 from dataclasses import dataclass
 
 from minetoofar.content.balance import LEVELS, load_balance
 from minetoofar.content.gamedata import load_gamedata
-from minetoofar.core.geometry import Pos
+from minetoofar.core.geometry import DIRS8, Pos
 from minetoofar.core.grid import Grid, Tile
+from minetoofar.core.rng import Rng
 from minetoofar.core.seed import Seed
-from minetoofar.gen.features import Features, _scatter
+from minetoofar.gen.features import Features
 from minetoofar.gen.humans import Humans
 from minetoofar.gen.level_spec import LevelSpec
 from minetoofar.gen.rooms import floor_tiles, room_containing
@@ -59,6 +63,28 @@ def _spots(grid: Grid, spec: LevelSpec, features: Features) -> list[Pos]:
     return found
 
 
+def scatter_safely(
+    rng: Rng, grid: Grid, entry: Pos, spots: list[Pos], count: int, taken: set[Pos]
+) -> list[Pos]:
+    """Up to `count` of `spots` at random, no two touching, none where it would shut off part of
+    the level from `entry` once every trap in `taken` is counted as a wall. Fewer if the level has
+    no more safe spots; the traps chosen are added to `taken`."""
+    pool = list(spots)
+    rng.shuffle(pool)
+    everything = grid.count_reachable(entry)
+    chosen: list[Pos] = []
+    for p in pool:
+        if len(chosen) == count:
+            break
+        if p in taken or any(p.step(d) in taken for d in DIRS8):
+            continue
+        if grid.count_reachable(entry, [*taken, p]) != everything - len(taken) - 1:
+            continue
+        chosen.append(p)
+        taken.add(p)
+    return sorted(chosen, key=lambda q: (q.y, q.x))
+
+
 def generate_traps(
     seed: Seed, level: int, spec: LevelSpec, features: Features, humans: Humans
 ) -> Traps:
@@ -70,10 +96,11 @@ def generate_traps(
     rng = seed.rng().derive("level", level, "traps")
     grid = Grid(spec.width, spec.height, spec.tiles)
     taken: set[Pos] = set()
-    placed = _scatter(rng, _spots(grid, spec, features), bal.trap_counts[level - 1], taken)
+    spots = _spots(grid, spec, features)
+    placed = scatter_safely(rng, grid, spec.entry, spots, bal.trap_counts[level - 1], taken)
     if humans.room_kind == "prospector_camp":
         room = spec.rooms[humans.room_id]
-        spots = [p for p in floor_tiles(grid, room) if p != humans.pos]
-        placed += _scatter(rng, spots, bal.humans.camp_traps, taken)
+        inside = [p for p in floor_tiles(grid, room) if p != humans.pos]
+        placed += scatter_safely(rng, grid, spec.entry, inside, bal.humans.camp_traps, taken)
     chosen = sorted(placed, key=lambda p: (p.y, p.x))
     return Traps(spec.seed, level, tuple((p, rng.pick(kinds)) for p in chosen))

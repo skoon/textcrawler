@@ -81,6 +81,165 @@ death_seed = "Seed: {seed}"
 death_regret = "Your engagement has concluded. No severance applies."
 death_keys = "[R] Retry this seed  [N] New seed  [Q] Quit"
 
+# Items and the pack.
+item_picked = "You pick up the {name}."
+valuable = "You pocket a {name}. Salvage Credit: {credit}g, payable at check-in."
+item_used = "{name} used. {charge}g on your next slip."
+item_used_prepaid = "{name} used. It was prepaid, so it is on the house."
+healed = "You feel {amount} HP better."
+item_dropped = "You drop the {name}."
+equipped = "You equip the {name}."
+see_here = "You see here: {names}."
+torch_burned_out = "Your torch burns out. The next one is a separate invoice."
+document_read = "You read the {name}."
+human_defeated = "{name} has been retrieved. The bounty is on your slip."
+refused_nothing_here = "There is nothing here to pick up."
+refused_pack_full = "You are carrying all of those you are allowed."
+refused_no_item = "There is nothing in that slot."
+refused_not_usable = "That is not something you use. Try equipping it."
+refused_full_hp = "You are not hurt. Kits are free to carry, expensive to waste."
+refused_not_equipment = "That is not something you wear."
+refused_not_light = "Only light weapons fit in the off hand."
+refused_two_handed = "A two-handed weapon leaves no hand free for that."
+refused_no_torch = "You have no torch. Torches are 2g, which is neither here nor there."
+refused_already_lit = "A torch is already burning."
+
+# The pack, the item menus, and documents.
+inventory_title = "PACK"
+inventory_empty = "Your pack is empty. The company regrets nothing."
+inventory_keys = "[Esc] close"
+menu_equip = "Equip which? [a-z]   capital letter: off hand   [Esc] cancels"
+menu_use = "Use which? [a-z]   [Esc] cancels"
+menu_drop = "Drop which? [a-z]   [Esc] cancels"
+document_title = "FOUND DOCUMENT"
+document_keys = "[any key] continue"
+
+# The pay slip.
+slip_title = "PAY SLIP"
+slip_posthumous_title = "POSTHUMOUS PAY SLIP"
+slip_head = "DUNGEONCO  ·  Independent Remediation Associate Pay Slip"
+slip_order = "Work Order {number} of {total}: {work_order}"
+slip_associate = "Associate: {name} ({class_name}, Rank {rank})"
+slip_number = "Slip #GD-{number:04d}"
+slip_gross = "GROSS PAY"
+slip_gross_total = "Gross"
+slip_adjustments = "ADJUSTMENTS"
+slip_adjusted_total = "Total adjustments"
+slip_net = "NET PAY"
+slip_wallet = "Wallet: {before}g -> {after}g"
+slip_owing = "Balance owing: {debt}g"
+slip_waived = "  waived: {why} ({gold}g)"
+slip_thanks = "Thank you for your continued flexibility!"
+slip_thanks_posthumous = "Your family has been notified of the invoice."
+slip_keys = "[Enter] continue   [R] repair on/off   [Up/Down] scroll"
+slip_keys_coupon = "[1-9] coupon   [Enter] continue   [R] repair   [Up/Down] scroll"
+slip_coupon_applied = "Coupon on: {label}"
+
+# The end of a run: score and the final title (GDD 8.8).
+death_score = "Final score: {score}"
+death_final_title = "Final title: {title}"
+title_terminated = "Terminated for Cause"
+title_probationary = "Probationary Contractor"
+title_valued = "Valued Associate"
+title_senior = "Senior Associate"
+title_employee = "Employee of the Month"
+review_title = "PERFORMANCE REVIEW"
+review_surface = "You have reached the Surface Lift. The review is brief."
+review_keys = "[N] New seed  [Q] Quit"
+
+# Supply drops.
+supply_inbound = "Supply drop inbound! Please do not look up."
+supply_taken = "Supply Drop Invoice #{number}: {total}g goes on your next slip."
+refused_no_crate = "There is no supply crate here."
+refused_nothing_taken = "You took nothing. Nothing has been billed."
+invoice_title = "SUPPLY DROP INVOICE #{number} (Express Cavern Delivery)"
+invoice_subtotal = "Subtotal"
+invoice_handling = "Expedited Handling ({pct}%, rounded up)"
+invoice_delivery = "Delivery fee (if anything taken)"
+invoice_total = "Billed on your next slip"
+invoice_keys = "[1-9]/[space] toggle  [Up/Down] move  [Enter] accept  [Esc] leave"
+invoice_empty = "The crate is empty. The company regrets nothing."
+
+# The check-in: field report, memo, and the Requisitions Desk (GDD 5.3).
+report_title = "CHECK-IN {number} OF {total}  ·  FIELD REPORT"
+report_order = "Work Order {number}: {name}"
+report_closed = "CLOSED"
+report_undead = "Persistent Personnel resolved"
+report_beasts = "Wildlife Interface Events resolved"
+report_human = "Unauthorized Personnel ({name})"
+report_at_large = "AT LARGE"
+report_retrieved = "RETRIEVED"
+report_valuables = "Valuables turned in"
+report_turns = "Turns on site"
+report_wellness = "Wellness Break: HP restored to {hp}/{max_hp}. No charge."
+report_issue = "Standard Issue topped up: {items}."
+report_issue_none = "Standard Issue: your pack is already stocked."
+report_promotion = "Promotion: Rank {rank} is now on file."
+report_unlock = "{ability} unlocked."
+report_keys = "[Enter] Pay slip     [Esc] Skip to memo"
+memo_title = "COMPANY MEMO  ·  FROM: {sender}"
+memo_keys = "[Enter] Requisitions Desk"
+desk_title = "REQUISITIONS DESK  ·  Wallet {wallet}g  ·  {standing}"
+desk_good = "Account in good standing"
+desk_hold = "Account on hold"
+desk_hold_note = "The desk is closed until the balance is cleared. Standard Issue still applies."
+desk_repair_note = "Armor repair is billed on the pay slip, not here."
+desk_keys = "[1-{slots}] Buy   [Enter] Descend to Level {next}   [S] Save & quit"
+desk_sold = "SOLD"
+desk_bought = "Bought: {name}. Thank you for your continued spending."
+desk_refused_on_hold = "The desk is closed to accounts in debt."
+desk_refused_sold = "That one has been sold."
+desk_refused_poor = "You cannot afford that. The company notes your enthusiasm."
+desk_refused_no_room = "You have no room to carry that. Nothing was charged."
+desk_refused_capped = "That is as sharp as the company allows. Nothing was charged."
+desk_refused_have_it = "You already have one of those. Nothing was charged."
+
+# Saving, the title screen, and the menu (GDD 11).
+title_name = "A  MINE  TOO  FAR"
+title_tagline = "A Dungeonco Independent Contractor Experience"
+title_continue = "[C] Continue    {class_name}, Work Order {number} of {total}, seed {seed}"
+title_new = "[N] New run"
+title_quit = "[Q] Quit"
+title_confirm_new = "A saved run exists. A new run replaces it.   [Y] Replace it   [N] Keep it"
+title_no_save = "No saved run on file."
+title_records = "[R] Employment history"
+help_title = "HELP"
+help_text = """\
+MOVING      arrows, numpad, or h j k l y u b n. Shift + a move
+            key runs. Move into a monster to attack it, into a
+            door to open it.
+WAITING     Space, . or 5. Waiting does not heal.
+ACTING      a  class ability       t  torch on or off
+            g  pick up (or ,)      x  look around
+PACK        i  look   e  equip   q  use   d  drop
+SHEET       c  character sheet
+DOWN SHAFT  Enter or >, standing on it, ends the level
+SCREEN      F2  glyph set          Ctrl+L  redraw
+MENU        Esc  save and quit     Shift+Q  quit now
+HELP        ?  this screen
+
+THE JOB
+Reach the Down Shaft on each of five levels. Dungeonco pays a
+flat fee and bills repairs, supplies and mishaps against it.
+What is left goes in your wallet; a shortfall becomes debt,
+and debt closes the Requisitions Desk. Score: wallet less
+debt, plus 10 a level, 5 a bounty. Rogue Humans are optional."""
+records_title = "EMPLOYMENT HISTORY"
+records_none = "No runs on file."
+records_entry = "{number:>2}. {class_name:<7} {score:>4} pts  {title:<23} {seed}"
+records_victory = "    Surfaced after all {cleared} Work Orders."
+records_death = "    Died on Work Order {level} of {total}: {cause}"
+records_more = "    ... and {count} earlier."
+records_back = "[Esc] Back"
+menu_title = "MENU"
+menu_save = "[S] Save & quit"
+menu_back = "[Esc] Back to work"
+menu_replace_prompt = "This replaces the run already saved in {folder}. Save anyway?"
+confirm_keys = "[Y] Save over it   [N] Do not"
+save_failed = "Not saved. {message}"
+resumed = "Welcome back. Your engagement continues. Please remain flexible!"
+record_failed = "The personnel file was not updated. {message}"
+
 # What the look command (x) calls each tile.
 [tiles]
 solid = "Solid rock"

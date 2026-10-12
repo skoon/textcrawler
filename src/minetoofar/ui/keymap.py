@@ -2,7 +2,7 @@
 
 from enum import Enum, auto
 
-from minetoofar.sim.events import Command, Move, Run, ToggleTorch, UseAbility, Wait
+from minetoofar.sim.events import Command, Move, Pickup, Run, ToggleTorch, UseAbility, Wait
 
 
 class UiAction(Enum):
@@ -12,7 +12,13 @@ class UiAction(Enum):
     REDRAW = auto()
     SHEET = auto()
     DESCEND = auto()
+    INVENTORY = auto()
+    EQUIP = auto()
+    USE = auto()
+    DROP = auto()
     SKIP = auto()  # debug: jump to the next level from anywhere
+    MENU = auto()
+    HELP = auto()
 
 
 # direction -> keys that step that way (arrow cluster, numpad digit, vi key)
@@ -31,7 +37,9 @@ _SHIFT_ARROWS = {"up": (0, -1), "down": (0, 1), "left": (-1, 0), "right": (1, 0)
 BINDINGS: dict[str, Command | UiAction] = {
     "5": Wait(), "space": Wait(), ".": Wait(), "x": UiAction.LOOK, "Q": UiAction.QUIT,
     "f2": UiAction.GLYPHS, "ctrl+l": UiAction.REDRAW, "t": ToggleTorch(), "a": UseAbility(),
-    "c": UiAction.SHEET, ">": UiAction.DESCEND, "enter": UiAction.DESCEND, "f5": UiAction.SKIP,
+    "c": UiAction.SHEET, "g": Pickup(), ",": Pickup(), "i": UiAction.INVENTORY,
+    "e": UiAction.EQUIP, "q": UiAction.USE, "d": UiAction.DROP, ">": UiAction.DESCEND,
+    "enter": UiAction.DESCEND, "f5": UiAction.SKIP, "escape": UiAction.MENU, "?": UiAction.HELP,
 }  # fmt: skip
 for _d, _keys in _STEP_KEYS.items():
     for _key in _keys:

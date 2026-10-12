@@ -2,3 +2,7 @@
 - gen_version 1: add spawns stage v0 (Shambling Miners); layout hashes unchanged
 - gen_version 1: spawns stage: each monster rolls a facing on its own stream; layout and positions unchanged
 - gen_version 1: M5: theme, features, humans, traps stages added; spawns now the full roster with packs, Eels, buried Miners; layout retries when no room can be a Flooded Gallery (changes GOLD0092 level 5)
+- gen_version 1: M6: loot stage added (items, documents, monster drops); other stages unchanged
+- gen_version 1: traps never wall off part of the level (a trap is refused where it would be the only way on); traps and loot hashes change, the other five stages do not
+- gen_version 1: M7: drops (supply crates) and desk (stock and memo) stages added; the other seven stages unchanged
+- gen_version 1: FROZEN at M9. tools/regen_golden.py now refuses to change an existing hash unless GEN_VERSION is bumped first; economy and item numbers retuned in M9 (base fee, Boiler Suit repair rate) are not generator output and left every golden hash as it was.

@@ -1,0 +1,99 @@
+AMTF-LOOT
+seed GOLD0002
+level 1
+items 11
+item 69 3 patch_up_kit 1 3 0 0
+item 5 4 cut_gem 1 0 0 0
+item 68 4 map 1 0 0 1
+item 68 5 rough_gem 1 0 0 0
+item 69 8 coupon 1 0 0 1
+item 7 15 hard_hat 1 0 0 0
+item 48 15 torch 1 1 0 0
+item 7 16 sanctified_detergent 1 3 0 0
+item 64 16 memo 1 0 0 6
+item 62 29 silver_ingot 1 0 0 0
+item 3 33 silver_nugget 1 0 0 0
+drops 2
+drop 1 silver_nugget 1 0 0 0
+drop 7 rough_gem 1 0 0 0
+====================
+AMTF-LOOT
+seed GOLD0002
+level 2
+items 10
+item 75 6 torch 1 1 0 0
+item 67 22 memo 1 0 0 6
+item 72 22 torch 1 1 0 0
+item 69 23 patch_up_kit 1 3 0 0
+item 9 30 patch_up_kit 1 3 0 0
+item 15 30 hatchet 1 0 0 0
+item 57 33 patch_up_kit 1 3 0 0
+item 6 34 memo 1 0 0 9
+item 10 35 torch 1 1 0 0
+item 11 35 sheet_metal_shield 1 0 0 0
+drops 4
+drop 1 rough_gem 1 0 0 0
+drop 2 rough_gem 2 0 0 0
+drop 7 rough_gem 1 0 0 0
+drop 18 rough_gem 2 0 0 0
+====================
+AMTF-LOOT
+seed GOLD0002
+level 3
+items 11
+item 47 7 torch 1 1 0 0
+item 50 9 patch_up_kit 1 3 0 0
+item 59 17 patch_up_kit 1 3 0 0
+item 10 19 rough_gem 1 0 0 0
+item 71 20 overtime_fizz 1 4 0 0
+item 46 24 laminated_lanyard 1 0 0 0
+item 50 30 torch 1 1 0 0
+item 58 32 sanctified_detergent 1 3 0 0
+item 60 33 coupon 1 0 0 3
+item 61 33 map 1 0 0 1
+item 71 36 memo 1 0 0 10
+drops 1
+drop 1 memo 1 0 0 7
+====================
+AMTF-LOOT
+seed GOLD0002
+level 4
+items 12
+item 71 5 sanctified_detergent 1 3 0 0
+item 67 6 overtime_fizz 1 4 0 0
+item 53 8 silver_ingot 1 0 0 0
+item 68 9 overtime_fizz 1 4 0 0
+item 32 21 torch 1 1 0 0
+item 34 22 hard_hat 1 0 0 0
+item 25 32 sanctified_detergent 1 3 0 0
+item 28 32 patch_up_kit 1 3 0 0
+item 41 33 sheet_metal_shield 1 0 0 0
+item 27 34 memo 1 0 0 8
+item 29 36 torch 1 1 0 0
+item 59 36 sanctified_detergent 1 3 0 0
+drops 3
+drop 1 map 1 0 0 1
+drop 8 rough_gem 1 0 0 0
+drop 15 rough_gem 2 0 0 0
+====================
+AMTF-LOOT
+seed GOLD0002
+level 5
+items 13
+item 10 7 reinforced_hard_hat 1 0 0 0
+item 24 7 overtime_fizz 1 4 0 0
+item 27 14 silver_ingot 1 0 0 0
+item 8 15 coupon 1 0 0 2
+item 5 16 torch 1 1 0 0
+item 62 16 laminated_lanyard 1 0 0 0
+item 7 17 torch 1 1 0 0
+item 8 22 silver_ingot 1 0 0 0
+item 7 23 overtime_fizz 1 4 0 0
+item 8 23 patch_up_kit 1 3 0 0
+item 35 27 welders_jacket 1 0 10 0
+item 8 33 gravediggers_shovel 1 0 0 0
+item 9 33 overtime_fizz 1 4 0 0
+drops 3
+drop 1 coupon 1 0 0 0
+drop 2 rough_gem 2 0 0 0
+drop 9 rough_gem 1 0 0 0

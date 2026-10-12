@@ -1,0 +1,52 @@
+AMTF-DROPS
+seed GOLD0002
+level 1
+count 1
+drop 1 turn 258
+line overtime_fizz 1 0
+line patch_up_kit 2 0
+line torch 2 0
+line thermos 1 0
+====================
+AMTF-DROPS
+seed GOLD0002
+level 2
+count 2
+drop 1 turn 264
+line patch_up_kit 1 0
+line torch 1 0
+line overtime_fizz 2 0
+line hard_hat 1 0
+drop 2 turn 631
+line patch_up_kit 2 0
+line overtime_fizz 2 0
+line torch 1 0
+====================
+AMTF-DROPS
+seed GOLD0002
+level 3
+count 1
+drop 1 turn 678
+line patch_up_kit 1 0
+line sanctified_detergent 2 0
+line torch 2 0
+====================
+AMTF-DROPS
+seed GOLD0002
+level 4
+count 1
+drop 1 turn 259
+line torch 2 0
+line sanctified_detergent 2 0
+line patch_up_kit 1 0
+line ballistic_vest 1 12
+====================
+AMTF-DROPS
+seed GOLD0002
+level 5
+count 1
+drop 1 turn 619
+line patch_up_kit 1 0
+line torch 1 0
+line overtime_fizz 2 0
+line sledgehammer 1 0

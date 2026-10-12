@@ -12,6 +12,8 @@ from minetoofar.content.gamedata import load_gamedata
 from minetoofar.core.seed import GEN_VERSION, Seed, SeedError, seed_text_from_entropy
 from minetoofar.gen.layout import generate_level
 from minetoofar.gen.world import STAGES, Stage, generate_world
+from minetoofar.persist.errors import SaveError
+from minetoofar.persist.paths import resolve_save_dir, save_dir
 from minetoofar.ui.glyphs import GLYPH_TABLE, auto_glyph_name
 
 
@@ -31,6 +33,8 @@ def _parser() -> argparse.ArgumentParser:
         help="skip the class select screen",
     )  # fmt: skip
     p.add_argument("--rank", type=int, default=1, help="start at this Rank, 1-5 (debug)")
+    p.add_argument("--save-dir", help="where the saved run and records live (default: see README)")
+    p.add_argument("--where", action="store_true", help="print the folder saves go in and exit")
     p.add_argument("--view", action="store_true", help="open the level viewer (all revealed)")
     p.add_argument("--ui-selftest", action="store_true", help="start the game headless, then exit")
     p.add_argument("--version", action="store_true")
@@ -45,6 +49,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.glyph_test:
         _glyph_test()
+        return 0
+    if args.where:
+        try:
+            print(resolve_save_dir(args.save_dir))
+        except SaveError as err:
+            print(f"minetoofar: {err}", file=sys.stderr)
+            return 2
         return 0
     if not 1 <= args.level <= LEVELS:
         parser.error(f"--level must be 1-{LEVELS}")
@@ -70,20 +81,42 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         run_viewer(seed, args.level, glyphs)
         return 0
-    from minetoofar.ui.game_app import run, selftest
+    from minetoofar.ui.game_app import run, run_saved, selftest
 
     if args.ui_selftest:
         print(selftest(seed, args.level, glyphs))
         return 0
-    class_id = args.class_id
-    if class_id is None:
-        from minetoofar.ui.select import choose_class
-
-        class_id = choose_class()
+    try:
+        folder = save_dir(args.save_dir)
+    except SaveError as err:
+        print(f"minetoofar: {err}", file=sys.stderr)
+        return 2
+    plain = args.seed is None and args.class_id is None and args.level == 1 and args.rank == 1
+    if not plain:
+        # a run named on the command line: it never replaces a saved run unless you say so
+        class_id = args.class_id
         if class_id is None:
+            from minetoofar.ui.select import choose_class
+
+            class_id = choose_class()
+            if class_id is None:
+                return 0
+        run(seed, args.level, glyphs, args.rank, class_id, saves=folder)
+        return 0
+    from minetoofar.ui.select import choose_class
+    from minetoofar.ui.title import choose_start
+
+    while True:
+        choice, saved = choose_start(folder)
+        if choice == "quit":
             return 0
-    run(seed, args.level, glyphs, args.rank, class_id)
-    return 0
+        if choice == "continue" and saved is not None:
+            run_saved(saved, glyphs, folder)
+            return 0
+        class_id = choose_class()
+        if class_id is not None:
+            run(seed, 1, glyphs, 1, class_id, saves=folder, owns_slot=True)
+            return 0
 
 
 def _stage(seed: Seed, level: int, name: str) -> Stage:

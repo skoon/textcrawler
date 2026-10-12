@@ -1,6 +1,6 @@
 import pytest
 
-from minetoofar.sim.events import Move, Run, ToggleTorch, UseAbility, Wait
+from minetoofar.sim.events import Move, Pickup, Run, ToggleTorch, UseAbility, Wait
 from minetoofar.ui.keymap import UiAction, lookup
 
 # direction -> (arrow, vi, digit, run vi key)
@@ -52,10 +52,18 @@ def test_ui_actions() -> None:
     assert lookup("t", "t") == ToggleTorch()
 
 
-def test_lowercase_q_does_not_quit_and_unknown_keys_do_nothing() -> None:
-    assert lookup("q", "q") is None
+def test_capital_q_quits_and_lowercase_q_uses_an_item() -> None:
+    assert lookup("Q", "Q") is UiAction.QUIT
+    assert lookup("q", "q") is UiAction.USE
     assert lookup("z", "z") is None
     assert lookup("0", "0") is None
+
+
+def test_the_item_keys() -> None:
+    assert lookup("g", "g") == Pickup() and lookup("comma", ",") == Pickup()
+    assert lookup("i", "i") is UiAction.INVENTORY
+    assert lookup("e", "e") is UiAction.EQUIP
+    assert lookup("d", "d") is UiAction.DROP
 
 
 def test_the_ability_and_sheet_keys() -> None:

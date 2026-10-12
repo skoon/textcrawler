@@ -2,49 +2,43 @@ AMTF-TRAPS
 seed GOLD0003
 level 1
 count 2
-trap 25 11 spring_trap
-trap 34 32 tripwire_charge
+trap 9 11 spring_trap
+trap 15 11 tripwire_charge
 ====================
 AMTF-TRAPS
 seed GOLD0003
 level 2
 count 3
-trap 69 23 tripwire_charge
-trap 66 30 spring_trap
-trap 23 32 stun_charge
+trap 59 16 tripwire_charge
+trap 13 25 spring_trap
+trap 12 27 stun_charge
 ====================
 AMTF-TRAPS
 seed GOLD0003
 level 3
-count 6
-trap 23 17 spring_trap
-trap 48 31 spring_trap
-trap 56 31 stun_charge
-trap 63 31 stun_charge
-trap 35 34 stun_charge
-trap 42 34 tripwire_charge
+count 4
+trap 19 8 spring_trap
+trap 67 28 spring_trap
+trap 62 31 stun_charge
+trap 59 33 stun_charge
 ====================
 AMTF-TRAPS
 seed GOLD0003
 level 4
-count 7
-trap 19 6 spring_trap
-trap 50 7 spring_trap
-trap 59 7 stun_charge
-trap 71 8 stun_charge
-trap 41 16 tripwire_charge
-trap 47 19 spring_trap
-trap 56 27 spring_trap
+count 6
+trap 39 17 spring_trap
+trap 41 18 spring_trap
+trap 51 19 stun_charge
+trap 41 30 stun_charge
+trap 41 32 tripwire_charge
+trap 48 32 spring_trap
 ====================
 AMTF-TRAPS
 seed GOLD0003
 level 5
-count 8
-trap 21 7 stun_charge
-trap 22 10 stun_charge
-trap 69 10 tripwire_charge
+count 5
+trap 29 5 stun_charge
+trap 28 9 stun_charge
 trap 52 14 tripwire_charge
-trap 60 20 stun_charge
-trap 68 23 stun_charge
-trap 27 33 stun_charge
-trap 65 34 spring_trap
+trap 49 20 tripwire_charge
+trap 65 23 stun_charge

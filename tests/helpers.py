@@ -5,8 +5,11 @@ from minetoofar.content.gamedata import load_gamedata
 from minetoofar.core.geometry import Pos
 from minetoofar.core.grid import Grid, Tile
 from minetoofar.core.rng import Rng
+from minetoofar.gen.drops import SupplyDrop
 from minetoofar.gen.level_spec import LevelSpec
 from minetoofar.gen.spawns import Spawn, SpawnList
+from minetoofar.sim.actors import FloorItem, Item
+from minetoofar.sim.economy import Account
 from minetoofar.sim.game import Game
 from minetoofar.sim.traps import Trap
 
@@ -66,6 +69,11 @@ def make_game(
     class_id: str = "fighter",
     traps: list[Trap] | None = None,
     graveyard: bool = False,
+    pack: list[Item] | None = None,
+    floor: list[FloorItem] | None = None,
+    drops: dict[int, list[Item]] | None = None,
+    account: Account | None = None,
+    supply: list[SupplyDrop] | None = None,
 ) -> Game:
     """A Game on a hand-drawn map; monsters are (kind, (x, y), state) in spawn order."""
     spec = replace(spec_from_rows(rows), level=level)
@@ -76,7 +84,14 @@ def make_game(
             Spawn(m[0], Pos(*m[1]), m[2], m[3] if len(m) > 3 else (0, 1)) for m in monsters or []
         ),
     )
-    return Game(spec, spawns, BALANCE, DATA, rng or Rng(7), class_id, rank, traps or [], graveyard)
+    game = Game(
+        spec, spawns, BALANCE, DATA, rng or Rng(7), class_id, rank, traps or [], graveyard,
+        floor=floor or [], drops=drops or {}, account=account or Account(),
+        supply=supply or [],
+    )  # fmt: skip
+    if pack is not None:
+        game.player.pack[:] = pack
+    return game
 
 
 def inert(game: Game) -> Game:

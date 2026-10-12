@@ -300,7 +300,8 @@ def _overseer(game: "Game", m: Monster, now: int) -> list[Event]:
 
 
 def _trapper(game: "Game", m: Monster, now: int) -> list[Event]:
-    """Prospector Vane: lays a hidden trap where he stands, then retreats before returning."""
+    """Prospector Vane: lays a hidden trap where he stands (never where it would be the only way
+    on), then retreats before returning."""
     if m.state == "fleeing":
         if now - m.since < game.ai.trapper_flee_ticks:
             return _flee(game, m, now)
@@ -310,7 +311,7 @@ def _trapper(game: "Game", m: Monster, now: int) -> list[Event]:
         return events
     ready = m.traps_left > 0 and now - m.last_trap >= game.ai.trap_interval_ticks
     in_view = _dist_sq(m.pos, game.pos) <= game.ai.trap_sight_sq and _sees(game, m)
-    if ready and in_view:
+    if ready and in_view and game.can_lay_trap(m.pos):
         game.lay_trap(m.pos)
         m.traps_left -= 1
         m.last_trap, m.state, m.since = now, "fleeing", now

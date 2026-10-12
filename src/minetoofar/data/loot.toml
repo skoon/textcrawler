@@ -1,0 +1,64 @@
+# Loot tables (GDD 8.3, 8.4, 9.6). Weights are relative; the room weights and the extras are mine
+# where the GDD names no number. Items on a level: base_items + per_level_items * L, plus
+# extra_per_vault for each Mausoleum.
+
+[loot]
+base_items = 7
+per_level_items = 1
+extra_per_vault = 2
+document_cap = 2
+condition_min_pct = 50
+lair_documents = 1
+
+[categories]
+consumable = 40
+valuable = 25
+equipment = 20
+document = 15
+
+[consumables]
+patch_up_kit = 40
+torch = 30
+overtime_fizz = 15
+sanctified_detergent = 15
+
+[equipment]
+weapon = 30
+armor = 25
+trinket = 20
+hat = 15
+shield = 10
+
+[documents]
+memo = 70
+coupon = 20
+map = 10
+
+# Where an item is placed: by the kind of room. `lair` is the Rogue Human's.
+[rooms]
+mausoleum = 6
+lair = 4
+collapse = 3
+gallery = 2
+bunk = 2
+flooded = 2
+cemetery = 2
+
+# Percent chance of each tier of found equipment, per level (L1-L5); each column sums to 100.
+[tiers]
+tier1 = [100, 100, 70, 70, 0]
+tier2 = [0, 0, 30, 30, 70]
+tier3 = [0, 0, 0, 0, 30]
+
+# What dies with a monster (rolled at generation). item "*" is a document or a valuable.
+[drop.gem_badger]
+item = "rough_gem"
+max = 2
+
+[drop.foreman_grimsby]
+item = "*"
+max = 1
+
+[drop.prospector_vane]
+item = "*"
+max = 1

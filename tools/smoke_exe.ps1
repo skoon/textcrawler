@@ -15,6 +15,19 @@ try {
     Write-Host $version
     & $Exe --glyph-test | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "--glyph-test failed" }
+    $where = (& $Exe --where | Out-String).Trim()
+    $want = Join-Path (Split-Path $Exe -Parent) "MineTooFarData"
+    if ($where -ne $want) { throw "portable save folder is $where, expected $want" }
+    Write-Host "saves go in $where"
+    $blocked = Join-Path $env:TEMP "mtf-smoke-blocker"
+    Set-Content -Path $blocked -Value "not a folder"
+    $before = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"  # the refusal is printed on stderr; that is the point
+    $message = (& $Exe --seed GOLD0001 --save-dir (Join-Path $blocked "inside") 2>&1 | Out-String)
+    $code = $LASTEXITCODE
+    $ErrorActionPreference = $before
+    Remove-Item $blocked
+    if ($code -ne 2 -or $message -notmatch "cannot use the save folder") { throw "bad save dir not refused ($code): $message" }
     $ui = (& $Exe --ui-selftest --seed GOLD0001 --level 2 | Out-String).Trim()
     if ($LASTEXITCODE -ne 0 -or -not $ui.StartsWith("ui ok")) { throw "--ui-selftest failed: $ui" }
     Write-Host $ui

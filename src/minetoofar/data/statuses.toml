@@ -57,3 +57,13 @@ immune_ticks = 500
 cost_pct = 100
 defense = 0
 tick_ticks = 0
+
+# Sanctified Detergent: +2 damage against undead for 5000 ticks (the bonus is a rule in the game).
+[detergent]
+name = "Detergent Coat"
+duration_ticks = 5000
+delay_ticks = 0
+immune_ticks = 0
+cost_pct = 100
+defense = 0
+tick_ticks = 0

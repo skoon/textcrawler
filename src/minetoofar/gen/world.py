@@ -6,15 +6,28 @@ from typing import Protocol
 from minetoofar.content.balance import Balance, load_balance
 from minetoofar.content.gamedata import GameData, load_gamedata
 from minetoofar.core.seed import Seed
+from minetoofar.gen.desk import Desk, generate_desk
+from minetoofar.gen.drops import Drops, generate_drops
 from minetoofar.gen.features import Features, apply_features, generate_features
 from minetoofar.gen.humans import Humans, generate_humans
 from minetoofar.gen.layout import generate_level
 from minetoofar.gen.level_spec import LevelSpec
+from minetoofar.gen.loot import Loot, generate_loot
 from minetoofar.gen.spawns import SpawnList, generate_spawns
 from minetoofar.gen.theme import Theme, generate_theme
 from minetoofar.gen.traps import Traps, generate_traps
 
-STAGES = ("layout", "theme", "features", "humans", "traps", "spawns")  # golden-tested outputs
+STAGES = (
+    "layout",
+    "theme",
+    "features",
+    "humans",
+    "traps",
+    "spawns",
+    "loot",
+    "drops",
+    "desk",
+)  # golden-tested outputs
 
 
 class Stage(Protocol):
@@ -33,6 +46,9 @@ class World:
     humans: Humans
     traps: Traps
     spawns: SpawnList  # the monsters, not counting the Rogue Human
+    loot: Loot
+    drops: Drops
+    desk: Desk
 
     @property
     def room_kinds(self) -> tuple[str, ...]:
@@ -45,7 +61,8 @@ class World:
         """The output of one generation stage: it has a canonical `dump()` and its `sha256`."""
         stages: dict[str, Stage] = {
             "layout": self.layout, "theme": self.theme, "features": self.features,
-            "humans": self.humans, "traps": self.traps, "spawns": self.spawns,
+            "humans": self.humans, "traps": self.traps, "spawns": self.spawns, "loot": self.loot,
+            "drops": self.drops, "desk": self.desk,
         }  # fmt: skip
         return stages[name]
 
@@ -73,4 +90,8 @@ def generate_world(
     humans = generate_humans(seed, level, spec, features, chosen)
     traps = generate_traps(seed, level, spec, features, humans)
     spawns = generate_spawns(seed, level, spec, features, chosen, humans, game_data)
-    return World(layout, chosen, features, spec, humans, traps, spawns)
+    everyone = SpawnList(spawns.seed, spawns.level, (humans.spawn(), *spawns.spawns))
+    loot = generate_loot(seed, level, spec, features, humans, traps, everyone, game_data)
+    drops = generate_drops(seed, level, game_data)
+    desk = generate_desk(seed, level)
+    return World(layout, chosen, features, spec, humans, traps, spawns, loot, drops, desk)

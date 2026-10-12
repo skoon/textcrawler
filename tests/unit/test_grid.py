@@ -199,3 +199,29 @@ def test_props_that_block_movement_still_let_a_diagonal_pass_between_them() -> N
     g = grid_from_rows([".T.", "...", ".H."])
     assert g.can_step(Pos(0, 0), SE) is True  # only walls and rock stop corner-cutting
     assert g.can_step(Pos(1, 1), N) is False and g.can_step(Pos(1, 1), S) is False
+
+
+# -- how much of the level can be walked to --------------------------------------------------------
+
+
+def test_count_reachable_counts_the_connected_walkable_tiles() -> None:
+    g = grid_from_rows(["#######", "#<...##", "##.#.##", "#.....#", "#######"])
+    assert g.count_reachable(Pos(1, 1)) == 11
+    assert g.count_reachable(Pos(0, 0)) == 0  # a wall is not a place to start
+
+
+def test_walling_off_a_corridor_tile_cuts_off_what_is_behind_it() -> None:
+    g = grid_from_rows(["#########", "#<.....>#", "#########"])
+    assert g.count_reachable(Pos(1, 1)) == 7
+    assert g.count_reachable(Pos(1, 1), [Pos(4, 1)]) == 3
+
+
+def test_a_loop_has_a_way_round() -> None:
+    g = grid_from_rows(["#######", "#<....#", "#.###.#", "#.....#", "#######"])
+    total = g.count_reachable(Pos(1, 1))
+    assert g.count_reachable(Pos(1, 1), [Pos(3, 1)]) == total - 1  # only the tile itself is lost
+
+
+def test_a_blocked_start_reaches_nothing() -> None:
+    g = grid_from_rows(["#####", "#<..#", "#####"])
+    assert g.count_reachable(Pos(1, 1), [Pos(1, 1)]) == 0

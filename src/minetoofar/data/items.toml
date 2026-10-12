@@ -1,4 +1,9 @@
-# Equipment (GDD 8.1). `defense` is the DEF bonus; repair_rate is quarter-gold per missing point.
+# Equipment, consumables, and valuables (GDD 8.1-8.3). Integers and strings only.
+# Weapons: `light` may be held in the off hand; `noise` 0 means an ordinary blow (balance [noise]);
+# `stuns` makes a critical hit stun; `cost` is the attack cost in ticks. `defense` is the DEF bonus;
+# repair_rate is quarter-gold per missing point. `tier` says where it is found (GDD 8.4).
+
+# -- weapons -------------------------------------------------------------------------------
 
 [weapon.company_pickaxe]
 name = "Company Pickaxe"
@@ -9,6 +14,10 @@ atk = 0
 dmg = 0
 cost = 100
 two_handed = 0
+tier = 1
+light = 0
+noise = 0
+stuns = 0
 
 [weapon.box_cutter]
 name = "Box Cutter"
@@ -19,6 +28,10 @@ atk = 0
 dmg = 0
 cost = 100
 two_handed = 0
+tier = 1
+light = 1
+noise = 0
+stuns = 0
 
 [weapon.hatchet]
 name = "Hatchet"
@@ -29,6 +42,110 @@ atk = 0
 dmg = 0
 cost = 100
 two_handed = 0
+tier = 1
+light = 1
+noise = 0
+stuns = 0
+
+[weapon.prybar]
+name = "Prybar"
+dice_n = 1
+dice_sides = 6
+stat = "str"
+atk = 1
+dmg = 0
+cost = 100
+two_handed = 0
+tier = 1
+light = 0
+noise = 0
+stuns = 0
+
+[weapon.utility_knife]
+name = "Utility Knife"
+dice_n = 1
+dice_sides = 4
+stat = "finesse"
+atk = 0
+dmg = 0
+cost = 100
+two_handed = 0
+tier = 1
+light = 1
+noise = 0
+stuns = 0
+
+[weapon.gravediggers_shovel]
+name = "Gravedigger's Shovel"
+dice_n = 1
+dice_sides = 8
+stat = "str"
+atk = 0
+dmg = 0
+cost = 100
+two_handed = 0
+tier = 2
+light = 0
+noise = 8
+stuns = 1
+
+[weapon.surveyors_pick]
+name = "Surveyor's Pick"
+dice_n = 1
+dice_sides = 8
+stat = "finesse"
+atk = 0
+dmg = 0
+cost = 100
+two_handed = 0
+tier = 2
+light = 0
+noise = 0
+stuns = 0
+
+[weapon.sledgehammer]
+name = "Sledgehammer"
+dice_n = 1
+dice_sides = 12
+stat = "str"
+atk = 0
+dmg = 0
+cost = 130
+two_handed = 1
+tier = 2
+light = 0
+noise = 8
+stuns = 1
+
+[weapon.foremans_pickaxe]
+name = "Foreman's Pickaxe"
+dice_n = 1
+dice_sides = 10
+stat = "str"
+atk = 1
+dmg = 0
+cost = 100
+two_handed = 0
+tier = 3
+light = 0
+noise = 0
+stuns = 0
+
+[weapon.assay_blade]
+name = "Assay Blade"
+dice_n = 1
+dice_sides = 8
+stat = "finesse"
+atk = 0
+dmg = 1
+cost = 100
+two_handed = 0
+tier = 3
+light = 0
+noise = 0
+stuns = 0
+
+# -- body armor -----------------------------------------------------------------------------
 
 [armor.hi_vis_vest]
 name = "Hi-Vis Vest"
@@ -37,6 +154,16 @@ dr = 0
 defense = 2
 dur = 10
 repair_rate = 1
+tier = 1
+
+[armor.ballistic_vest]
+name = "Ballistic Vest (surplus)"
+weight = "light"
+dr = 1
+defense = 2
+dur = 12
+repair_rate = 2
+tier = 2
 
 [armor.padded_coveralls]
 name = "Padded Coveralls"
@@ -45,6 +172,16 @@ dr = 1
 defense = 1
 dur = 14
 repair_rate = 2
+tier = 1
+
+[armor.welders_jacket]
+name = "Welder's Jacket"
+weight = "medium"
+dr = 2
+defense = 1
+dur = 16
+repair_rate = 3
+tier = 2
 
 [armor.boiler_suit]
 name = "Boiler Suit"
@@ -52,13 +189,133 @@ weight = "heavy"
 dr = 2
 defense = 0
 dur = 18
-repair_rate = 3
+repair_rate = 2
+tier = 1
+
+[armor.miners_plate]
+name = "Miner's Plate"
+weight = "heavy"
+dr = 3
+defense = -1
+dur = 20
+repair_rate = 4
+tier = 2
+
+# -- shields, hats, trinkets -------------------------------------------------------------------
 
 [shield.sheet_metal_shield]
 name = "Sheet-Metal Shield"
 defense = 1
+tier = 1
 
+[shield.riot_shield]
+name = "Riot Shield (surplus)"
+defense = 2
+tier = 2
+
+# `lamp` is the light radius the hat gives; trap_reduction comes off trap and cave-in damage.
 [hat.hard_hat]
 name = "Hard Hat"
 defense = 0
 trap_reduction = 2
+lamp = 4
+tier = 1
+
+[hat.reinforced_hard_hat]
+name = "Reinforced Hard Hat"
+defense = 1
+trap_reduction = 2
+lamp = 4
+tier = 2
+
+[hat.headlamp_hard_hat]
+name = "Headlamp Hard Hat"
+defense = 0
+trap_reduction = 2
+lamp = 5
+tier = 2
+
+# `waives` 1: the first incident line of 3g or less each level is waived (Laminated Lanyard).
+[trinket.laminated_lanyard]
+name = "Laminated Lanyard"
+atk = 0
+hp = 0
+waives = 1
+tier = 1
+
+[trinket.company_challenge_coin]
+name = "Company Challenge Coin"
+atk = 1
+hp = 0
+waives = 0
+tier = 1
+
+[trinket.thermos]
+name = "Thermos"
+atk = 0
+hp = 3
+waives = 0
+tier = 1
+
+# -- consumables (GDD 8.2) ---------------------------------------------------------------------
+# `price` is the list price in gold (found stock bills half, rounded up); `carry` the pack limit.
+# effect "heal": `value` hit points. "light": burns for `value` ticks (400 turns). "status":
+# applies `status` for `value` ticks.
+
+[consumable.patch_up_kit]
+name = "Patch-Up Kit"
+price = 5
+carry = 4
+effect = "heal"
+value = 10
+status = ""
+
+[consumable.torch]
+name = "Torch"
+price = 2
+carry = 3
+effect = "light"
+value = 40000
+status = ""
+
+[consumable.overtime_fizz]
+name = "Overtime Fizz"
+price = 7
+carry = 2
+effect = "status"
+value = 800
+status = "overtime"
+
+[consumable.sanctified_detergent]
+name = "Sanctified Detergent"
+price = 6
+carry = 2
+effect = "status"
+value = 5000
+status = "detergent"
+
+# -- valuables (GDD 8.3): Salvage Credit, turned in at check-in; `weight` is the loot weight ----
+
+[valuable.silver_nugget]
+name = "Silver Nugget"
+credit = 2
+weight = 50
+shine = "silver"
+
+[valuable.rough_gem]
+name = "Rough Gem"
+credit = 4
+weight = 30
+shine = "gem"
+
+[valuable.silver_ingot]
+name = "Silver Ingot"
+credit = 6
+weight = 12
+shine = "silver"
+
+[valuable.cut_gem]
+name = "Cut Gem"
+credit = 9
+weight = 8
+shine = "gem"

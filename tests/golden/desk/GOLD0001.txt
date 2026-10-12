@@ -1,0 +1,52 @@
+AMTF-DESK
+seed GOLD0001
+level 1
+stock kit_bundle property_damage_waiver hazard_waiver sharpening_service
+from Office of Continuous Improvement
+re RE: Your Valued Feedback (Graveyard Initiative)
+Team!
+Hard Hats are mandatory at all times.
+Reminder: smiling is not required, but it is noted when absent.
+Per Section 9.4, Level 2 has been reclassified as a Memorial Environment. Please treat all gravestones with the care you would give any billable surface. A Hazard Premium of 5g applies.
+This memo will self-destruct, eventually.
+====================
+AMTF-DESK
+seed GOLD0001
+level 2
+stock kit_bundle property_damage_waiver sharpening_service repair_plan
+from Regional Facilities Optimization
+re RE: Your Valued Feedback
+Team!
+The Down Shaft is for authorized descents only.
+Reminder: smiling is not required, but it is noted when absent.
+Level 3 remains a standard environment. No Hazard Premium applies, and none is anticipated.
+Enjoy!
+====================
+AMTF-DESK
+seed GOLD0001
+level 3
+stock torch_bundle hone_and_balance wellness_seminar property_damage_waiver
+from The Committee on Committees
+re RE: Operational Excellence Update (Graveyard Initiative)
+Good news, everyone (to the extent permitted):
+The Down Shaft is open to all, subject to authorization.
+Reminder: walls are load-bearing. So, increasingly, are you.
+Per Section 9.4, Level 4 has been reclassified as a Memorial Environment. Please treat all gravestones with the care you would give any billable surface. A Hazard Premium of 5g applies.
+This memo will self-destruct, eventually.
+====================
+AMTF-DESK
+seed GOLD0001
+level 4
+stock torch_bundle reinforced_hard_hat sharpening_service hone_and_balance
+from Regional Facilities Optimization
+re RE: Operational Excellence Update (Graveyard Initiative)
+Associates,
+Overtime is strictly expected.
+Reminder: smiling is not required, but it is noted when absent.
+Per Section 9.4, Level 5 has been reclassified as a Memorial Environment. Please treat all gravestones with the care you would give any billable surface. A Hazard Premium of 5g applies.
+Stay flexible!
+====================
+AMTF-DESK
+seed GOLD0001
+level 5
+stock 

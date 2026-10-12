@@ -38,7 +38,9 @@ def test_the_world_is_a_pure_function_of_seed_and_level() -> None:
 
 def test_every_stage_names_an_output_with_a_dump_and_a_hash() -> None:
     world = generate_world(Seed.parse("GOLD0001"), 2)
-    assert STAGES == ("layout", "theme", "features", "humans", "traps", "spawns")
+    assert STAGES == (
+        "layout", "theme", "features", "humans", "traps", "spawns", "loot", "drops", "desk",
+    )  # fmt: skip
     for name in STAGES:
         out = world.stage(name)
         assert out.dump().isascii() and out.dump().endswith("\n") and len(out.sha256) == 64

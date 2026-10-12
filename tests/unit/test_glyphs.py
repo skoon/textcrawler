@@ -66,6 +66,18 @@ def test_glyph_table_is_single_cell_and_unique_per_name() -> None:
     assert all(len(u) == 1 and len(a) == 1 for _, _, u, a in GLYPH_TABLE)
 
 
+def test_item_glyphs_match_gdd_5_4() -> None:
+    expected = {
+        "weapon": ("↑", ")"), "armor": ("[", "["), "trinket": ("°", '"'), "consumable": ("¡", "!"),
+        "silver": ("¤", "$"), "gem": ("◊", "*"), "document": ("≡", "?"),
+    }  # fmt: skip
+    for kind, (uni, asc) in expected.items():
+        assert UNICODE.items[kind] == uni and ASCII.items[kind] == asc
+    assert set(UNICODE.items) == set(ASCII.items) == set(expected)
+    table = {name: (u, a) for cat, name, u, a in GLYPH_TABLE if cat == "item"}
+    assert len(table) == len(expected)
+
+
 def test_glyph_table_matches_gdd_actors() -> None:
     table = {name: (u, a) for _, name, u, a in GLYPH_TABLE}
     assert table["Player"] == ("@", "@")
@@ -164,3 +176,10 @@ def test_monster_glyphs_match_gdd_5_4() -> None:
     }  # fmt: skip
     for kind, (uni, asc) in expected.items():
         assert UNICODE.monsters[kind] == uni and ASCII.monsters[kind] == asc
+
+
+def test_the_supply_crate_glyph_matches_gdd_5_4() -> None:
+    assert (UNICODE.crate, ASCII.crate) == ("■", "=")
+    assert any(
+        name == "Supply crate" and (uni, asc) == ("■", "=") for _, name, uni, asc in GLYPH_TABLE
+    )

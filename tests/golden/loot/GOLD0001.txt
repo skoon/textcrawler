@@ -1,0 +1,100 @@
+AMTF-LOOT
+seed GOLD0001
+level 1
+items 9
+item 24 3 box_cutter 1 0 0 0
+item 34 6 torch 1 1 0 0
+item 35 7 map 1 0 0 0
+item 46 7 patch_up_kit 1 3 0 0
+item 48 13 torch 1 1 0 0
+item 73 13 silver_nugget 1 0 0 0
+item 29 27 overtime_fizz 1 4 0 0
+item 29 32 silver_nugget 1 0 0 0
+item 44 34 memo 1 0 0 11
+drops 2
+drop 1 memo 1 0 0 3
+drop 7 rough_gem 1 0 0 0
+====================
+AMTF-LOOT
+seed GOLD0001
+level 2
+items 12
+item 8 4 patch_up_kit 1 3 0 0
+item 6 5 silver_nugget 1 0 0 0
+item 8 5 silver_nugget 1 0 0 0
+item 35 12 hi_vis_vest 1 0 8 0
+item 64 12 memo 1 0 0 5
+item 33 15 overtime_fizz 1 4 0 0
+item 6 16 torch 1 1 0 0
+item 52 16 patch_up_kit 1 3 0 0
+item 3 18 memo 1 0 0 11
+item 8 23 patch_up_kit 1 3 0 0
+item 5 29 patch_up_kit 1 3 0 0
+item 46 36 company_pickaxe 1 0 0 0
+drops 1
+drop 1 silver_nugget 1 0 0 0
+====================
+AMTF-LOOT
+seed GOLD0001
+level 3
+items 11
+item 12 4 padded_coveralls 1 0 12 0
+item 4 8 coupon 1 0 0 1
+item 5 9 padded_coveralls 1 0 11 0
+item 52 9 torch 1 1 0 0
+item 53 9 sanctified_detergent 1 3 0 0
+item 5 10 utility_knife 1 0 0 0
+item 70 26 overtime_fizz 1 4 0 0
+item 36 30 cut_gem 1 0 0 0
+item 24 32 patch_up_kit 1 3 0 0
+item 63 34 silver_ingot 1 0 0 0
+item 49 35 silver_nugget 1 0 0 0
+drops 2
+drop 1 memo 1 0 0 0
+drop 8 rough_gem 1 0 0 0
+====================
+AMTF-LOOT
+seed GOLD0001
+level 4
+items 14
+item 3 4 sanctified_detergent 1 3 0 0
+item 70 4 coupon 1 0 0 3
+item 27 7 memo 1 0 0 7
+item 50 7 patch_up_kit 1 3 0 0
+item 48 15 silver_ingot 1 0 0 0
+item 19 20 headlamp_hard_hat 1 0 0 0
+item 10 22 torch 1 1 0 0
+item 37 22 thermos 1 0 0 0
+item 69 30 torch 1 1 0 0
+item 19 32 overtime_fizz 1 4 0 0
+item 21 32 overtime_fizz 1 4 0 0
+item 52 32 silver_nugget 1 0 0 0
+item 56 32 patch_up_kit 1 3 0 0
+item 19 36 torch 1 1 0 0
+drops 1
+drop 1 memo 1 0 0 5
+====================
+AMTF-LOOT
+seed GOLD0001
+level 5
+items 15
+item 47 4 patch_up_kit 1 3 0 0
+item 67 5 torch 1 1 0 0
+item 7 6 ballistic_vest 1 0 7 0
+item 68 6 reinforced_hard_hat 1 0 0 0
+item 70 7 coupon 1 0 0 1
+item 29 11 thermos 1 0 0 0
+item 56 14 gravediggers_shovel 1 0 0 0
+item 42 22 rough_gem 1 0 0 0
+item 9 23 patch_up_kit 1 3 0 0
+item 41 23 company_challenge_coin 1 0 0 0
+item 46 23 torch 1 1 0 0
+item 12 24 patch_up_kit 1 3 0 0
+item 71 29 patch_up_kit 1 3 0 0
+item 72 29 overtime_fizz 1 4 0 0
+item 75 31 torch 1 1 0 0
+drops 4
+drop 1 silver_ingot 1 0 0 0
+drop 11 rough_gem 2 0 0 0
+drop 18 rough_gem 2 0 0 0
+drop 19 rough_gem 1 0 0 0

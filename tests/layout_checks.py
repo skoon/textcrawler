@@ -1,7 +1,9 @@
 """Structural invariants every generated level must satisfy (shared by unit, golden, fuzz)."""
 
-from minetoofar.content.balance import Balance
+from minetoofar.content.balance import LEVELS, Balance
+from minetoofar.content.desk import load_desk
 from minetoofar.content.gamedata import GameData
+from minetoofar.content.loot import DOCUMENTS, load_loot
 from minetoofar.core.geometry import DIRS8, Pos
 from minetoofar.core.grid import Grid, Tile, is_walkable
 from minetoofar.core.pathing import distance_map
@@ -132,7 +134,8 @@ def check_world(world: World, balance: Balance, data: GameData) -> None:
     for pos in laid:
         assert grid.get(pos.x, pos.y) in (Tile.FLOOR, Tile.CAVE_FLOOR)
         assert not _inside(pos, entry)
-    assert len(laid) >= balance.trap_counts[level - 1]
+    camp = balance.humans.camp_traps if world.humans.room_kind == "prospector_camp" else 0
+    assert len(laid) <= balance.trap_counts[level - 1] + camp  # fewer when no safe spot is left
 
     # graveyard props appear only on graveyard floors, and nothing cuts the level in two
     props = (Tile.GRAVESTONE, Tile.MONUMENT, Tile.OPEN_GRAVE)
@@ -144,3 +147,57 @@ def check_world(world: World, balance: Balance, data: GameData) -> None:
     reachable_before = set(distance_map(bare, spec.entry))
     blocked = {q for q in on_map if grid.get(q.x, q.y) in (Tile.GRAVESTONE, Tile.MONUMENT)}
     assert set(dist) == reachable_before - blocked
+
+    # traps (9.7): none is the only way on, since only a Rogue can disarm one
+    walls = [p for p, _ in world.traps.traps]
+    assert grid.count_reachable(spec.entry, walls) == grid.count_reachable(spec.entry) - len(walls)
+
+    # the loot (8.3, 8.4): the right number, on bare floor, one to a tile, and the lair's document
+    loot = world.loot
+    tables = load_loot()
+    vaults = world.room_kinds.count("mausoleum")
+    wanted = tables.base_items + tables.per_level_items * level + tables.extra_per_vault * vaults
+    assert len(loot.items) == wanted + tables.lair_documents
+    seen: set[Pos] = set()
+    docs = 0
+    in_lair = 0
+    for pos, item in loot.items:
+        assert grid.get(pos.x, pos.y) in (Tile.FLOOR, Tile.CAVE_FLOOR), f"loot on {pos}"
+        assert pos not in seen and pos not in taken and pos not in (spec.entry, spec.exit)
+        seen.add(pos)
+        room = next(r for r in spec.rooms if _inside(pos, r))
+        assert room.id not in (entry.id, exit_.id), "loot in the entry or exit room"
+        if item.id in DOCUMENTS:
+            docs += 1
+            in_lair += room.id == h.room_id
+        else:
+            assert (
+                item.id in data.items.valuables
+                or item.id in data.items.consumables
+                or (data.items.category(item.id) in ("weapon", "armor", "shield", "hat", "trinket"))
+            )
+    assert docs <= tables.document_cap + tables.lair_documents and in_lair >= tables.lair_documents
+    ids = {i + 1: s.kind for i, s in enumerate(world.monsters.spawns)}
+    assert {mid for mid, _ in loot.drops} == {m for m, k in ids.items() if k in tables.drops}
+
+    # supply drops (8.5): inside the window, far enough apart, three distinct stock lines each
+    sp = balance.supply
+    drops = world.drops.drops
+    assert len(drops) <= 2 and all(sp.trigger_min <= d.trigger <= sp.trigger_max for d in drops)
+    if len(drops) == 2:
+        assert drops[1].trigger - drops[0].trigger >= sp.second_gap
+    for d in drops:
+        stock = [ln.item for ln in d.lines if ln.item in data.items.consumables]
+        assert len(stock) == sp.lines and len(set(stock)) == sp.lines
+        assert len(d.lines) - len(stock) <= 1
+
+    # the desk (5.3, 8.5): no desk after the last level, otherwise a bundle then distinct others
+    desk = world.desk
+    if level == LEVELS:
+        assert desk.stock == () and desk.memo is None
+    else:
+        catalog = load_desk()
+        assert len(desk.stock) == balance.checkin.desk_slots == len(set(desk.stock))
+        assert catalog[desk.stock[0]].effect == "bundle"
+        assert all(catalog[k].effect != "bundle" for k in desk.stock[1:])
+        assert desk.memo is not None and f"Level {level + 1}" in "\n".join(desk.memo.lines)

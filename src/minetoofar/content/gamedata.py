@@ -15,6 +15,9 @@ FACTIONS = ("undead", "beast", "human")
 BEHAVIORS = ("hunter", "skeleton", "phaser", "swarm", "eel", "badger", "overseer", "trapper")
 ABILITY_KINDS = ("cleave", "coat", "dual_strike")
 TRAP_EFFECTS = ("damage", "stun")
+CONSUMABLE_EFFECTS = ("heal", "light", "status")
+TIERS = 3
+SHINES = ("silver", "gem")
 UPGRADE_RANK = 5  # the Rank at which every ability gets its upgrade (GDD 6.4)
 
 
@@ -46,6 +49,10 @@ class WeaponDef:
     dmg: int
     cost: int
     two_handed: int
+    tier: int
+    light: int  # 1: may be held in the off hand
+    noise: int  # radius of the sound of a blow; 0 for an ordinary one
+    stuns: int  # 1: a critical hit stuns
 
 
 @dataclass(frozen=True)
@@ -56,12 +63,14 @@ class ArmorDef:
     defense: int
     dur: int
     repair_rate: int
+    tier: int
 
 
 @dataclass(frozen=True)
 class ShieldDef:
     name: str
     defense: int
+    tier: int
 
 
 @dataclass(frozen=True)
@@ -69,6 +78,40 @@ class HatDef:
     name: str
     defense: int
     trap_reduction: int  # taken off trap and cave-in damage
+    lamp: int  # light radius the hat gives
+    tier: int
+
+
+@dataclass(frozen=True)
+class TrinketDef:
+    name: str
+    atk: int
+    hp: int  # added to max HP
+    waives: int  # 1: the first small incident line each level is waived
+    tier: int
+
+
+@dataclass(frozen=True)
+class ConsumableDef:
+    name: str
+    price: int  # list price in gold
+    carry: int  # most you can hold
+    effect: str  # heal | light | status
+    value: int  # hit points healed, ticks of burn time, or ticks of the status
+    status: str  # the status a "status" item applies; empty otherwise
+
+
+@dataclass(frozen=True)
+class ValuableDef:
+    name: str
+    credit: int  # gold of Salvage Credit
+    weight: int  # loot weight
+    shine: str  # silver | gem: which glyph it is drawn with
+
+
+def found_charge(item: ConsumableDef) -> int:
+    """What a found (reclaimed stock) consumable bills when used: half the list price, up."""
+    return -(-item.price // 2)
 
 
 @dataclass(frozen=True)
@@ -77,6 +120,33 @@ class Items:
     armor: Mapping[str, ArmorDef]
     shields: Mapping[str, ShieldDef]
     hats: Mapping[str, HatDef]
+    trinkets: Mapping[str, TrinketDef]
+    consumables: Mapping[str, ConsumableDef]
+    valuables: Mapping[str, ValuableDef]
+
+    def _tables(self) -> tuple[tuple[str, Mapping[str, object]], ...]:
+        return (
+            ("weapon", self.weapons), ("armor", self.armor), ("shield", self.shields),
+            ("hat", self.hats), ("trinket", self.trinkets),
+            ("consumable", self.consumables), ("valuable", self.valuables),
+        )  # fmt: skip
+
+    def category_of_all(self) -> frozenset[str]:
+        """Every item id there is."""
+        return frozenset(k for _, table in self._tables() for k in table)
+
+    def name(self, item_id: str) -> str:
+        for _, table in self._tables():
+            if item_id in table:
+                return str(table[item_id].name)  # type: ignore[attr-defined]
+        raise KeyError(item_id)
+
+    def category(self, item_id: str) -> str:
+        """weapon | armor | shield | hat | trinket | consumable | valuable."""
+        for name, table in self._tables():
+            if item_id in table:
+                return name
+        raise KeyError(item_id)
 
 
 @dataclass(frozen=True)
@@ -135,6 +205,7 @@ class TrapDef:
     dice_sides: int
     dmg: int
     effect: str  # damage | stun
+    cave_in: int  # 1: a cave-in, which adds Shoring Damage to the pay slip
 
 
 @dataclass(frozen=True)
@@ -151,6 +222,11 @@ def _each[T](cls: type[T], raw: object, where: str) -> dict[str, T]:
     return {key: build(cls, table, f"{where}.{key}") for key, table in tables(raw, where).items()}
 
 
+def _flag(value: int, what: str, where: str) -> None:
+    if value not in (0, 1):
+        raise DataError(f"{where}: {what} must be 0 or 1, got {value}")
+
+
 def _one_of(value: str, allowed: tuple[str, ...], what: str, where: str) -> None:
     if value not in allowed:
         raise DataError(f"{where}: {what} must be one of {allowed}, got {value!r}")
@@ -158,7 +234,8 @@ def _one_of(value: str, allowed: tuple[str, ...], what: str, where: str) -> None
 
 def _items(text: str) -> Items:
     raw = tomllib.loads(text)
-    unknown = sorted(set(raw) - {"weapon", "armor", "shield", "hat"})
+    kinds = {"weapon", "armor", "shield", "hat", "trinket", "consumable", "valuable"}
+    unknown = sorted(set(raw) - kinds)
     if unknown:
         raise DataError(f"items: unknown kinds {unknown}")
     items = Items(
@@ -166,11 +243,37 @@ def _items(text: str) -> Items:
         _each(ArmorDef, raw.get("armor", {}), "armor"),
         _each(ShieldDef, raw.get("shield", {}), "shield"),
         _each(HatDef, raw.get("hat", {}), "hat"),
+        _each(TrinketDef, raw.get("trinket", {}), "trinket"),
+        _each(ConsumableDef, raw.get("consumable", {}), "consumable"),
+        _each(ValuableDef, raw.get("valuable", {}), "valuable"),
     )
+    seen: set[str] = set()
+    for name, table in items._tables():
+        for key in table:
+            if key in seen:
+                raise DataError(f"{name}.{key}: duplicate item id")
+            seen.add(key)
     for key, weapon in items.weapons.items():
-        _one_of(weapon.stat, STATS, "stat", f"weapon.{key}")
+        where = f"weapon.{key}"
+        _one_of(weapon.stat, STATS, "stat", where)
+        for flag in ("two_handed", "light", "stuns"):
+            _flag(getattr(weapon, flag), flag, where)
+        if weapon.two_handed and weapon.light:
+            raise DataError(f"{where}: a two-handed weapon cannot be light")
     for key, armor in items.armor.items():
         _one_of(armor.weight, ARMOR_WEIGHTS, "weight", f"armor.{key}")
+    for name, table in items._tables()[:5]:
+        for key, item in table.items():
+            if not 1 <= item.tier <= TIERS:  # type: ignore[attr-defined]
+                raise DataError(f"{name}.{key}: tier must be 1-{TIERS}")
+    for key, trinket in items.trinkets.items():
+        _flag(trinket.waives, "waives", f"trinket.{key}")
+    for key, valuable in items.valuables.items():
+        _one_of(valuable.shine, SHINES, "shine", f"valuable.{key}")
+    for key, item in items.consumables.items():
+        _one_of(item.effect, CONSUMABLE_EFFECTS, "effect", f"consumable.{key}")
+        if (item.effect == "status") != bool(item.status):
+            raise DataError(f"consumable.{key}: only a status item names a status")
     return items
 
 
@@ -215,6 +318,7 @@ def _traps(text: str) -> dict[str, TrapDef]:
     traps = _each(TrapDef, tomllib.loads(text), "trap")
     for key, t in traps.items():
         _one_of(t.effect, TRAP_EFFECTS, "effect", f"trap.{key}")
+        _flag(t.cave_in, "cave_in", f"trap.{key}")
     return traps
 
 
@@ -228,11 +332,15 @@ def parse_gamedata(
 ) -> GameData:
     items = _items(items_text)
     abilities = _abilities(abilities_text)
+    statuses = _each(StatusDef, tomllib.loads(statuses_text), "status")
+    for key, item in items.consumables.items():
+        if item.status and item.status not in statuses:
+            raise DataError(f"consumable.{key}: no such status {item.status!r}")
     return GameData(
         _classes(classes_text, items, abilities),
         items,
         _monsters(monsters_text),
-        _each(StatusDef, tomllib.loads(statuses_text), "status"),
+        statuses,
         abilities,
         _traps(traps_text),
     )

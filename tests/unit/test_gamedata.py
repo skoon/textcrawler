@@ -1,6 +1,6 @@
 import pytest
 
-from minetoofar.content.gamedata import DataError, load_gamedata, parse_gamedata
+from minetoofar.content.gamedata import DataError, found_charge, load_gamedata, parse_gamedata
 
 CLASSES = """
 [fighter]
@@ -29,6 +29,10 @@ atk = 0
 dmg = 0
 cost = 100
 two_handed = 0
+tier = 1
+light = 0
+noise = 0
+stuns = 0
 [armor.suit]
 name = "Suit"
 weight = "heavy"
@@ -36,13 +40,42 @@ dr = 2
 defense = 0
 dur = 18
 repair_rate = 3
+tier = 1
 [shield.shield]
 name = "Shield"
 defense = 1
+tier = 1
 [hat.hat]
 name = "Hat"
 defense = 0
 trap_reduction = 2
+lamp = 4
+tier = 1
+[trinket.coin]
+name = "Coin"
+atk = 1
+hp = 0
+waives = 0
+tier = 1
+[consumable.kit]
+name = "Kit"
+price = 5
+carry = 4
+effect = "heal"
+value = 10
+status = ""
+[consumable.fizz]
+name = "Fizz"
+price = 7
+carry = 2
+effect = "status"
+value = 800
+status = "stunned"
+[valuable.nugget]
+name = "Nugget"
+credit = 2
+weight = 50
+shine = "silver"
 """
 MONSTERS = """
 [miner]
@@ -93,6 +126,7 @@ dice_n = 1
 dice_sides = 6
 dmg = 2
 effect = "damage"
+cave_in = 0
 """
 GOOD = (CLASSES, ITEMS, MONSTERS, STATUSES, ABILITIES, TRAPS)
 
@@ -126,10 +160,128 @@ def test_shipped_items_match_gdd_8_1() -> None:
         2,
         0,
         18,
-        3,
+        2,  # the GDD said 3; retuned in M9 (A84)
     )
     assert items.shields["sheet_metal_shield"].defense == 1
     assert items.hats["hard_hat"].defense == 0
+
+
+def test_shipped_weapons_match_gdd_8_1() -> None:
+    w = load_gamedata().items.weapons
+    # key: (tier, dice, stat, atk, dmg, cost, two_handed, light, noise, stuns)
+    want = {
+        "company_pickaxe": (1, (1, 8), "str", 0, 0, 100, 0, 0, 0, 0),
+        "box_cutter": (1, (1, 6), "finesse", 0, 0, 100, 0, 1, 0, 0),
+        "hatchet": (1, (1, 6), "str", 0, 0, 100, 0, 1, 0, 0),
+        "prybar": (1, (1, 6), "str", 1, 0, 100, 0, 0, 0, 0),
+        "utility_knife": (1, (1, 4), "finesse", 0, 0, 100, 0, 1, 0, 0),
+        "gravediggers_shovel": (2, (1, 8), "str", 0, 0, 100, 0, 0, 8, 1),
+        "surveyors_pick": (2, (1, 8), "finesse", 0, 0, 100, 0, 0, 0, 0),
+        "sledgehammer": (2, (1, 12), "str", 0, 0, 130, 1, 0, 8, 1),
+        "foremans_pickaxe": (3, (1, 10), "str", 1, 0, 100, 0, 0, 0, 0),
+        "assay_blade": (3, (1, 8), "finesse", 0, 1, 100, 0, 0, 0, 0),
+    }  # fmt: skip
+    assert set(w) == set(want)
+    for key, row in want.items():
+        d = w[key]
+        got = (d.tier, (d.dice_n, d.dice_sides), d.stat, d.atk, d.dmg, d.cost, d.two_handed,
+               d.light, d.noise, d.stuns)  # fmt: skip
+        assert got == row, key
+
+
+def test_shipped_armor_matches_gdd_8_1() -> None:
+    a = load_gamedata().items.armor
+    want = {  # key: (tier, weight, DR, DEF, Dur, repair rate)
+        "hi_vis_vest": (1, "light", 0, 2, 10, 1),
+        "ballistic_vest": (2, "light", 1, 2, 12, 2),
+        "padded_coveralls": (1, "medium", 1, 1, 14, 2),
+        "welders_jacket": (2, "medium", 2, 1, 16, 3),
+        "boiler_suit": (1, "heavy", 2, 0, 18, 2),
+        "miners_plate": (2, "heavy", 3, -1, 20, 4),
+    }  # fmt: skip
+    assert set(a) == set(want)
+    for key, row in want.items():
+        d = a[key]
+        assert (d.tier, d.weight, d.dr, d.defense, d.dur, d.repair_rate) == row, key
+
+
+def test_shipped_shields_hats_and_trinkets_match_gdd_8_1() -> None:
+    items = load_gamedata().items
+    assert {k: v.defense for k, v in items.shields.items()} == {
+        "sheet_metal_shield": 1, "riot_shield": 2,
+    }  # fmt: skip
+    assert {k: (v.defense, v.lamp) for k, v in items.hats.items()} == {
+        "hard_hat": (0, 4), "reinforced_hard_hat": (1, 4), "headlamp_hard_hat": (0, 5),
+    }  # fmt: skip
+    assert {k: (v.atk, v.hp, v.waives) for k, v in items.trinkets.items()} == {
+        "laminated_lanyard": (0, 0, 1), "company_challenge_coin": (1, 0, 0), "thermos": (0, 3, 0),
+    }  # fmt: skip
+
+
+def test_shipped_consumables_match_gdd_8_2() -> None:
+    c = load_gamedata().items.consumables
+    want = {  # key: (list price, carry limit, effect, value, status)
+        "patch_up_kit": (5, 4, "heal", 10, ""), "torch": (2, 3, "light", 40000, ""),
+        "overtime_fizz": (7, 2, "status", 800, "overtime"),
+        "sanctified_detergent": (6, 2, "status", 5000, "detergent"),
+    }  # fmt: skip
+    assert set(c) == set(want)
+    for key, row in want.items():
+        d = c[key]
+        assert (d.price, d.carry, d.effect, d.value, d.status) == row, key
+
+
+def test_found_stock_bills_half_the_list_price_rounded_up() -> None:
+    c = load_gamedata().items.consumables
+    assert {k: found_charge(v) for k, v in c.items()} == {
+        "patch_up_kit": 3, "torch": 1, "overtime_fizz": 4, "sanctified_detergent": 3,
+    }  # fmt: skip
+
+
+def test_shipped_valuables_match_gdd_8_3() -> None:
+    v = load_gamedata().items.valuables
+    assert {k: (d.credit, d.weight) for k, d in v.items()} == {
+        "silver_nugget": (2, 50), "rough_gem": (4, 30), "silver_ingot": (6, 12), "cut_gem": (9, 8),
+    }  # fmt: skip
+
+
+def test_every_item_id_belongs_to_exactly_one_category() -> None:
+    items = load_gamedata().items
+    assert items.category("hatchet") == "weapon" and items.category("torch") == "consumable"
+    assert items.category("rough_gem") == "valuable" and items.category("thermos") == "trinket"
+    with pytest.raises(KeyError):
+        items.category("nonesuch")
+
+
+def test_item_ids_may_not_repeat_across_categories() -> None:
+    with pytest.raises(DataError, match="duplicate"):
+        parse(items=("[valuable.nugget]", "[valuable.pick]"))
+
+
+def test_item_flags_and_enums_are_checked() -> None:
+    with pytest.raises(DataError, match="effect"):
+        parse(items=('effect = "heal"', 'effect = "explode"'))
+    with pytest.raises(DataError, match="light"):
+        parse(items=("light = 0", "light = 2"))
+    with pytest.raises(DataError, match="tier"):
+        parse(items=("tier = 1\nlight", "tier = 4\nlight"))
+    with pytest.raises(DataError, match="two-handed"):
+        parse(items=("two_handed = 0\ntier = 1\nlight = 0", "two_handed = 1\ntier = 1\nlight = 1"))
+
+
+def test_a_status_consumable_names_a_status_that_exists() -> None:
+    with pytest.raises(DataError, match="nonesuch"):
+        parse(items=('status = "stunned"', 'status = "nonesuch"'))
+
+
+def test_a_heal_or_light_consumable_names_no_status() -> None:
+    with pytest.raises(DataError, match="status"):
+        parse(
+            items=(
+                'effect = "heal"\nvalue = 10\nstatus = ""',
+                'effect = "heal"\nvalue = 10\nstatus = "stunned"',
+            )
+        )
 
 
 def test_shipped_miner_matches_gdd_7_6() -> None:

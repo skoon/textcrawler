@@ -1,0 +1,30 @@
+# Documents found on the floor (GDD 8.3). Each list is picked from at generation, so a seed
+# always holds the same words.
+
+memo = [
+  "TO: ALL ASSOCIATES. RE: Break rooms. The break room has been removed in the interest of morale. Please enjoy this memo instead.",
+  "Dear diary: Day 41. The lamp is dying. Management calls torches 'an investment opportunity.' I invested. It went out.",
+  "NOTICE: Persistent Personnel are not to be called 'undead' in writing. Please use 'extended-tenure colleagues.'",
+  "DIARY OF A FOREMAN: Quota is 40 tons. Crew is 3. Two have stopped moving. I count this as a staffing improvement.",
+  "REMINDER: Hard Hats must be worn at all times. Hard Hats that were not worn will be marked 'not worn' and billed accordingly.",
+  "Day 12. The eels here are blind but not stupid. I am neither. I am, however, wet.",
+  "TO: SHAFT 4 CREW. Your overtime request has been approved retroactively, which means you worked for free. Congratulations.",
+  "FROM THE DESK OF REGIONAL FACILITIES OPTIMIZATION: Walls are load-bearing. Please stop asking whether the load is us.",
+  "Inventory note: 1 pickaxe, 1 lunch (eaten), 1 colleague (location unknown). Will reconcile after the shift.",
+  "BULLETIN: The Gem Badger is not a pet, a mascot, or an acceptable form of payment.",
+  "SAFETY SHEET #9: In case of cave-in, remain calm. In case of calm, remain billable.",
+  "Day 77. I found a coupon in a dead man's boot. I tell myself it is a coincidence, and a good one.",
+]
+
+coupon = [
+  "COUPON: Take 3g off any one line of your next pay slip. Terms: none that you would enjoy.",
+  "VOUCHER: Valid for 3g off one adjustment line. Void where prohibited, discouraged, or noticed.",
+  "REDEEMABLE: 3g against one deduction. Not valid with other offers, hope, or a pulse.",
+  "PROMO: Three gold off one line of your next slip. Enjoy responsibly.",
+]
+
+map = [
+  "SURVEY SKETCH: Someone has drawn every room on this level in pencil. The corridors are 'implied.'",
+  "FIELD MAP (partial): The rooms are marked. The monsters are 'not within scope.'",
+  "CAVE SCHEMATIC: A hand-drawn layout of the rooms. The legend reads 'Here be overtime.'",
+]

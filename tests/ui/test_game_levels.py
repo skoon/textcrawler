@@ -81,17 +81,17 @@ def descend_to_exit(app: GameApp) -> None:
     app.game.player.pos = app.game.spec.exit
 
 
-def test_descend_on_the_down_shaft_starts_the_next_level_with_rank_and_armour() -> None:
+def test_descend_on_the_down_shaft_signs_the_slip_and_carries_rank_and_wear() -> None:
     game = Game.new(Seed.parse("BRASSLAMP42"), 1, rank=3)
 
     async def body(app: GameApp, pilot: Pilot[None]) -> None:
         descend_to_exit(app)
         app.game.player.body_dur -= 2
-        worn = app.game.player.body_dur
-        await pilot.press("greater_than_sign")
+        # report, slip: decline the repair so wear stays, sign; memo; desk
+        await pilot.press("greater_than_sign", "enter", "r", "enter", "enter", "enter")
         await pilot.pause()
         assert app.game.spec.level == 2 and app.game.spec.seed == "BRASSLAMP42"
-        assert app.game.player.rank == 3 and app.game.player.body_dur == worn
+        assert app.game.player.rank == 3 and app.game.player.body_dur == 16
         assert app.game.player.hp == app.game.player.max_hp
         assert app.query_one(MapView).border_title == "Stamp Mill and Assay Floor · L2"
         assert "Work Order 2 of 5" in app.messages[-1] and len(app.messages) == 1
@@ -99,10 +99,11 @@ def test_descend_on_the_down_shaft_starts_the_next_level_with_rank_and_armour() 
     run_app(GameApp(game, "unicode"), (80, 24), body)
 
 
-def test_enter_also_descends() -> None:
+def test_enter_on_the_down_shaft_also_descends() -> None:
     async def body(app: GameApp, pilot: Pilot[None]) -> None:
         descend_to_exit(app)
-        await pilot.press("enter")
+        await pilot.press("enter")  # opens the report ...
+        await pilot.press("enter", "enter", "enter", "enter")  # ... slip, memo, desk, down
         await pilot.pause()
         assert app.game.spec.level == 2
 
@@ -118,10 +119,8 @@ def test_f5_skips_a_level_from_anywhere() -> None:
     run_app(GameApp(Game.new(Seed.parse("BRASSLAMP42"), 1), "unicode"), (80, 24), body)
 
 
-def test_the_last_level_has_nowhere_to_descend() -> None:
+def test_the_last_level_has_nowhere_to_skip_to() -> None:
     async def body(app: GameApp, pilot: Pilot[None]) -> None:
-        descend_to_exit(app)
-        await pilot.press("greater_than_sign")
         await pilot.press("f5")
         assert app.game.spec.level == 5
         assert app.messages[-1] == app.text.line("descend_last")
@@ -129,20 +128,22 @@ def test_the_last_level_has_nowhere_to_descend() -> None:
     run_app(GameApp(Game.new(Seed.parse("BRASSLAMP42"), 5), "unicode"), (80, 24), body)
 
 
-def test_retry_after_descending_restarts_the_level_you_died_on_with_the_armour_you_arrived_in() -> (
-    None
-):
+def test_retry_after_descending_restarts_the_level_you_died_on_in_the_kit_you_arrived_in() -> None:
     game = Game.new(Seed.parse("BRASSLAMP42"), 1)
 
     async def body(app: GameApp, pilot: Pilot[None]) -> None:
+        descend_to_exit(app)
         app.game.player.body_dur -= 3
-        arrived = app.game.player.body_dur
-        await pilot.press("f5")
+        await pilot.press("greater_than_sign", "enter", "r", "enter", "enter", "enter")
         await pilot.pause()
+        arrived = app.game.player.body_dur
+        assert arrived == 15
         app.game.player.body_dur = 0  # wrecked on level 2
         app.game.player.hp = 0
         app.game.dead = True
         app._report_death()
+        await pilot.pause()
+        await pilot.press("enter")  # the posthumous slip
         await pilot.pause()
         await pilot.press("r")
         await pilot.pause()

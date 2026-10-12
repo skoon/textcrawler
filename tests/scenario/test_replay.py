@@ -7,7 +7,17 @@ import pytest
 
 from minetoofar.core.seed import Seed
 from minetoofar.sim.bot import play
-from minetoofar.sim.events import Move, Run, SetRank, ToggleTorch, Wait
+from minetoofar.sim.events import (
+    DropItem,
+    Equip,
+    Move,
+    Pickup,
+    Run,
+    SetRank,
+    ToggleTorch,
+    UseItem,
+    Wait,
+)
 from minetoofar.sim.game import Game
 from minetoofar.sim.replay import (
     Recorder,
@@ -57,8 +67,19 @@ def test_every_command_kind_survives_the_text_form() -> None:
         1,
         "fighter",
         2,
-        [Move(1, -1), Run(-1, 0), Wait(), ToggleTorch(), SetRank(3)],
-        ["h"] * 5,
+        [
+            Move(1, -1),
+            Run(-1, 0),
+            Wait(),
+            ToggleTorch(),
+            SetRank(3),
+            Pickup(),
+            Equip(2, True),
+            Equip(0),
+            UseItem(1),
+            DropItem(3),
+        ],  # fmt: skip
+        ["h"] * 11,
     )
     assert loads(dumps(rec)) == rec
 

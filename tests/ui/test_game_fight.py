@@ -9,7 +9,7 @@ from minetoofar.core.seed import Seed, seed_text_from_entropy
 from minetoofar.sim.actors import new_monster
 from minetoofar.sim.events import SetRank
 from minetoofar.sim.game import Game
-from minetoofar.ui.game_app import DeathScreen, GameApp
+from minetoofar.ui.game_app import DeathScreen, GameApp, SlipScreen
 from minetoofar.ui.mapview import MapView
 from tests.helpers import DATA, MINER, ScriptedRng, make_game
 from tests.ui.test_game_app import rows, run_app, text
@@ -118,10 +118,11 @@ def doomed_game(seed: str = "BRASSLAMP42") -> Game:
 
 
 async def die(app: GameApp, pilot: Pilot[None]) -> None:
+    """Wait until the Fighter dies and has signed the Posthumous Pay Slip."""
     for _ in range(60):
         if isinstance(app.screen, DeathScreen):
             return
-        await pilot.press("full_stop")
+        await pilot.press("enter" if isinstance(app.screen, SlipScreen) else "full_stop")
         await pilot.pause()
     raise AssertionError("the Fighter never died")
 

@@ -1,0 +1,52 @@
+AMTF-DESK
+seed GOLD0003
+level 1
+stock torch_bundle wellness_seminar property_damage_waiver hazard_waiver
+from Department of Synergistic Outcomes
+re RE: A Note on Expectations (Graveyard Initiative)
+In the spirit of transparency,
+Hard Hats are now optional, and also mandatory.
+Reminder: walls are load-bearing. So, increasingly, are you.
+Per Section 9.4, Level 2 has been reclassified as a Memorial Environment. Please treat all gravestones with the care you would give any billable surface. A Hazard Premium of 5g applies.
+Stay flexible!
+====================
+AMTF-DESK
+seed GOLD0003
+level 2
+stock torch_bundle repair_plan sharpening_service property_damage_waiver
+from The Committee on Committees
+re RE: Your Valued Feedback
+Associates,
+Gems are the property of whoever is holding them, until they are not.
+Reminder: walls are load-bearing. So, increasingly, are you.
+Level 3 remains a standard environment. No Hazard Premium applies, and none is anticipated.
+Stay flexible!
+====================
+AMTF-DESK
+seed GOLD0003
+level 3
+stock kit_bundle hazard_waiver property_damage_waiver repair_plan
+from Department of Synergistic Outcomes
+re RE: A Note on Expectations
+Associates,
+Breaks have been reclassified as a privilege.
+Reminder: smiling is not required, but it is noted when absent.
+Level 4 remains a standard environment. No Hazard Premium applies, and none is anticipated.
+Enjoy!
+====================
+AMTF-DESK
+seed GOLD0003
+level 4
+stock torch_bundle property_damage_waiver hone_and_balance sharpening_service
+from Regional Facilities Optimization
+re RE: Operational Excellence Update
+In the spirit of transparency,
+Breaks are a right of every Associate.
+Reminder: smiling is not required, but it is noted when absent.
+Level 5 remains a standard environment. No Hazard Premium applies, and none is anticipated.
+Stay flexible!
+====================
+AMTF-DESK
+seed GOLD0003
+level 5
+stock 

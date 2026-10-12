@@ -25,6 +25,7 @@ class Stats:
     dice_sides: int
     dmg_flat: int
     attack_cost: int
+    stuns: bool = False  # a critical hit with this weapon stuns
 
 
 @dataclass(frozen=True)
